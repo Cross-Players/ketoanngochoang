@@ -1,3 +1,4 @@
+import { AboutTeaser } from "@/components/AboutTeaser";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { CalloutSection } from "@/components/CalloutSection";
 import { ConsultationModal } from "@/components/ConsultationModal";
@@ -9,7 +10,6 @@ import { NewsSection } from "@/components/NewsSection";
 import { PricingSection } from "@/components/PricingSection";
 import { QuickContact } from "@/components/QuickContact";
 import { ServicesSection } from "@/components/ServicesSection";
-import { TrustSection } from "@/components/TrustSection";
 import { WorkflowSection } from "@/components/WorkflowSection";
 import { FaqSection } from "@/components/FaqSection";
 import { COMPANY, FAQ_ITEMS, SERVICES } from "@/data/site";
@@ -115,8 +115,8 @@ export default function HomePage() {
       <Header />
       <main id="main">
         <Hero />
-        <TrustSection />
         <ServicesSection />
+        <AboutTeaser />
         <CalloutSection />
         <BenefitsSection />
         <PricingSection />

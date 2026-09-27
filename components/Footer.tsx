@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { COMPANY, FOOTER_LINK_GROUPS } from "@/data/site";
 
@@ -6,7 +7,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container footer-grid">
         <div className="footer-company">
-          <a href="#top" className="footer-brand"><img src={getPublicAssetPath("/logo-ngoc-hoang-256.png")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" width="256" height="256" loading="lazy" /></a>
+          <Link href="/" className="footer-brand"><img src={getPublicAssetPath("/logo-ngoc-hoang-256.png")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" width="256" height="256" loading="lazy" /></Link>
           <h2>{COMPANY.name}</h2>
           <p>{COMPANY.address}, {COMPANY.city}</p>
           <p className="footer-tax">Mã số thuế: {COMPANY.taxId}</p>
@@ -16,7 +17,7 @@ export function Footer() {
         {FOOTER_LINK_GROUPS.map((group) => (
           <div key={group.title}>
             <h2>{group.title}</h2>
-            <ul>{group.links.map(([label, href]) => <li key={label}><a href={href}>{label}</a></li>)}</ul>
+            <ul>{group.links.map(([label, href]) => <li key={label}><Link href={href}>{label}</Link></li>)}</ul>
           </div>
         ))}
       </div>

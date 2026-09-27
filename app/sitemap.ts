@@ -17,5 +17,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
         new URL("logo-ngoc-hoang-512.png", siteUrl).toString(),
       ],
     },
+    {
+      url: new URL("gioi-thieu/", siteUrl).toString(),
+      lastModified: new Date(`${CONTENT_UPDATED_AT}T00:00:00+07:00`),
+      changeFrequency: "yearly",
+      priority: 0.7,
+    },
   ];
 }
