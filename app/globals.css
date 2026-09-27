@@ -135,6 +135,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero-image img { width: 100%; height: auto; object-fit: contain; }
 .section-space { padding-block: 68px; }
 .section-title { margin: 0 0 24px; color: var(--blue); font-size: 27px; line-height: 1.3; text-align: center; }
+/* Đường kẻ mảnh hai bên tiêu đề (kiểu TIM SEN: —— TIÊU ĐỀ ——); tiêu đề dài tự xuống dòng, vạch co lại tới min-width. */
+.section-title { display: flex; align-items: center; justify-content: center; gap: 18px; }
+.section-title::before,
+.section-title::after { content: ""; flex: 1 1 40px; min-width: 40px; height: 2px; border-radius: 2px; background: currentColor; opacity: .18; }
 .about-teaser { background: #fff; }
 .about-teaser-inner { max-width: 980px; display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 28px; padding: 28px 32px; border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 6px; background: #fbfcfe; }
 .about-teaser-mark { width: 96px; height: 96px; object-fit: contain; }
@@ -160,8 +164,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .services-more { margin-top: 28px; text-align: center; }
 
 .callout { min-height: 371px; display: grid; place-items: center; padding: 42px 0; color: #fff; text-align: center; background: var(--blue); }
-.callout-inner { max-width: 950px; }
-.callout p { margin: 3px 0; font-size: 25px; font-weight: 700; line-height: 1.4; }
+.callout-inner { max-width: var(--content-width); }
+.callout p { margin: 3px 0; font-size: 20px; font-weight: 700; line-height: 1.65; text-wrap: balance; }
+.callout-line { display: block; }
+@media (max-width: 1180px) { .callout-line { display: inline; } }
+.callout-button { min-width: 180px; padding-inline: 26px; border-width: 2px; text-transform: uppercase; letter-spacing: .04em; }
 .button-row { display: flex; justify-content: center; gap: 12px; margin-top: 24px; }
 .button { min-height: 44px; display: inline-flex; justify-content: center; align-items: center; padding: 9px 20px; border: 1px solid transparent; border-radius: 2px; font-size: 15px; font-weight: 700; text-align: center; cursor: pointer; transition: background-color .15s ease, color .15s ease; }
 .button-outline { border-color: #fff; color: #fff; background: transparent; }
@@ -190,7 +197,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .workflow { min-height: 0; }
 .workflow .section-title, .news .section-title { margin-bottom: 31px; }
 .workflow-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
-.workflow-grid article { overflow: hidden; text-align: center; background: #f1f1f1; }
+.workflow-grid article { --step-accent: var(--blue); --step-ink: #fff; display: flex; flex-direction: column; overflow: hidden; text-align: center; background: #f1f1f1; box-shadow: 0 3px 6px -4px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%); }
+/* Màu nút theo khối số của từng thẻ (đậm hơn một chút để chữ đủ tương phản). */
+.workflow-grid article:nth-child(4n + 1) { --step-accent: #c62f4b; }
+.workflow-grid article:nth-child(4n + 2) { --step-accent: #1a6fb3; }
+.workflow-grid article:nth-child(4n + 3) { --step-accent: #fdc82c; --step-ink: #162f53; }
+.workflow-grid article:nth-child(4n + 4) { --step-accent: #2a7f7f; }
+.workflow-grid p { flex: 1 0 auto; }
+.workflow-grid .workflow-more { align-self: center; min-height: 40px; margin: 6px auto 20px; padding: 6px 24px; border-radius: 2px; color: var(--step-ink); background: var(--step-accent); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; transition: filter .2s ease, box-shadow .2s ease; }
+.workflow-grid .workflow-more:hover { filter: brightness(.92); box-shadow: 0 4px 10px rgb(0 0 0 / 18%); }
 .workflow-grid img { width: 100%; height: 290px; object-fit: cover; object-position: center 26%; }
 .workflow-grid h3 { min-height: 74px; display: grid; place-items: center; padding: 10px; margin: 0; color: var(--blue); font-size: 15px; line-height: 1.45; }
 .news { min-height: 0; background: #f7f8f9; }
@@ -199,7 +214,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .news-grid img { width: 100%; aspect-ratio: 500 / 281; object-fit: cover; }
 .news-grid h3 { margin: 0; padding: 12px 11px 15px; color: var(--blue); font-size: 15px; line-height: 1.5; }
 
-.contact { min-height: 0; display: flex; align-items: center; padding-block: 50px; background: #fff; }
+.contact { min-height: 0; display: flex; align-items: center; padding-block: 50px; background: #fff; scroll-margin-top: 12px; }
 .contact-inner { max-width: 810px; }
 .contact h2 { margin: 0 0 24px; color: var(--blue); font-size: 27px; line-height: 1.4; text-align: center; }
 .contact-form { display: grid; gap: 13px; padding: 25px 28px; border: 1px solid #f3a02c; background: #fff; }
@@ -371,7 +386,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   body { font-size: 16px; }
   .workflow-grid p { padding: 0 7px 9px; font-size: 13px; }
   .section-space { padding-block: 48px; }
-  .section-title { margin-bottom: 13px; font-size: 22px; line-height: 1.4; }
+  .section-title { margin-bottom: 13px; font-size: 22px; line-height: 1.4; gap: 10px; }
+  .section-title::before, .section-title::after { flex-basis: 18px; min-width: 18px; }
   .topline { font-size: 12px; }
   .topline-inner { min-height: 32px; justify-content: center; }
   .topline-actions { display: none !important; }
@@ -418,7 +434,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .consultation-form textarea { min-height: 120px; }
   .consultation-form .button { justify-self: start; min-width: 0; min-height: 48px; padding-inline: 30px; }
   .callout { min-height: 0; padding-block: 39px; }
-  .callout p { font-size: 17px; }
+  .callout p { font-size: 17px; line-height: 1.55; text-wrap: pretty; }
+  .callout-button { min-width: 0; flex: 1 1 140px; padding-inline: 14px; }
   .button-row { flex-wrap: wrap; margin-top: 19px; }
   .button { min-height: 44px; font-size: 14px; }
   .benefits { min-height: 0; padding-block: 31px; }
@@ -435,6 +452,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .workflow-grid img { height: 170px; }
   .workflow-grid h3 { min-height: 58px; padding: 7px; font-size: 13px; line-height: 1.45; }
+  .workflow-grid .workflow-more { min-height: 40px; margin: 4px auto 14px; padding: 6px 16px; font-size: 12px; }
   .news { min-height: 0; padding-block: 31px; }
   .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
   .news-grid h3 { padding: 9px; font-size: 14px; line-height: 1.45; }
