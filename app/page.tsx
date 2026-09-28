@@ -66,7 +66,7 @@ const businessNode = {
       itemOffered: {
         "@type": "Service",
         name: service.title,
-        description: service.items.join("; "),
+        description: service.subServices.join("; "),
         areaServed: { "@type": "City", name: COMPANY.region },
         ...(organizationId ? { provider: { "@id": organizationId } } : {}),
       },

@@ -12,9 +12,10 @@ export interface Service {
   menuTitle: string;
   image: string;
   alt: string;
-  /** Full description of the service (used for JSON-LD). */
-  items: readonly string[];
-  /** Short sub-service labels (mega menu; the first three are shown on the home card). */
+  /**
+   * Danh sách dịch vụ con – NGUỒN DỮ LIỆU DUY NHẤT cho mega menu Dịch vụ, thẻ dịch vụ trang chủ
+   * (3 mục đầu) và JSON-LD. Sửa ở đây là đồng bộ mọi nơi.
+   */
   subServices: readonly string[];
 }
 
@@ -44,6 +45,8 @@ export interface FaqItem {
 
 export const COMPANY = {
   name: "CÔNG TY TNHH TƯ VẤN & DỊCH VỤ NGỌC HOÀNG",
+  /** Chữ thương hiệu cạnh logo trên header, tách 2 dòng (ghép lại đúng bằng `name`). */
+  wordmark: ["CÔNG TY TNHH TƯ VẤN & DỊCH VỤ", "NGỌC HOÀNG"],
   shortName: "Ngọc Hoàng",
   taxId: "0402357190",
   foundingDate: "2026-09-21",
@@ -62,7 +65,7 @@ export const COMPANY = {
 } as const;
 
 /** Ngày cập nhật nội dung gần nhất, dùng cho lastModified trong sitemap. */
-export const CONTENT_UPDATED_AT = "2026-09-27";
+export const CONTENT_UPDATED_AT = "2026-09-28";
 
 /** Internal routes (Next.js adds the GitHub Pages basePath automatically). */
 export const ROUTES = {
@@ -90,16 +93,9 @@ export const SERVICES: readonly Service[] = [
     menuTitle: "Dịch vụ BHXH",
     image: "/assets/employee-300x300-b0d92d6c.png",
     alt: "Biểu tượng người lao động – dịch vụ BHXH và BHYT tại Đà Nẵng",
-    items: [
-      "Đăng ký tham gia, báo tăng, báo giảm lao động BHXH cho doanh nghiệp",
-      "Hướng dẫn đăng ký đóng BHXH tự nguyện cho cá nhân",
-      "Gia hạn, mua mới BHYT hộ gia đình",
-      "Hướng dẫn hồ sơ hưởng các chế độ BHXH; điều chỉnh thông tin, cấp lại sổ BHXH",
-    ],
     subServices: [
       "Báo tăng, báo giảm lao động BHXH cho doanh nghiệp",
-      "Đăng ký đóng BHXH tự nguyện cho cá nhân",
-      "Gia hạn, mua mới BHYT hộ gia đình",
+      "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động",
       "Hồ sơ hưởng các chế độ BHXH",
       "Điều chỉnh thông tin, cấp lại sổ BHXH",
     ],
@@ -110,11 +106,6 @@ export const SERVICES: readonly Service[] = [
     menuTitle: "Pháp lý doanh nghiệp",
     image: "/assets/company-300x300-57c03f3f.png",
     alt: "Biểu tượng tòa nhà văn phòng – dịch vụ thành lập doanh nghiệp tại Đà Nẵng",
-    items: [
-      "Tư vấn thủ tục thành lập doanh nghiệp trong nước",
-      "Thành lập chi nhánh, văn phòng đại diện và đơn vị phụ thuộc",
-      "Thay đổi giấy phép kinh doanh; tạm ngưng hoạt động hoặc giải thể doanh nghiệp",
-    ],
     subServices: [
       "Thành lập doanh nghiệp trong nước",
       "Thành lập chi nhánh, văn phòng đại diện, đơn vị phụ thuộc",
@@ -129,14 +120,8 @@ export const SERVICES: readonly Service[] = [
     menuTitle: "Dịch vụ thuế",
     image: "/assets/tax-300x300-ca352e40.png",
     alt: "Biểu tượng tờ khai thuế – dịch vụ kê khai và quyết toán thuế",
-    items: [
-      "Kê khai thuế",
-      "Rà soát tính tuân thủ pháp luật thuế",
-      "Quyết toán thuế cuối năm cho doanh nghiệp",
-      "Quyết toán thuế thu nhập cá nhân (TNCN)",
-    ],
     subServices: [
-      "Kê khai thuế",
+      "Dịch vụ kê khai thuế",
       "Rà soát tính tuân thủ pháp luật thuế",
       "Quyết toán thuế cuối năm cho doanh nghiệp",
       "Quyết toán thuế TNCN",
@@ -147,18 +132,14 @@ export const SERVICES: readonly Service[] = [
     title: "DỊCH VỤ KẾ TOÁN",
     menuTitle: "Dịch vụ kế toán",
     image: "/assets/accounting-300x300-2b340415.png",
-    alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán thuế trọn gói",
-    items: [
-      "Kế toán thuế trọn gói; tư vấn, thiết lập hệ thống kế toán",
-      "Kiểm tra, hoàn thiện sổ sách kế toán; lập báo cáo tài chính cuối năm; đánh giá nhanh báo cáo tài chính, quyết toán cuối năm và lập hóa đơn GTGT",
-    ],
+    alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán trọn gói",
     subServices: [
-      "Kế toán thuế trọn gói",
+      "Dịch vụ kế toán trọn gói",
       "Tư vấn, thiết lập hệ thống kế toán",
       "Kiểm tra, hoàn thiện sổ sách kế toán",
       "Lập báo cáo tài chính cuối năm",
       "Đánh giá nhanh BCTC, quyết toán cuối năm",
-      "Lập hóa đơn GTGT",
+      "Dịch vụ lập hoá đơn GTGT",
     ],
   },
   {
@@ -167,33 +148,23 @@ export const SERVICES: readonly Service[] = [
     menuTitle: "Nhân sự & tiền lương",
     image: "/assets/accounting-1-300x300-32be194d.png",
     alt: "Biểu tượng nhân viên tính lương – dịch vụ nhân sự và tiền lương",
-    items: [
-      "Dịch vụ nhân sự ban đầu cho doanh nghiệp mới thành lập",
-      "Dịch vụ tính lương",
-      "Theo dõi trích nộp BHXH, BHYT và thuế thu nhập cá nhân (TNCN)",
-    ],
     subServices: [
       "Dịch vụ nhân sự ban đầu",
       "Dịch vụ tính lương",
-      "Theo dõi trích nộp BHXH, BHYT, thuế TNCN",
+      "Theo dõi trích nộp thuế TNCN",
     ],
   },
   {
     slug: "dv-ho-tro",
-    title: "GIẢI PHÁP HỖ TRỢ DOANH NGHIỆP",
+    title: "DỊCH VỤ KHÁC",
     menuTitle: "Dịch vụ khác",
     image: "/assets/tax-1-300x300-9799d5c8.png",
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
-    items: [
-      "Đại lý chữ ký số, hóa đơn điện tử và phần mềm kê khai BHXH (đối tác Viettel)",
-      "Bảng hiệu và dấu tên",
-      "Thành lập tài khoản ngân hàng số đẹp (đối tác Techcombank)",
-    ],
     subServices: [
       "Chữ ký số, hóa đơn điện tử (đối tác Viettel)",
       "Phần mềm kê khai BHXH (đối tác Viettel)",
       "Bảng hiệu và dấu tên",
-      "Tài khoản ngân hàng số đẹp (đối tác Techcombank)",
+      "Thành lập tài khoản ngân hàng số đẹp (đối tác Techcombank)",
     ],
   },
 ];
