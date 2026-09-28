@@ -1,15 +1,16 @@
 import type { MetadataRoute } from "next";
-import { CONTENT_UPDATED_AT } from "@/data/site";
+import { CONTENT_UPDATED_AT, WORKFLOW_STEPS } from "@/data/site";
 import { requireSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = requireSiteUrl();
+  const updated = new Date(`${CONTENT_UPDATED_AT}T00:00:00+07:00`);
   return [
     {
       url: siteUrl.toString(),
-      lastModified: new Date(`${CONTENT_UPDATED_AT}T00:00:00+07:00`),
+      lastModified: updated,
       changeFrequency: "monthly",
       priority: 1,
       images: [
@@ -19,9 +20,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: new URL("gioi-thieu/", siteUrl).toString(),
-      lastModified: new Date(`${CONTENT_UPDATED_AT}T00:00:00+07:00`),
+      lastModified: updated,
       changeFrequency: "yearly",
       priority: 0.7,
     },
+    ...WORKFLOW_STEPS.map((step) => ({
+      url: new URL(`${step.slug}/`, siteUrl).toString(),
+      lastModified: updated,
+      changeFrequency: "yearly" as const,
+      priority: 0.6,
+    })),
   ];
 }

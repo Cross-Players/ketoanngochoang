@@ -25,8 +25,17 @@ export interface Benefit {
 
 
 export interface WorkflowStep {
+  /** Đoạn đường dẫn trang chi tiết: "/{slug}/". */
+  slug: string;
   title: string;
+  /** Mô tả ngắn trên thẻ trang chủ; cũng là đoạn mở đầu (in đậm) của trang chi tiết. */
   description: string;
+  /**
+   * Nội dung trang chi tiết – BẢN NHÁP chờ khách hàng duyệt. Chỉ diễn đạt lại mô tả thẻ và các thông tin
+   * đã có trên website (dịch vụ, liên hệ, câu hỏi thường gặp); không có số liệu, thời hạn hay cam kết mới.
+   */
+  body: readonly string[];
+  /** Icon bước (đã tách khỏi ảnh thẻ cũ quy-trinh-0x.jpg) – canh giữa vùng trắng của thẻ. */
   image: string;
   alt: string;
 }
@@ -72,6 +81,8 @@ export const ROUTES = {
   about: "/gioi-thieu/",
   services: "/#dich-vu",
   contact: "/#lien-he",
+  /** Trang chi tiết một bước quy trình, vd. ROUTES.workflow("tiep-nhan-thong-tin") → "/tiep-nhan-thong-tin/". */
+  workflow: (slug: string) => `/${slug}/`,
 } as const;
 
 export const NAVIGATION: readonly NavigationLink[] = [
@@ -192,31 +203,51 @@ export const BENEFITS: readonly Benefit[] = [
 
 export const WORKFLOW_STEPS: readonly WorkflowStep[] = [
   {
+    slug: "tiep-nhan-thong-tin",
     title: "TIẾP NHẬN THÔNG TIN",
     description:
       "Lắng nghe nhu cầu, khó khăn và thông tin doanh nghiệp để xác định nội dung cần tư vấn.",
-    image: "/assets/quy-trinh-01.jpg",
+    body: [
+      "Bạn có thể liên hệ Ngọc Hoàng qua điện thoại, Zalo hoặc gửi yêu cầu tư vấn ngay trên website.",
+      "Hồ sơ cần chuẩn bị tùy thuộc vào từng thủ tục. Ngọc Hoàng sẽ gửi danh sách hồ sơ cụ thể sau khi nắm rõ trường hợp của bạn.",
+    ],
+    image: "/assets/workflow/step-01.png",
     alt: "Bước 01 – tiếp nhận thông tin và nhu cầu của khách hàng",
   },
   {
+    slug: "tien-hanh-xu-ly",
     title: "TIẾN HÀNH XỬ LÝ",
     description:
       "Thực hiện công việc theo quy trình dịch vụ, tuân thủ quy định pháp luật liên quan.",
-    image: "/assets/quy-trinh-02.jpg",
+    body: [
+      "Phạm vi công việc và chi phí được thống nhất với bạn trước khi thực hiện.",
+      "Ngọc Hoàng xử lý hồ sơ theo đúng phạm vi đã trao đổi, trong các mảng BHXH, pháp lý doanh nghiệp, thuế, kế toán, nhân sự & tiền lương và các dịch vụ khác.",
+    ],
+    image: "/assets/workflow/step-02.png",
     alt: "Bước 02 – đội ngũ Ngọc Hoàng tiến hành xử lý hồ sơ",
   },
   {
+    slug: "cap-nhat-tien-do",
     title: "CẬP NHẬT TIẾN ĐỘ",
     description:
       "Phản hồi tiến độ xử lý và chủ động trao đổi khi khách hàng cần được tư vấn.",
-    image: "/assets/quy-trinh-03.jpg",
+    body: [
+      "Trong quá trình xử lý, bạn có thể hỏi tình trạng hồ sơ qua điện thoại hoặc Zalo.",
+      "Khi có thông tin cần bổ sung hoặc cần bạn quyết định, Ngọc Hoàng sẽ trao đổi để bạn nắm rõ trước khi làm tiếp.",
+    ],
+    image: "/assets/workflow/step-03.png",
     alt: "Bước 03 – cập nhật tiến độ xử lý cho khách hàng",
   },
   {
+    slug: "hoan-tra-ho-so",
     title: "HOÀN TRẢ HỒ SƠ",
     description:
       "Bàn giao hồ sơ để khách hàng lưu trữ sau khi hoàn thành công việc.",
-    image: "/assets/quy-trinh-04.jpg",
+    body: [
+      "Hồ sơ được bàn giao lại để bạn lưu trữ.",
+      "Nếu cần hỗ trợ thêm các thủ tục khác, bạn có thể tiếp tục liên hệ Ngọc Hoàng qua điện thoại hoặc Zalo.",
+    ],
+    image: "/assets/workflow/step-04.png",
     alt: "Bước 04 – bàn giao, hoàn trả hồ sơ cho khách hàng",
   },
 ];
