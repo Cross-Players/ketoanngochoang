@@ -220,17 +220,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .workflow { min-height: 0; }
 .workflow .section-title, .news .section-title { margin-bottom: 31px; }
-.workflow-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
-.workflow-grid article { --step-accent: var(--blue); --step-ink: #fff; display: flex; flex-direction: column; overflow: hidden; text-align: center; background: #f1f1f1; box-shadow: 0 3px 6px -4px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%); }
+.workflow-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 15px; }
+.workflow-grid > .workflow-card { --step-accent: var(--blue); --step-ink: #fff; display: flex; flex-direction: column; text-align: center; background: #f1f1f1; box-shadow: 0 3px 6px -4px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%); transition: box-shadow .18s ease; }
+.workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { box-shadow: 0 5px 12px rgb(16 57 95 / 16%); }
 /* Màu nút theo khối số của từng thẻ (đậm hơn một chút để chữ đủ tương phản). */
-.workflow-grid article:nth-child(4n + 1) { --step-accent: #c62f4b; }
-.workflow-grid article:nth-child(4n + 2) { --step-accent: #1a6fb3; }
-.workflow-grid article:nth-child(4n + 3) { --step-accent: #fdc82c; --step-ink: #162f53; }
-.workflow-grid article:nth-child(4n + 4) { --step-accent: #2a7f7f; }
+.workflow-grid > .workflow-card:nth-child(4n + 1) { --step-accent: #c62f4b; }
+.workflow-grid > .workflow-card:nth-child(4n + 2) { --step-accent: #1a6fb3; }
+.workflow-grid > .workflow-card:nth-child(4n + 3) { --step-accent: #fdc82c; --step-ink: #162f53; }
+.workflow-grid > .workflow-card:nth-child(4n + 4) { --step-accent: #2a7f7f; }
+.workflow-image { position: relative; display: block; width: 100%; aspect-ratio: 299 / 443; overflow: hidden; background: #fff; }
+.workflow-image::before { position: absolute; inset: 0 0 auto; height: 27%; background: var(--step-accent); content: ""; }
+.workflow-number { position: absolute; z-index: 1; inset: 0 0 auto; height: 27%; display: grid; place-items: center; color: #fff; font-size: clamp(32px, 3vw, 48px); font-weight: 700; line-height: 1; }
+.workflow-image img { position: absolute; inset: 27% 0 auto; display: block; width: 100%; height: 73%; object-fit: cover; object-position: center bottom; }
 .workflow-grid p { flex: 1 0 auto; }
-.workflow-grid .workflow-more { align-self: center; min-height: 40px; margin: 6px auto 20px; padding: 6px 24px; border-radius: 2px; color: var(--step-ink); background: var(--step-accent); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; transition: filter .2s ease, box-shadow .2s ease; }
-.workflow-grid .workflow-more:hover { filter: brightness(.92); box-shadow: 0 4px 10px rgb(0 0 0 / 18%); }
-.workflow-grid img { width: 100%; height: 290px; object-fit: cover; object-position: center 26%; }
+.workflow-grid .workflow-more { align-self: center; min-height: 40px; margin: 6px auto 20px; padding: 6px 24px; border-radius: 2px; color: var(--step-ink); background: var(--step-accent); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; transition: color .18s ease, background-color .18s ease; }
+.workflow-card:hover .workflow-more, .workflow-card:focus-visible .workflow-more { color: #162f53; background: var(--orange); }
 .workflow-grid h3 { min-height: 74px; display: grid; place-items: center; padding: 10px; margin: 0; color: var(--blue); font-size: 15px; line-height: 1.45; }
 .news { min-height: 0; background: #f7f8f9; }
 .news-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; }
@@ -460,7 +464,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .workflow { min-height: 0; padding-block: 31px; }
   .workflow .section-title, .news .section-title { margin-bottom: 19px; }
   .workflow-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .workflow-grid img { height: 170px; }
   .workflow-grid h3 { min-height: 58px; padding: 7px; font-size: 13px; line-height: 1.45; }
   .workflow-grid .workflow-more { min-height: 40px; margin: 4px auto 14px; padding: 6px 16px; font-size: 12px; }
   .news { min-height: 0; padding-block: 31px; }
