@@ -7,9 +7,8 @@ export interface NavigationLink {
 export interface Service {
   /** Anchor id of the card on the home page (used by the Dịch vụ mega menu). */
   slug: string;
+  /** Tên nhóm – dùng chung cho cột mega menu, tiêu đề thẻ dịch vụ trang chủ và JSON-LD. */
   title: string;
-  /** Short column heading used in the Dịch vụ mega menu. */
-  menuTitle: string;
   image: string;
   alt: string;
   /**
@@ -89,8 +88,7 @@ export const NAVIGATION: readonly NavigationLink[] = [
 export const SERVICES: readonly Service[] = [
   {
     slug: "dv-bhxh",
-    title: "DỊCH VỤ BẢO HIỂM XÃ HỘI",
-    menuTitle: "Dịch vụ BHXH",
+    title: "Dịch vụ BHXH",
     image: "/assets/employee-300x300-b0d92d6c.png",
     alt: "Biểu tượng người lao động – dịch vụ BHXH và BHYT tại Đà Nẵng",
     subServices: [
@@ -102,8 +100,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-phap-ly",
-    title: "DỊCH VỤ PHÁP LÝ DOANH NGHIỆP",
-    menuTitle: "Pháp lý doanh nghiệp",
+    title: "Pháp lý doanh nghiệp",
     image: "/assets/company-300x300-57c03f3f.png",
     alt: "Biểu tượng tòa nhà văn phòng – dịch vụ thành lập doanh nghiệp tại Đà Nẵng",
     subServices: [
@@ -116,8 +113,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-thue",
-    title: "DỊCH VỤ THUẾ",
-    menuTitle: "Dịch vụ thuế",
+    title: "Dịch vụ thuế",
     image: "/assets/tax-300x300-ca352e40.png",
     alt: "Biểu tượng tờ khai thuế – dịch vụ kê khai và quyết toán thuế",
     subServices: [
@@ -129,8 +125,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-ke-toan",
-    title: "DỊCH VỤ KẾ TOÁN",
-    menuTitle: "Dịch vụ kế toán",
+    title: "Dịch vụ kế toán",
     image: "/assets/accounting-300x300-2b340415.png",
     alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán trọn gói",
     subServices: [
@@ -144,8 +139,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-nhan-su",
-    title: "DỊCH VỤ NHÂN SỰ & TIỀN LƯƠNG",
-    menuTitle: "Nhân sự & tiền lương",
+    title: "Nhân sự & tiền lương",
     image: "/assets/accounting-1-300x300-32be194d.png",
     alt: "Biểu tượng nhân viên tính lương – dịch vụ nhân sự và tiền lương",
     subServices: [
@@ -156,8 +150,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-ho-tro",
-    title: "DỊCH VỤ KHÁC",
-    menuTitle: "Dịch vụ khác",
+    title: "Dịch vụ khác",
     image: "/assets/tax-1-300x300-9799d5c8.png",
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
     subServices: [

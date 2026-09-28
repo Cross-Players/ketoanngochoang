@@ -68,7 +68,7 @@ export function Header() {
           >
             <span className={`menu-icon${menuOpen ? " is-open" : ""}`} aria-hidden="true"><i /><i /><i /></span>
           </button>
-          <Link className="brand" href={ROUTES.home} aria-label="Ngọc Hoàng — Trang chủ" onClick={closeAll}>
+          <Link className="brand" href={ROUTES.home} aria-label={`${COMPANY.name} – Trang chủ`} onClick={closeAll}>
             <img src={getPublicAssetPath("/logo-ngoc-hoang-256.png")} width="256" height="256" alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" />
             <span className="brand-text">
               {/* Tên pháp nhân đầy đủ: "CÔNG TY TNHH TƯ VẤN & DỊCH VỤ" trên, "NGỌC HOÀNG" dưới. */}
@@ -101,7 +101,7 @@ export function Header() {
                             <div className="mega-col" key={service.slug}>
                               <p className="mega-title">
                                 <img src={getPublicAssetPath(service.image)} alt="" width="28" height="28" loading="lazy" />
-                                <Link href={`/#${service.slug}`} onClick={closeAll}>{service.menuTitle}</Link>
+                                <Link href={`/#${service.slug}`} onClick={closeAll}>{service.title}</Link>
                               </p>
                               <ul>
                                 {service.subServices.map((sub) => (

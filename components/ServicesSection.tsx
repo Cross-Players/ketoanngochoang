@@ -21,7 +21,12 @@ export function ServicesSection() {
               </div>
               <ul className="service-points">
                 {service.subServices.slice(0, CARD_LINES).map((item) => <li key={item}>{item}</li>)}
+                {/* "…" chỉ hiện khi nhóm còn mục khác (xem đủ trong menu Dịch vụ). */}
+                {service.subServices.length > CARD_LINES && <li className="service-points-more" aria-hidden="true">…</li>}
               </ul>
+              <p className="service-more">
+                <Link href={ROUTES.contact} aria-label={`Xem thêm dịch vụ ${service.title.toLocaleLowerCase("vi")} – gửi yêu cầu tư vấn`}>Xem thêm dịch vụ</Link>
+              </p>
             </article>
           ))}
         </div>
