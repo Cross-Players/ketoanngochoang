@@ -58,6 +58,8 @@ body {
   line-height: var(--text-leading);
 }
 
+/* Polish: màu bôi đen chữ theo bảng màu thương hiệu thay cho mặc định của trình duyệt. */
+::selection { color: #fff; background: var(--blue); }
 img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 button, input, textarea { font: inherit; }
