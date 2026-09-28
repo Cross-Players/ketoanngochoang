@@ -557,7 +557,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .reveal-pending { opacity: 0; transform: translateY(14px); }
   .reveal-pending.is-revealed { opacity: 1; transform: none; transition: opacity .56s cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms), transform .56s cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms); }
 }
-@media print { .reveal-pending { opacity: 1 !important; transform: none !important; } }
+/* A. Vạch hai bên tiêu đề section "vẽ" từ phía sát chữ ra ngoài (scaleX 0 → 1, 700ms ease-out) khi tiêu đề xuất hiện.
+   Chỉ áp dụng khi JS đã gắn .reveal-pending (tiêu đề còn dưới màn hình) → không JS / reduced-motion: vạch hiện sẵn. */
+@media (prefers-reduced-motion: no-preference) {
+  .section-title.reveal-pending::before { transform: scaleX(0); transform-origin: right center; }
+  .section-title.reveal-pending::after { transform: scaleX(0); transform-origin: left center; }
+  .section-title.reveal-pending.is-revealed::before,
+  .section-title.reveal-pending.is-revealed::after { transform: none; transition: transform .7s cubic-bezier(.16, 1, .3, 1) calc(var(--reveal-delay, 0ms) + 80ms); }
+}
+@media print { .reveal-pending, .reveal-pending::before, .reveal-pending::after { opacity: 1 !important; transform: none !important; } }
 
 @media (prefers-reduced-motion: reduce) {
   .workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { transform: none; }

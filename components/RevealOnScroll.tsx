@@ -11,6 +11,7 @@ import { useEffect } from "react";
  * - Chỉ dùng opacity/transform nên không gây dịch chuyển bố cục (CLS ≈ 0).
  * - prefers-reduced-motion: reduce → không làm gì cả.
  * - Số bước quy trình (01–04) đếm lên nhẹ khi thẻ xuất hiện.
+ * - Tiêu đề section: hai vạch bên cạnh vẽ từ phía sát chữ ra ngoài (CSS, xem globals.css).
  */
 const TARGETS = [
   ".section-title",
@@ -82,8 +83,11 @@ export function RevealOnScroll() {
           el.classList.add("is-revealed");
           const number = el.querySelector<HTMLElement>(".workflow-number");
           if (number) countIn(number, delay);
+          // Dọn lớp khi transition transform CUỐI CÙNG kết thúc: với tiêu đề section là vạch bên phải (::after, 700ms
+          // + trễ 80ms, dài hơn fade 560ms của chữ); gỡ lớp sớm hơn sẽ làm vạch nhảy thẳng tới cuối.
+          const lastPseudo = el.matches(".section-title") ? "::after" : "";
           const cleanup = (event: TransitionEvent) => {
-            if (event.target !== el || event.propertyName !== "transform") return;
+            if (event.target !== el || event.propertyName !== "transform" || event.pseudoElement !== lastPseudo) return;
             el.classList.remove("reveal-pending", "is-revealed");
             el.style.removeProperty("--reveal-delay");
             el.removeEventListener("transitionend", cleanup);
