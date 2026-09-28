@@ -181,7 +181,7 @@ export const SERVICES: readonly Service[] = [
   {
     slug: "dv-ho-tro",
     title: "GIẢI PHÁP HỖ TRỢ DOANH NGHIỆP",
-    menuTitle: "Hỗ trợ khác",
+    menuTitle: "Dịch vụ khác",
     image: "/assets/tax-1-300x300-9799d5c8.png",
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
     items: [

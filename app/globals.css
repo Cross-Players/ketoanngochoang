@@ -104,14 +104,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 /* Chỉ mở theo focus khi dùng bàn phím (:focus-visible) – tránh panel bị "kẹt" mở sau khi bấm chuột. */
 .nav-item-services:has(:focus-visible) .mega-menu,
 .nav-item-services.is-open .mega-menu { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
-.mega-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; padding-block: 24px 26px; }
-.mega-col { min-width: 0; }
-.mega-title { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; padding-bottom: 8px; border-bottom: 1px solid #e6edf5; }
+/* 6 cột bằng nhau; mỗi cột là subgrid 2 hàng (tiêu đề | danh sách) nên hàng tiêu đề cao bằng nhau,
+   đường kẻ dưới tiêu đề thẳng hàng và danh sách của mọi cột bắt đầu cùng một độ cao. */
+.mega-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: auto; column-gap: 24px; row-gap: 0; padding-block: 24px 22px; }
+.mega-col { min-width: 0; display: grid; grid-row: span 2; grid-template-rows: subgrid; }
+.mega-title { display: flex; align-items: flex-end; gap: 8px; margin: 0 0 6px; padding-bottom: 9px; border-bottom: 1px solid #e6edf5; }
 .mega-title img { width: 28px; height: 28px; flex: 0 0 28px; object-fit: contain; }
-.primary-nav .mega-title a { min-height: 0; padding: 0; color: var(--blue); font-size: 14px; text-transform: uppercase; white-space: normal; background: transparent; }
-.mega-col ul { padding: 0; margin: 0; list-style: none; }
-.primary-nav .mega-col li a { min-height: 0; display: block; padding: 5px 0 5px 12px; position: relative; color: #444; font-size: 13.5px; font-weight: 600; line-height: 1.45; white-space: normal; background: transparent; }
-.mega-col li a::before { content: ""; position: absolute; left: 0; top: 13px; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
+.primary-nav .mega-title a { min-height: 0; display: block; padding: 0; color: var(--blue); font-size: 14px; line-height: 1.35; text-transform: uppercase; white-space: normal; text-wrap: balance; background: transparent; }
+.mega-col ul { align-self: start; padding: 0; margin: 0; list-style: none; }
+.mega-col li { position: relative; }
+.primary-nav .mega-col li a { min-height: 0; display: block; padding: 5px 0 5px 13px; color: #444; font-size: 13.5px; font-weight: 600; line-height: 1.45; white-space: normal; background: transparent; }
+/* Chấm tròn canh giữa dòng đầu của mỗi mục: 5px (padding) + nửa line-height − nửa chấm. */
+.mega-col li::before { content: ""; position: absolute; left: 0; top: calc(5px + .725em - 2.5px); width: 5px; height: 5px; border-radius: 50%; background: var(--orange); font-size: 13.5px; pointer-events: none; }
 .primary-nav .mega-col a:hover { color: var(--orange); background: transparent; }
 
 /* Desktop: "Dịch vụ" = link + nút mũi tên. Tô nền cả cụm như một pill duy nhất (giống các mục menu khác)
@@ -395,9 +399,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .mega-menu { position: static; display: none; visibility: visible; opacity: 1; transform: none; border-top: 0; box-shadow: none; background: #f7f9fc; transition: none; }
   .nav-item-services:hover .mega-menu, .nav-item-services:focus-within .mega-menu { display: none; }
   .nav-item-services.is-open .mega-menu { display: block; }
-  .mega-grid { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 16px; padding: 12px 12px 14px; }
+  .mega-grid { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 16px; padding: 12px 12px 2px; }
+  .mega-col ul { padding-bottom: 12px; }
   .primary-nav .mega-title a { font-size: 13px; }
   .primary-nav .mega-col li a { padding-block: 6px; font-size: 14px; }
+  .mega-col li::before { top: calc(6px + .725em - 2.5px); font-size: 14px; }
   .hero-inner { grid-template-columns: 1fr 1fr; gap: 28px; padding-block: 44px 48px; }
   .mega-title img { width: 24px; height: 24px; flex-basis: 24px; }
   .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -457,8 +463,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .about-sublist { padding: 12px 12px 4px 26px; }
   .about-contact { padding: 18px 16px; }
   .about-contact .button-row .button { flex: 1 1 100%; }
-  .mega-grid { grid-template-columns: 1fr; gap: 12px; }
+  .mega-grid { grid-template-columns: 1fr; gap: 0; }
   .primary-nav .mega-col li a { padding-block: 5px; }
+  .mega-col li::before { top: calc(5px + .725em - 2.5px); }
   .callout { min-height: 0; padding-block: 39px; }
   .callout p { font-size: 17px; line-height: 1.55; text-wrap: pretty; }
   .callout-button { min-width: 0; flex: 1 1 140px; padding-inline: 14px; }
