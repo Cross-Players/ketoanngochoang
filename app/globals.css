@@ -37,6 +37,9 @@
   --yellow: #ffc400;
   --orange: #f47721;
   --content-width: 1230px;
+  /* Chiều cao header: topline (cuộn đi) + thanh menu chính (dính trên cùng). */
+  --topline-h: 36px;
+  --nav-h: 85px;
   --text-size: 16px;
   --text-leading: 1.65;
   color: var(--ink);
@@ -45,6 +48,8 @@
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
 }
+/* Nhảy tới #anchor (vd. /#lien-he, /#dich-vu-…) dừng ngay dưới thanh menu dính, không bị che. */
+:where([id]) { scroll-margin-top: calc(var(--nav-h) + 12px); }
 
 *,
 *::before,
@@ -70,11 +75,21 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .container { width: min(var(--content-width), calc(100% - 40px)); margin-inline: auto; }
 .sr-only, .skip-link:not(:focus) { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.skip-link:focus { position: fixed; z-index: 20; top: 10px; left: 10px; padding: 10px 14px; color: #fff; background: var(--blue); }
+.skip-link:focus { position: fixed; z-index: 1100; top: 10px; left: 10px; padding: 10px 14px; color: #fff; background: var(--blue); }
 
-.site-header { position: relative; z-index: 50; background: #fff; box-shadow: 0 2px 10px rgb(16 92 170 / 8%); }
+/* Header dính: cả khối sticky, top âm đúng bằng chiều cao topline => topline cuộn đi, thanh menu
+   (logo + menu + số điện thoại) luôn nằm ở top: 0. Sticky giữ chỗ trong luồng nên không cần spacer.
+   z-index trên nút Zalo/Gọi nổi (1002); menu mobile nằm trong header nên luôn ở trên cùng.
+   Wordmark round 5 (CÔNG TY… / NGỌC HOÀNG, tối đa 2 dòng ở 360/390) giữ nguyên – không lấy rule .brand của PR #4. */
+.site-header { position: sticky; top: calc(-1 * var(--topline-h)); z-index: 1003; background: #fff; box-shadow: 0 2px 10px rgb(16 92 170 / 8%); }
+@supports (animation-timeline: scroll()) {
+  .site-header { animation: header-scrolled linear both; animation-timeline: scroll(root); animation-range: 0 140px; }
+  @keyframes header-scrolled { from { box-shadow: 0 2px 10px rgb(16 92 170 / 8%); } to { box-shadow: 0 6px 18px rgb(16 47 83 / 18%); } }
+}
+/* Thanh tiến độ cuộn mỏng (2px, xanh thương hiệu) ở cạnh dưới header; scaleX từ trái, rAF cập nhật; ẩn khi reduced-motion. */
+.scroll-progress { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; height: 2px; background: var(--blue); transform: scaleX(0); transform-origin: left center; pointer-events: none; will-change: transform; }
 .topline { color: #fff; background: var(--blue); font-size: 13px; font-weight: 600; }
-.topline-inner { min-height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.topline-inner { height: var(--topline-h); display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .topline p { display: flex; align-items: center; gap: 18px; margin: 0; }
 .topline-address::before { content: ""; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--orange); vertical-align: middle; }
 .topline b { padding-inline: 2px; color: #b8d1eb; }
@@ -82,7 +97,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .topline a:hover { color: #ffd9bf; }
 .topline strong { color: #ffd24d; }
 .nav-wrap { position: relative; border-bottom: 1px solid #edf0f2; background: #fff; }
-.nav-row { min-height: 84px; display: flex; align-items: center; gap: 20px; }
+.nav-row { min-height: calc(var(--nav-h) - 1px); display: flex; align-items: center; gap: 20px; }
 .brand { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; }
 .brand img { width: 64px; aspect-ratio: 1; object-fit: contain; }
 .brand-text { display: grid; gap: 1px; line-height: 1.2; }
@@ -186,7 +201,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .services { background: #f7f8f9; }
 .services .section-title { margin-bottom: 30px; }
 .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 20px; align-items: stretch; }
-.service-card { scroll-margin-top: 20px; display: flex; flex-direction: column; height: 100%; padding: 22px 22px 18px; border: 1px solid #e6ebf1; border-top: 3px solid var(--blue); border-radius: 6px; text-align: left; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
+.service-card { scroll-margin-top: calc(var(--nav-h) + 20px); display: flex; flex-direction: column; height: 100%; padding: 22px 22px 18px; border: 1px solid #e6ebf1; border-top: 3px solid var(--blue); border-radius: 6px; text-align: left; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
 .service-card:target { border-color: var(--orange); box-shadow: 0 0 0 3px rgb(244 119 33 / 25%); }
 .service-card-head { display: flex; align-items: center; gap: 14px; min-height: 64px; margin-bottom: 12px; }
 .service-icon { width: 64px; height: 64px; flex: 0 0 64px; display: grid; place-items: center; border-radius: 50%; background: #eef5fc; }
@@ -258,7 +273,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .news-grid img { width: 100%; aspect-ratio: 500 / 281; object-fit: cover; }
 .news-grid h3 { margin: 0; padding: 12px 11px 15px; color: var(--blue); font-size: 15px; line-height: 1.5; }
 
-.contact { min-height: 0; display: flex; align-items: center; padding-block: 50px; background: #fff; scroll-margin-top: 12px; }
+.contact { min-height: 0; display: flex; align-items: center; padding-block: 50px; background: #fff; scroll-margin-top: calc(var(--nav-h) + 12px); }
 .contact-inner { max-width: 810px; }
 .contact h2 { margin: 0 0 24px; color: var(--blue); font-size: 27px; line-height: 1.4; text-align: center; }
 .contact-form { display: grid; gap: 13px; padding: 25px 28px; border: 1px solid #f3a02c; background: #fff; }
@@ -416,8 +431,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (max-width: 1060px) {
+  :root { --nav-h: 72px; }
   .topline-address { display: none; }
-  .nav-row { position: relative; min-height: 72px; justify-content: space-between; gap: 12px; }
+  .nav-row { position: relative; min-height: calc(var(--nav-h) - 1px); justify-content: space-between; gap: 12px; }
   /* Logo + chữ thương hiệu nằm giữa nút menu (trái) và nút gọi (phải). */
   .nav-row { gap: 8px; }
   .brand { min-width: 0; flex: 0 1 auto; margin-inline: auto; gap: 8px; }
@@ -431,7 +447,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .menu-icon.is-open i:nth-child(2) { opacity: 0; }
   .menu-icon.is-open i:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
   .nav-phone span { display: none; }
-  .primary-nav { position: absolute; top: 100%; left: -20px; right: -20px; display: none; max-height: calc(100dvh - 72px); overflow-y: auto; padding: 6px 20px 16px; margin: 0; border-top: 1px solid #e8edf2; background: #fff; box-shadow: 0 12px 20px rgb(0 0 0 / 14%); }
+  .primary-nav { position: absolute; top: 100%; left: -20px; right: -20px; display: none; max-height: calc(100dvh - var(--nav-h) - var(--topline-h)); overflow-y: auto; overscroll-behavior: contain; padding: 6px 20px 16px; margin: 0; border-top: 1px solid #e8edf2; background: #fff; box-shadow: 0 12px 20px rgb(0 0 0 / 14%); }
   .primary-nav.is-open { display: block; }
   .site-header:has(.primary-nav.is-open) { z-index: 1003; }
   .nav-list { display: block; }
@@ -456,6 +472,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (max-width: 760px) {
+  :root { --topline-h: 32px; }
   .quick-link span { position: absolute; right: 54px; display: none; }
   .quick-link { width: 46px; height: 46px; }
   .quick-link img { width: 24px; height: 24px; }
@@ -468,7 +485,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .section-title { margin-bottom: 13px; font-size: 22px; line-height: 1.4; gap: 10px; }
   .section-title::before, .section-title::after { flex-basis: 18px; min-width: 18px; }
   .topline { font-size: 12px; }
-  .topline-inner { min-height: 32px; justify-content: center; }
+  .topline-inner { justify-content: center; }
   .topline-actions { display: none !important; }
   .nav-phone img { width: 40px; height: 40px; }
   /* Header điện thoại: lề 12px để tên công ty đủ chỗ trên tối đa 2 dòng ở 360–390px. */
@@ -578,4 +595,5 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .quick-contact .quick-link::before,
   .quick-contact .quick-link::after,
   .quick-contact .quick-link img { animation: none; }
+  .scroll-progress { display: none; }
 }

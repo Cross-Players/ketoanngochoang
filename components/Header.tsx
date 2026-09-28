@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { COMPANY, NAVIGATION, ROUTES, SERVICES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
 
@@ -17,6 +17,8 @@ export function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = normalizePath(usePathname());
 
+  const progressRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -27,6 +29,34 @@ export function Header() {
 
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
+  // Thanh tiến độ cuộn mỏng ở đáy header: scaleX theo % trang đã cuộn (rAF, passive). Ẩn khi reduced-motion (CSS).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const bar = progressRef.current;
+    if (!bar) return;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const doc = document.documentElement;
+      const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const p = Math.min(1, Math.max(0, window.scrollY / max));
+      bar.style.transform = `scaleX(${p.toFixed(4)})`;
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   function closeAll() {
@@ -130,6 +160,7 @@ export function Header() {
           </a>
         </div>
       </div>
+      <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
     </header>
   );
 }
