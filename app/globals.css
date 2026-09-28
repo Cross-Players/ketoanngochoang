@@ -177,7 +177,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .services .section-title { margin-bottom: 30px; }
 .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .service-card { scroll-margin-top: 20px; display: flex; flex-direction: column; padding: 22px 22px 20px; border: 1px solid #e6ebf1; border-top: 3px solid var(--blue); border-radius: 6px; text-align: left; background: #fff; transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease; }
-.service-card:hover { border-top-color: var(--orange); box-shadow: 0 10px 24px rgb(16 92 170 / 12%); transform: translateY(-2px); }
 .service-card:target { border-color: var(--orange); box-shadow: 0 0 0 3px rgb(244 119 33 / 25%); }
 .service-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
 .service-icon { width: 64px; height: 64px; flex: 0 0 64px; display: grid; place-items: center; border-radius: 50%; background: #eef5fc; }
