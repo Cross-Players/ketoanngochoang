@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
+import { HeroParallax } from "@/components/HeroParallax";
 
 export function Hero() {
   return (
@@ -27,6 +28,7 @@ export function Hero() {
             height="768"
             fetchPriority="high"
           />
+          <HeroParallax />
         </div>
       </div>
     </section>
