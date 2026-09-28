@@ -94,13 +94,15 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .primary-nav a:hover, .primary-nav a[aria-current="page"] { color: var(--blue); background: #eaf2fb; }
 .nav-item-cta > a, .primary-nav .nav-item-cta > a:hover { margin-left: 6px; color: #fff; background: var(--orange); }
 .primary-nav .nav-item-cta > a:hover { background: #d96212; }
-.submenu-toggle { width: 26px; height: 44px; display: grid; place-items: center; margin-left: -8px; padding: 0; border: 0; border-radius: 4px; background: transparent; cursor: pointer; }
+.submenu-toggle { width: 26px; height: 44px; display: grid; place-items: center; margin-left: -8px; padding: 0; border: 0; border-radius: 4px; color: inherit; background: transparent; font: inherit; line-height: 1; cursor: pointer; appearance: none; -webkit-tap-highlight-color: transparent; }
+.chevron { display: block; }
 .chevron { width: 8px; height: 8px; border-right: 2px solid var(--blue-dark); border-bottom: 2px solid var(--blue-dark); transform: translateY(-2px) rotate(45deg); transition: transform .15s ease; }
 .nav-item-services.is-open .chevron { transform: translateY(2px) rotate(-135deg); }
 .nav-item-services { position: static; }
 .mega-menu { position: absolute; z-index: 60; top: 100%; left: 0; right: 0; visibility: hidden; opacity: 0; transform: translateY(8px); border-top: 3px solid var(--orange); background: #fff; box-shadow: 0 16px 30px rgb(22 47 83 / 16%); transition: opacity .15s ease, transform .15s ease, visibility 0s linear .15s; }
 .nav-item-services:hover .mega-menu,
-.nav-item-services:focus-within .mega-menu,
+/* Chỉ mở theo focus khi dùng bàn phím (:focus-visible) – tránh panel bị "kẹt" mở sau khi bấm chuột. */
+.nav-item-services:has(:focus-visible) .mega-menu,
 .nav-item-services.is-open .mega-menu { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 .mega-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; padding-block: 24px 26px; }
 .mega-col { min-width: 0; }
@@ -111,6 +113,29 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .primary-nav .mega-col li a { min-height: 0; display: block; padding: 5px 0 5px 12px; position: relative; color: #444; font-size: 13.5px; font-weight: 600; line-height: 1.45; white-space: normal; background: transparent; }
 .mega-col li a::before { content: ""; position: absolute; left: 0; top: 13px; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); }
 .primary-nav .mega-col a:hover { color: var(--orange); background: transparent; }
+
+/* Desktop: "Dịch vụ" = link + nút mũi tên. Tô nền cả cụm như một pill duy nhất (giống các mục menu khác)
+   khi hover / đang mở / focus bằng bàn phím, và bắc "cầu" vô hình qua khoảng trống giữa menu và mega panel
+   để panel không đóng khi rê chuột xuống. */
+@media (min-width: 1061px) {
+  .nav-item-services .nav-item-head { border-radius: 4px; transition: background-color .15s ease; }
+  .primary-nav .nav-item-services .nav-item-head > a { padding-right: 2px; background: transparent; }
+  .nav-item-services .submenu-toggle { width: 25px; margin-left: 0; border-radius: 0 4px 4px 0; }
+  .nav-item-services .chevron { transform: translateY(-2px) translateX(-2px) rotate(45deg); }
+  .nav-item-services.is-open .chevron { transform: translateY(2px) translateX(-2px) rotate(-135deg); }
+  .nav-item-services:hover .nav-item-head,
+  .nav-item-services.is-open .nav-item-head,
+  .nav-item-services:has(:focus-visible) .nav-item-head { background: #eaf2fb; }
+  .primary-nav .nav-item-services:hover .nav-item-head > a,
+  .primary-nav .nav-item-services.is-open .nav-item-head > a,
+  .primary-nav .nav-item-services:has(:focus-visible) .nav-item-head > a { color: var(--blue); }
+  .nav-item-services:hover .chevron,
+  .nav-item-services.is-open .chevron,
+  .nav-item-services:has(:focus-visible) .chevron { border-color: var(--blue); }
+  .mega-menu::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 24px; }
+  /* Số hotline đã hiện ngay bên dưới (nút gọi cạnh menu) – ẩn bản trùng ở topline trên desktop; mobile vẫn giữ. */
+  .topline-contact > a { display: none; }
+}
 .nav-phone { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 8px; color: var(--blue); font-size: 15px; font-weight: 700; }
 .nav-phone img { width: 32px; height: 32px; padding: 7px; border-radius: 50%; background: var(--orange); }
 .menu-toggle { display: none; }
@@ -152,7 +177,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .services .section-title { margin-bottom: 30px; }
 .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
 .service-card { scroll-margin-top: 20px; display: flex; flex-direction: column; padding: 22px 22px 20px; border: 1px solid #e6ebf1; border-top: 3px solid var(--blue); border-radius: 6px; text-align: left; background: #fff; transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease; }
-.service-card:hover { border-top-color: var(--orange); box-shadow: 0 10px 24px rgb(16 92 170 / 12%); transform: translateY(-2px); }
 .service-card:target { border-color: var(--orange); box-shadow: 0 0 0 3px rgb(244 119 33 / 25%); }
 .service-card-head { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
 .service-icon { width: 64px; height: 64px; flex: 0 0 64px; display: grid; place-items: center; border-radius: 50%; background: #eef5fc; }
@@ -237,7 +261,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-cert { width: 70px; height: 70px; object-fit: contain; }
 .copyright { min-height: 53px; display: flex; align-items: center; border-top: 1px solid rgb(255 255 255 / 14%); background: #102643; color: #dfe8f3; font-size: 12px; }
 .copyright strong { margin-left: 3px; }
-.quick-contact { position: fixed; z-index: 1002; left: max(12px, env(safe-area-inset-left)); bottom: max(12px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
+/* Góc phải dưới: chữ canh trái nên đặt bên trái sẽ che đầu dòng, icon và nút gửi form. */
+.quick-contact { position: fixed; z-index: 1002; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
 .quick-link { position: relative; width: 52px; height: 52px; display: grid; place-items: center; overflow: visible; border: 2px solid #fff; border-radius: 50%; color: #fff; background: rgb(var(--qc)); box-shadow: 0 2px 8px rgb(0 0 0 / 18%); }
 .quick-link::before, .quick-link::after { position: absolute; z-index: -1; inset: -2px; border-radius: 50%; background: rgb(var(--qc) / 55%); content: ""; pointer-events: none; animation: qc-ripple 1.8s ease-out infinite; }
 .quick-link::after { animation-delay: .9s; }
@@ -251,7 +276,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .quick-link:focus-visible { outline: 3px solid #f3a02c; outline-offset: 3px; }
 .quick-link span {
   position: absolute;
-  left: calc(100% + 8px);
+  right: calc(100% + 8px);
   width: 1px;
   height: 1px;
   overflow: hidden;
@@ -272,16 +297,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 @keyframes qc-ripple { 0% { transform: scale(1); opacity: .75; } 100% { transform: scale(1.9); opacity: 0; } }
 @keyframes qc-shake { 0%, 50%, 100% { transform: rotate(0); } 5%, 15%, 25%, 35% { transform: rotate(-15deg); } 10%, 20%, 30%, 40% { transform: rotate(15deg); } }
-.consultation-overlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 24px; background: rgb(0 0 0 / 60%); }
-.consultation-modal { position: relative; width: min(700px, calc(100vw - 60px)); max-width: 100%; max-height: calc(100dvh - 48px); overflow-y: auto; padding: 30px 22px 50px; border: 3px dashed #f66; background: #fff; text-align: center; }
-.consultation-close { position: fixed; z-index: 1001; top: 0; right: 10px; width: 34px; height: 28px; padding: 0; border: 0; color: #fff; background: transparent; font-size: 32px; line-height: 1; cursor: pointer; }
-.consultation-modal h2 { margin: 0 0 4px; color: var(--blue); font-size: 20px; line-height: 1.5; }
-.consultation-subtitle { margin: 0 0 8px; color: var(--blue); font-size: 18px; }
-.consultation-form { display: grid; gap: 22px; text-align: left; }
-.consultation-form input, .consultation-form textarea { width: 100%; min-height: 50px; padding: 11px 13px; border: 1px solid #d9dfe4; border-radius: 4px; color: var(--ink); background: #fff; font-size: 14px; }
-.consultation-form textarea { min-height: 120px; resize: vertical; }
-.consultation-form .button { justify-self: start; min-height: 45px; padding-inline: 20px; }
-.consultation-form .form-status:empty { display: none; }
 
 .faq { min-height: 0; background: #fff; }
 .faq .section-title { margin-bottom: 26px; }
@@ -380,7 +395,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (max-width: 760px) {
-  .quick-link span { position: absolute; left: 58px; display: none; }
+  .quick-link span { position: absolute; right: 54px; display: none; }
+  .quick-link { width: 46px; height: 46px; }
+  .quick-link img { width: 24px; height: 24px; }
+  .quick-link-zalo img { width: 40px; height: 40px; }
   .quick-link:focus-visible span { display: block; }
 
   body { font-size: 16px; }
@@ -391,7 +409,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .topline { font-size: 12px; }
   .topline-inner { min-height: 32px; justify-content: center; }
   .topline-actions { display: none !important; }
-  .nav-phone img { width: 36px; height: 36px; }
+  .nav-phone img { width: 40px; height: 40px; }
   .hero-inner { grid-template-columns: 1fr; gap: 26px; padding-block: 32px 36px; }
   .hero-eyebrow { font-size: 11px; }
   .hero h1 { font-size: 25px; }
@@ -425,14 +443,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .about-contact .button-row .button { flex: 1 1 100%; }
   .mega-grid { grid-template-columns: 1fr; gap: 12px; }
   .primary-nav .mega-col li a { padding-block: 5px; }
-  .consultation-overlay { padding: 15px; }
-  .consultation-modal { max-height: calc(100dvh - 30px); padding: 29px 22px 70px; }
-  .consultation-modal h2 { font-size: 16px; }
-  .consultation-subtitle { margin-bottom: 8px; font-size: 16px; }
-  .consultation-form { gap: 22px; }
-  .consultation-form input { min-height: 50px; }
-  .consultation-form textarea { min-height: 120px; }
-  .consultation-form .button { justify-self: start; min-width: 0; min-height: 48px; padding-inline: 30px; }
   .callout { min-height: 0; padding-block: 39px; }
   .callout p { font-size: 17px; line-height: 1.55; text-wrap: pretty; }
   .callout-button { min-width: 0; flex: 1 1 140px; padding-inline: 14px; }
@@ -469,7 +479,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
   .footer-grid h2 { font-size: 15px; }
   .footer-grid p, .footer-grid li { font-size: 13px; }
-  .copyright { min-height: 45px; font-size: 11px; }
+  /* Vùng chạm tối thiểu 40px cho link chân trang trên mobile. */
+  .footer-grid li { padding: 0; }
+  .footer-grid li a { display: inline-flex; align-items: center; min-height: 40px; }
+  .copyright { min-height: 45px; font-size: 13px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

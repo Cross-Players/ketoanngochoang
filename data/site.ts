@@ -1,6 +1,8 @@
 export interface NavigationLink {
   label: string;
   href: string;
+  /** Hiển thị dạng nút cam nổi bật trên thanh menu. */
+  cta?: boolean;
 }
 export interface Service {
   /** Anchor id of the card on the home page (used by the Dịch vụ mega menu). */
@@ -67,7 +69,6 @@ export const ROUTES = {
   home: "/",
   about: "/gioi-thieu/",
   services: "/#dich-vu",
-  startup: "/#thanh-lap",
   contact: "/#lien-he",
 } as const;
 
@@ -75,7 +76,8 @@ export const NAVIGATION: readonly NavigationLink[] = [
   { label: "Trang chủ", href: ROUTES.home },
   { label: "Giới thiệu", href: ROUTES.about },
   { label: "Dịch vụ", href: ROUTES.services },
-  { label: "Tư Vấn Lập Công Ty", href: ROUTES.startup },
+  // Nút CTA dẫn thẳng tới form tư vấn (trước đây nhảy tới dải CTA xanh, gây hiểu nhầm).
+  { label: "Tư Vấn Lập Công Ty", href: ROUTES.contact, cta: true },
   { label: "Chia sẻ", href: "/#co-hoi-moi" },
   { label: "Hỏi đáp", href: "/#faq" },
   { label: "Liên hệ", href: ROUTES.contact },

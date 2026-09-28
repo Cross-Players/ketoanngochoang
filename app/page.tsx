@@ -1,7 +1,6 @@
 import { AboutTeaser } from "@/components/AboutTeaser";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { CalloutSection } from "@/components/CalloutSection";
-import { ConsultationModal } from "@/components/ConsultationModal";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -127,7 +126,6 @@ export default function HomePage() {
       </main>
       <Footer />
       <QuickContact />
-      <ConsultationModal />
     </>
   );
 }

@@ -114,7 +114,7 @@ export function Header() {
                     </li>
                   );
                 }
-                const cta = item.href === ROUTES.startup;
+                const cta = Boolean(item.cta);
                 return (
                   <li key={item.label} className={`nav-item${cta ? " nav-item-cta" : ""}`}>
                     <Link href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined} onClick={closeAll}>{item.label}</Link>
