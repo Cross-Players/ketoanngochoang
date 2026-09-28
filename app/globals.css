@@ -230,7 +230,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .workflow-grid > .workflow-card:nth-child(4n + 4) { --step-accent: #2a7f7f; }
 .workflow-image { position: relative; display: block; width: 100%; aspect-ratio: 299 / 443; overflow: hidden; background: #fff; }
 .workflow-image::before { position: absolute; inset: 0 0 auto; height: 27%; background: var(--step-accent); content: ""; }
-.workflow-number { position: absolute; z-index: 1; inset: 0 0 auto; height: 27%; display: grid; place-items: center; color: #fff; font-size: clamp(32px, 3vw, 48px); font-weight: 700; line-height: 1; }
+.workflow-number { position: absolute; z-index: 1; inset: 0 0 auto; height: 27%; display: grid; place-items: center; color: var(--step-ink); font-size: clamp(32px, 3vw, 48px); font-weight: 700; line-height: 1; }
 .workflow-image img { position: absolute; inset: 27% 0 auto; display: block; width: 100%; height: 73%; object-fit: cover; object-position: center bottom; }
 .workflow-grid p { flex: 1 0 auto; }
 .workflow-grid .workflow-more { align-self: center; min-height: 40px; margin: 6px auto 20px; padding: 6px 24px; border-radius: 2px; color: var(--step-ink); background: var(--step-accent); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; transition: color .18s ease, background-color .18s ease; }
