@@ -8,6 +8,7 @@ import { useEffect } from "react";
  *
  * - Tăng cường dần: HTML tĩnh luôn hiển thị đầy đủ; chỉ khi JS chạy mới ẩn tạm các phần tử
  *   còn NẰM DƯỚI màn hình (phần tử đang thấy thì giữ nguyên, không nháy).
+ * - Thẻ quy trình 01–04: so le đúng thứ tự DOM (desktop cả hàng cùng vào → 01,02,03,04; mobile từng thẻ khi vào).
  * - Chỉ dùng opacity/transform nên không gây dịch chuyển bố cục (CLS ≈ 0).
  * - prefers-reduced-motion: reduce → không làm gì cả.
  * - Số bước quy trình (01–04) đếm lên nhẹ khi thẻ xuất hiện.
@@ -70,10 +71,21 @@ export function RevealOnScroll() {
       (entries) => {
         // So le theo từng lượt xuất hiện: các phần tử anh em cùng vào màn hình một lúc (vd. một hàng thẻ)
         // lần lượt trễ 0/70/140…ms (tối đa 280ms); phần tử xuất hiện riêng lẻ thì không trễ.
+        // Quan trọng: IntersectionObserver không đảm bảo thứ tự entries theo DOM → sắp xếp lại theo vị trí
+        // trong document để thẻ quy trình luôn 01 → 02 → 03 → 04 trên desktop (cả 4 vào cùng lúc).
+        // Trên mobile mỗi thẻ (hoặc từng cặp) vào riêng thì batch chỉ gồm những thẻ đang intersect.
+        const intersecting = entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => e.target as HTMLElement)
+          .sort((a, b) => {
+            if (a === b) return 0;
+            const pos = a.compareDocumentPosition(b);
+            if (pos & Node.DOCUMENT_POSITION_FOLLOWING) return -1;
+            if (pos & Node.DOCUMENT_POSITION_PRECEDING) return 1;
+            return 0;
+          });
         const batchIndex = new Map<Element, number>();
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          const el = entry.target as HTMLElement;
+        for (const el of intersecting) {
           observer.unobserve(el);
           const parent = el.parentElement ?? document.body;
           const index = batchIndex.get(parent) ?? 0;
