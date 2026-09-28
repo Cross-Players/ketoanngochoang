@@ -107,8 +107,22 @@ export default function AboutPage() {
               {ABOUT_WHY_LIST.map((item) => <li key={item}>{item}</li>)}
               <li>
                 {ABOUT_BENEFITS_LEAD}
-                <ul className="about-sublist">
-                  {ABOUT_BENEFITS.map((item) => <li key={item}>{item}</li>)}
+                {/* 4 quyền lợi được làm nổi bật: in đậm toàn đoạn, cụm dẫn trước dấu ":" tô xanh, icon check, nền nhạt.
+                    Câu chữ giữ nguyên văn bản Word (chỉ tách phần trước/sau dấu ":" để tô màu). */}
+                <ul className="about-benefits">
+                  {ABOUT_BENEFITS.map((item) => {
+                    const colon = item.indexOf(":");
+                    return (
+                      <li key={item}>
+                        {colon > 0 ? (
+                          <>
+                            <span className="about-benefits-lead">{item.slice(0, colon + 1)}</span>
+                            {item.slice(colon + 1)}
+                          </>
+                        ) : item}
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
             </ul>

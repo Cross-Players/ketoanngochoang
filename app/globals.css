@@ -380,8 +380,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .about-list { margin: 0 0 14px; padding-left: 22px; }
 .about-list > li { margin-bottom: 8px; line-height: 1.7; }
 .about-list > li::marker { color: var(--orange); }
-.about-sublist { margin: 10px 0 4px; padding: 14px 18px 6px 34px; border-radius: 6px; background: #f7f9fc; }
-.about-sublist li { margin-bottom: 8px; line-height: 1.7; }
+/* Quyền lợi khách hàng: khối nền xanh nhạt, mỗi đoạn in đậm với icon check (vẽ bằng CSS). */
+.about-benefits { display: grid; gap: 14px; margin: 12px 0 6px; padding: 20px 22px; border-radius: 8px; background: #eef5fc; list-style: none; }
+.about-benefits li { position: relative; padding-left: 36px; color: var(--blue-dark); font-weight: 700; line-height: 1.7; }
+.about-benefits li::before { content: ""; position: absolute; left: 0; top: .2em; width: 24px; height: 24px; border-radius: 50%; background: var(--blue); }
+.about-benefits li::after { content: ""; position: absolute; left: 9px; top: calc(.2em + 6px); width: 6px; height: 11px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.about-benefits-lead { color: var(--blue); }
 .about-list-check { padding-left: 0; list-style: none; }
 .about-list-check > li { position: relative; padding-left: 30px; }
 .about-list-check > li::before { content: "✓"; position: absolute; left: 0; top: 3px; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 12px; font-weight: 700; line-height: 1; }
@@ -495,7 +499,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .about-intro h2 { font-size: 22px; }
   .about-intro p, .about-body p { font-size: 15px; line-height: 1.7; }
   .about-body h2 { margin-top: 26px; font-size: 19px; }
-  .about-sublist { padding: 12px 12px 4px 26px; }
+  .about-benefits { padding: 16px 14px; gap: 12px; }
+  .about-benefits li { padding-left: 32px; font-size: 15px; }
   .about-contact { padding: 18px 16px; }
   .about-contact .button-row .button { flex: 1 1 100%; }
   .mega-grid { grid-template-columns: 1fr; gap: 0; }
