@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ConsultationModal } from "@/components/ConsultationModal";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -138,7 +137,6 @@ export default function AboutPage() {
       </main>
       <Footer />
       <QuickContact />
-      <ConsultationModal />
     </>
   );
 }
