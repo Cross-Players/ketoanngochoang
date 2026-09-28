@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { COMPANY } from "@/data/site";
 import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
@@ -68,6 +69,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className={quicksand.variable}>
         <a className="skip-link" href="#main">Bỏ qua điều hướng</a>
         {children}
+        <RevealOnScroll />
       </body>
     </html>
   );

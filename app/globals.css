@@ -228,8 +228,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .workflow { min-height: 0; }
 .workflow .section-title, .news .section-title { margin-bottom: 31px; }
 .workflow-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 15px; }
-.workflow-grid > .workflow-card { --step-accent: var(--blue); --step-ink: #fff; display: flex; flex-direction: column; text-align: center; background: #f1f1f1; box-shadow: 0 3px 6px -4px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%); transition: box-shadow .18s ease; }
-.workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { box-shadow: 0 5px 12px rgb(16 57 95 / 16%); }
+.workflow-grid > .workflow-card { --step-accent: var(--blue); --step-ink: #fff; display: flex; flex-direction: column; text-align: center; background: #f1f1f1; box-shadow: 0 3px 6px -4px rgb(0 0 0 / 16%), 0 3px 6px rgb(0 0 0 / 23%); transition: box-shadow .2s ease, transform .2s ease; }
+.workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { box-shadow: 0 10px 20px rgb(16 57 95 / 16%); transform: translateY(-3px); }
 /* Màu nút theo khối số của từng thẻ (đậm hơn một chút để chữ đủ tương phản). */
 .workflow-grid > .workflow-card:nth-child(4n + 1) { --step-accent: #c62f4b; }
 .workflow-grid > .workflow-card:nth-child(4n + 2) { --step-accent: #1a6fb3; }
@@ -237,7 +237,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .workflow-grid > .workflow-card:nth-child(4n + 4) { --step-accent: #2a7f7f; }
 .workflow-image { position: relative; display: block; width: 100%; aspect-ratio: 299 / 443; overflow: hidden; background: #fff; }
 .workflow-image::before { position: absolute; inset: 0 0 auto; height: 27%; background: var(--step-accent); content: ""; }
-.workflow-number { position: absolute; z-index: 1; inset: 0 0 auto; height: 27%; display: grid; place-items: center; color: var(--step-ink); font-size: clamp(32px, 3vw, 48px); font-weight: 700; line-height: 1; }
+.workflow-number { position: absolute; z-index: 1; inset: 0 0 auto; height: 27%; display: grid; place-items: center; color: var(--step-ink); font-size: clamp(32px, 3vw, 48px); font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
 /* Icon (160px, cùng tỉ lệ với ảnh thẻ cũ) canh giữa cả ngang lẫn dọc trong vùng trắng bên dưới dải số. */
 .workflow-image img { position: absolute; top: 27%; bottom: 0; left: 0; right: 0; display: block; width: 40.6%; height: auto; aspect-ratio: 1; margin: auto; object-fit: contain; }
 .workflow-grid p { flex: 1 0 auto; }
@@ -547,7 +547,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .copyright { min-height: 45px; font-size: 13px; }
 }
 
+/* Hiệu ứng xuất hiện khi cuộn (RevealOnScroll): chỉ opacity + transform, 560ms ease-out, so le tối đa 280ms.
+   Lớp .reveal-pending chỉ được JS gắn cho phần tử còn nằm dưới màn hình → không JS vẫn thấy đủ nội dung. */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal-pending { opacity: 0; transform: translateY(14px); }
+  .reveal-pending.is-revealed { opacity: 1; transform: none; transition: opacity .56s cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms), transform .56s cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms); }
+}
+@media print { .reveal-pending { opacity: 1 !important; transform: none !important; } }
+
 @media (prefers-reduced-motion: reduce) {
+  .workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { transform: none; }
   :root { scroll-behavior: auto; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
   .quick-contact .quick-link::before,
