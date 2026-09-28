@@ -101,7 +101,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .nav-item-services { position: static; }
 .mega-menu { position: absolute; z-index: 60; top: 100%; left: 0; right: 0; visibility: hidden; opacity: 0; transform: translateY(8px); border-top: 3px solid var(--orange); background: #fff; box-shadow: 0 16px 30px rgb(22 47 83 / 16%); transition: opacity .15s ease, transform .15s ease, visibility 0s linear .15s; }
 .nav-item-services:hover .mega-menu,
-.nav-item-services:focus-within .mega-menu,
+/* Chỉ mở theo focus khi dùng bàn phím (:focus-visible) – tránh panel bị "kẹt" mở sau khi bấm chuột. */
+.nav-item-services:has(:focus-visible) .mega-menu,
 .nav-item-services.is-open .mega-menu { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 .mega-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 22px; padding-block: 24px 26px; }
 .mega-col { min-width: 0; }
