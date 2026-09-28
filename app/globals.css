@@ -409,7 +409,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .topline { font-size: 12px; }
   .topline-inner { min-height: 32px; justify-content: center; }
   .topline-actions { display: none !important; }
-  .nav-phone img { width: 36px; height: 36px; }
+  .nav-phone img { width: 40px; height: 40px; }
   .hero-inner { grid-template-columns: 1fr; gap: 26px; padding-block: 32px 36px; }
   .hero-eyebrow { font-size: 11px; }
   .hero h1 { font-size: 25px; }
@@ -479,6 +479,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; }
   .footer-grid h2 { font-size: 15px; }
   .footer-grid p, .footer-grid li { font-size: 13px; }
+  /* Vùng chạm tối thiểu 40px cho link chân trang trên mobile. */
+  .footer-grid li { padding: 0; }
+  .footer-grid li a { display: inline-flex; align-items: center; min-height: 40px; }
   .copyright { min-height: 45px; font-size: 11px; }
 }
 
