@@ -58,10 +58,10 @@ export const COMPANY = {
   shortName: "Ngọc Hoàng",
   taxId: "0402357190",
   foundingDate: "2026-09-21",
-  street: "Thôn Phước Khương",
+  street: "Thôn Phú Hòa",
   ward: "Xã Bà Nà",
   region: "Đà Nẵng",
-  address: "Thôn Phước Khương, xã Bà Nà",
+  address: "Thôn Phú Hòa, xã Bà Nà",
   city: "Thành phố Đà Nẵng",
   phoneE164: "+84963548333",
   phone: "0963 548 333",
@@ -294,7 +294,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: "Ngọc Hoàng hỗ trợ khách hàng ở khu vực nào?",
     answer:
-      "Ngọc Hoàng có địa chỉ tại Thôn Phước Khương, xã Bà Nà, thành phố Đà Nẵng và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
+      "Ngọc Hoàng có địa chỉ tại Thôn Phú Hòa, xã Bà Nà, thành phố Đà Nẵng và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
   },
   {
     question: "Làm sao tự tra cứu quá trình đóng BHXH và thẻ BHYT?",
