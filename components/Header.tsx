@@ -71,8 +71,9 @@ export function Header() {
           <Link className="brand" href={ROUTES.home} aria-label="Ngọc Hoàng — Trang chủ" onClick={closeAll}>
             <img src={getPublicAssetPath("/logo-ngoc-hoang-256.png")} width="256" height="256" alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" />
             <span className="brand-text">
+              {/* Tên pháp nhân đầy đủ: "CÔNG TY TNHH TƯ VẤN & DỊCH VỤ" trên, "NGỌC HOÀNG" dưới. */}
+              <span className="brand-sub">CÔNG TY TNHH TƯ VẤN &amp; DỊCH VỤ</span>
               <span className="brand-name">NGỌC HOÀNG</span>
-              <span className="brand-sub">Tư vấn &amp; Dịch vụ</span>
             </span>
           </Link>
           <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} id="primary-nav" aria-label="Điều hướng chính">

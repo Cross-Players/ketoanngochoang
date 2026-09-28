@@ -83,9 +83,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .nav-row { min-height: 84px; display: flex; align-items: center; gap: 20px; }
 .brand { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; }
 .brand img { width: 64px; aspect-ratio: 1; object-fit: contain; }
-.brand-text { display: grid; line-height: 1.15; }
-.brand-name { color: var(--blue); font-size: 20px; font-weight: 700; letter-spacing: .02em; }
-.brand-sub { color: var(--orange); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.brand-text { display: grid; gap: 1px; line-height: 1.2; }
+.brand-sub { color: var(--orange); font-size: 12px; font-weight: 700; letter-spacing: .04em; white-space: nowrap; }
+.brand-name { color: var(--blue); font-size: 21px; font-weight: 700; letter-spacing: .02em; line-height: 1.1; }
 .primary-nav { margin-left: auto; }
 .nav-list { display: flex; align-items: center; gap: 2px; padding: 0; margin: 0; list-style: none; }
 .nav-item { position: relative; }
@@ -144,10 +144,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero::after { content: ""; position: absolute; right: -120px; bottom: -160px; width: 460px; height: 460px; border-radius: 50%; background: rgb(244 119 33 / 18%); pointer-events: none; }
 .hero-inner { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); align-items: center; gap: 44px; padding-block: 58px 64px; }
 .hero-content { min-width: 0; }
-.hero-eyebrow { display: inline-block; margin: 0 0 14px; padding: 5px 12px; border-left: 3px solid var(--orange); background: rgb(255 255 255 / 10%); color: #dce9f7; font-size: 13px; font-weight: 700; letter-spacing: .03em; }
-.hero h1 { margin: 0 0 12px; color: #fff; font-size: clamp(28px, 3.2vw, 42px); font-weight: 700; line-height: 1.22; }
-.hero-tagline { margin: 0 0 12px; color: #ffd24d; font-size: clamp(18px, 1.8vw, 22px); font-weight: 700; line-height: 1.4; }
-.hero-sub { max-width: 54ch; margin: 0 0 26px; color: #e6eff9; font-size: 16px; line-height: 1.65; }
+.hero h1 { margin: 0 0 12px; color: #fff; font-size: clamp(28px, 3.2vw, 42px); font-weight: 700; line-height: 1.22; text-wrap: balance; }
+.hero-tagline { margin: 0 0 26px; color: #ffd24d; font-size: clamp(18px, 1.8vw, 22px); font-weight: 700; line-height: 1.4; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 26px; }
 .hero-cta { min-height: 50px; padding-inline: 30px; border-radius: 4px; color: #fff; font-size: 16px; text-transform: uppercase; box-shadow: 0 6px 16px rgb(0 0 0 / 18%); }
 .hero-cta:hover { color: #fff; }
@@ -360,15 +358,22 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 @media (max-width: 1240px) {
   .nav-phone span { display: none; }
-  .brand-text { display: none; }
+  /* 1061–1240px: giữ chữ thương hiệu cạnh logo, thu nhỏ logo/chữ và khoảng đệm menu để vừa một hàng. */
+  .brand img { width: 56px; }
+  .brand-sub { font-size: 11px; letter-spacing: .02em; }
+  .brand-name { font-size: 19px; }
+  .primary-nav a { padding-inline: 9px; }
 }
 
 @media (max-width: 1060px) {
   .topline-address { display: none; }
   .nav-row { position: relative; min-height: 72px; justify-content: space-between; gap: 12px; }
-  .brand { position: absolute; left: 50%; transform: translateX(-50%); }
-  .brand img { width: 56px; }
-  .brand-text { display: none; }
+  /* Logo + chữ thương hiệu nằm giữa nút menu (trái) và nút gọi (phải). */
+  .nav-row { gap: 8px; }
+  .brand { min-width: 0; flex: 0 1 auto; margin-inline: auto; gap: 8px; }
+  .brand img { width: 48px; flex: 0 0 auto; }
+  .brand-text { min-width: 0; }
+  .brand-name { font-size: 18px; }
   .menu-toggle { width: 48px; height: 48px; display: grid; place-items: center; padding: 7px; border: 0; background: transparent; cursor: pointer; }
   .menu-icon { width: 24px; display: grid; gap: 5px; }
   .menu-icon i { height: 2px; border-radius: 2px; background: var(--blue); transition: transform .15s ease, opacity .15s ease; }
@@ -414,11 +419,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .topline-inner { min-height: 32px; justify-content: center; }
   .topline-actions { display: none !important; }
   .nav-phone img { width: 40px; height: 40px; }
+  /* Header điện thoại: lề 12px để tên công ty đủ chỗ trên tối đa 2 dòng ở 360–390px. */
+  .nav-row { width: calc(100% - 24px); }
+  .primary-nav { left: -12px; right: -12px; }
+  .menu-toggle { width: 44px; height: 44px; padding: 6px; }
+  .brand { gap: 7px; }
+  .brand img { width: 40px; }
+  .brand-sub { font-size: clamp(10.5px, 3.05vw, 12px); letter-spacing: 0; white-space: normal; text-wrap: balance; }
+  .brand-name { font-size: clamp(15px, 4.6vw, 18px); }
   .hero-inner { grid-template-columns: 1fr; gap: 26px; padding-block: 32px 36px; }
-  .hero-eyebrow { font-size: 11px; }
   .hero h1 { font-size: 25px; }
   .hero-tagline { font-size: 17px; }
-  .hero-sub { font-size: 15px; margin-bottom: 20px; }
+  .hero-tagline { margin-bottom: 20px; }
   .hero-actions { gap: 14px 18px; }
   .hero-cta { width: 100%; }
   .hero-image { border-width: 4px; }

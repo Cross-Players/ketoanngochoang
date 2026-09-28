@@ -7,10 +7,8 @@ export function Hero() {
     <section className="hero" aria-labelledby="hero-title">
       <div className="container hero-inner">
         <div className="hero-content">
-          <p className="hero-eyebrow">{COMPANY.name}</p>
-          <h1 id="hero-title">Dịch vụ bảo hiểm xã hội (BHXH) và kế toán tại Đà Nẵng – Ngọc Hoàng</h1>
+          <h1 id="hero-title">Dịch vụ BHXH và kế toán tại Đà Nẵng – Ngọc Hoàng</h1>
           <p className="hero-tagline">Điểm tựa cho khởi đầu – Hài hòa cùng thịnh vượng</p>
-          <p className="hero-sub">Hỗ trợ BHXH doanh nghiệp, BHXH tự nguyện, BHYT hộ gia đình, thành lập doanh nghiệp và kế toán thuế.</p>
           <div className="hero-actions">
             <Link className="button button-orange hero-cta" href={ROUTES.contact}>Tư vấn ngay</Link>
             <a className="hero-phone" href={COMPANY.hotlineHref}>
