@@ -260,7 +260,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-cert { width: 70px; height: 70px; object-fit: contain; }
 .copyright { min-height: 53px; display: flex; align-items: center; border-top: 1px solid rgb(255 255 255 / 14%); background: #102643; color: #dfe8f3; font-size: 12px; }
 .copyright strong { margin-left: 3px; }
-.quick-contact { position: fixed; z-index: 1002; left: max(12px, env(safe-area-inset-left)); bottom: max(12px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
+/* Góc phải dưới: chữ canh trái nên đặt bên trái sẽ che đầu dòng, icon và nút gửi form. */
+.quick-contact { position: fixed; z-index: 1002; right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 10px; }
 .quick-link { position: relative; width: 52px; height: 52px; display: grid; place-items: center; overflow: visible; border: 2px solid #fff; border-radius: 50%; color: #fff; background: rgb(var(--qc)); box-shadow: 0 2px 8px rgb(0 0 0 / 18%); }
 .quick-link::before, .quick-link::after { position: absolute; z-index: -1; inset: -2px; border-radius: 50%; background: rgb(var(--qc) / 55%); content: ""; pointer-events: none; animation: qc-ripple 1.8s ease-out infinite; }
 .quick-link::after { animation-delay: .9s; }
@@ -274,7 +275,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .quick-link:focus-visible { outline: 3px solid #f3a02c; outline-offset: 3px; }
 .quick-link span {
   position: absolute;
-  left: calc(100% + 8px);
+  right: calc(100% + 8px);
   width: 1px;
   height: 1px;
   overflow: hidden;
@@ -403,7 +404,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 
 @media (max-width: 760px) {
-  .quick-link span { position: absolute; left: 58px; display: none; }
+  .quick-link span { position: absolute; right: 54px; display: none; }
+  .quick-link { width: 46px; height: 46px; }
+  .quick-link img { width: 24px; height: 24px; }
+  .quick-link-zalo img { width: 40px; height: 40px; }
   .quick-link:focus-visible span { display: block; }
 
   body { font-size: 16px; }
