@@ -73,7 +73,7 @@ export const COMPANY = {
 } as const;
 
 /** Ngày cập nhật nội dung gần nhất, dùng cho lastModified trong sitemap. */
-export const CONTENT_UPDATED_AT = "2026-09-28";
+export const CONTENT_UPDATED_AT = "2026-09-29";
 
 /** Internal routes (Next.js adds the GitHub Pages basePath automatically). */
 export const ROUTES = {
@@ -101,12 +101,9 @@ export const SERVICES: readonly Service[] = [
     slug: "dv-bhxh",
     title: "Dịch vụ BHXH",
     image: "/assets/employee-300x300-b0d92d6c.png",
-    alt: "Biểu tượng người lao động – dịch vụ BHXH và BHYT tại Đà Nẵng",
+    alt: "Biểu tượng người lao động",
     subServices: [
-      "Báo tăng, báo giảm lao động BHXH cho doanh nghiệp",
       "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động",
-      "Hồ sơ hưởng các chế độ BHXH",
-      "Điều chỉnh thông tin, cấp lại sổ BHXH",
     ],
   },
   {
@@ -166,7 +163,6 @@ export const SERVICES: readonly Service[] = [
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
     subServices: [
       "Chữ ký số, hóa đơn điện tử (đối tác Viettel)",
-      "Phần mềm kê khai BHXH (đối tác Viettel)",
       "Bảng hiệu và dấu tên",
       "Thành lập tài khoản ngân hàng số đẹp (đối tác Techcombank)",
     ],
@@ -261,45 +257,25 @@ export const NEWS_ITEMS: readonly NewsItem[] = [
   {
     title: "Quy định về hưởng chế độ ốm đau đối với người lao động",
     image: "/assets/che-do-om-dau-500x281-49bc54a6.jpg",
-    alt: "Người lao động bị ốm tại văn phòng – minh họa chế độ ốm đau BHXH",
+    alt: "Người lao động bị ốm tại văn phòng – minh họa chế độ ốm đau",
   },
   {
     title: "Quy định về trợ cấp mất việc làm",
     image: "/assets/tro-cap-mat-viec-500x281-74822570.jpg",
     alt: "Ký văn bản chấm dứt hợp đồng – minh họa trợ cấp mất việc làm",
   },
-  {
-    title: "Các khoản phụ cấp tính đóng và không tính đóng BHXH 2026",
-    image: "/assets/pc-dong-bhxh-500x281-86540f91.jpg",
-    alt: "Bàn tay che chở mô hình gia đình – minh họa phụ cấp tính đóng BHXH",
-  },
 ];
 
 export const FAQ_ITEMS: readonly FaqItem[] = [
   {
-    question: "Ngọc Hoàng hỗ trợ những thủ tục BHXH nào tại Đà Nẵng?",
-    answer:
-      "Ngọc Hoàng hỗ trợ doanh nghiệp đăng ký tham gia, báo tăng, báo giảm lao động BHXH; hướng dẫn hồ sơ hưởng các chế độ BHXH và thủ tục điều chỉnh thông tin, cấp lại sổ BHXH.",
-  },
-  {
     question: "Ngọc Hoàng phục vụ cá nhân hay doanh nghiệp?",
     answer:
-      "Ngọc Hoàng tư vấn cho cả cá nhân, hộ gia đình và doanh nghiệp. Với doanh nghiệp, dịch vụ BHXH có thể kết hợp cùng thành lập doanh nghiệp, kế toán thuế và tính lương.",
-  },
-  {
-    question: "Cần chuẩn bị giấy tờ gì khi làm thủ tục BHXH, BHYT?",
-    answer:
-      "Hồ sơ tùy thuộc vào từng thủ tục. Thông thường cần căn cước công dân và mã số BHXH (nếu đã có); với doanh nghiệp cần thêm thông tin đăng ký doanh nghiệp, danh sách và hợp đồng lao động. Ngọc Hoàng sẽ gửi danh sách hồ sơ cụ thể sau khi nắm rõ trường hợp của bạn.",
+      "Ngọc Hoàng tư vấn cho cả cá nhân, hộ gia đình và doanh nghiệp.",
   },
   {
     question: "Ngọc Hoàng hỗ trợ khách hàng ở khu vực nào?",
     answer:
       "Ngọc Hoàng có địa chỉ tại Thôn Phú Hòa, xã Bà Nà, thành phố Đà Nẵng và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
-  },
-  {
-    question: "Làm sao tự tra cứu quá trình đóng BHXH và thẻ BHYT?",
-    answer:
-      "Bạn có thể tra cứu trên Cổng thông tin điện tử BHXH Việt Nam (baohiemxahoi.gov.vn) hoặc ứng dụng VssID – Bảo hiểm xã hội số. Nếu thông tin chưa khớp, Ngọc Hoàng có thể hướng dẫn thủ tục điều chỉnh.",
   },
   {
     question: "Chi phí dịch vụ được tính như thế nào?",
@@ -312,7 +288,6 @@ export const FOOTER_LINK_GROUPS = [
   {
     title: "Dịch vụ",
     links: [
-      ["Dịch vụ BHXH, BHYT", "/#dv-bhxh"],
       ["Tư vấn thành lập doanh nghiệp", "/#dv-phap-ly"],
       ["Dịch vụ Thuế", "/#dv-thue"],
       ["Dịch vụ Kế toán", "/#dv-ke-toan"],

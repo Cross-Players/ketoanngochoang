@@ -57,7 +57,7 @@ const businessNode = {
     areaServed: "VN",
     availableLanguage: ["vi"],
   },
-  knowsAbout: ["Bảo hiểm xã hội", "Bảo hiểm y tế", "Thành lập doanh nghiệp", "Kế toán thuế"],
+  knowsAbout: ["Thành lập doanh nghiệp", "Kế toán thuế"],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Dịch vụ của Ngọc Hoàng",
