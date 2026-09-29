@@ -1,98 +1,56 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BenefitList } from "@/components/BenefitList";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactSection } from "@/components/ContactSection";
+import { FaqList } from "@/components/FaqList";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { JsonLd } from "@/components/JsonLd";
 import { QuickContact } from "@/components/QuickContact";
-import { BENEFITS, COMPANY, ROUTES, WORKFLOW_STEPS } from "@/data/site";
-import { SERVICE_PAGES, TEAM_NOTE, type ServicePage } from "@/data/services";
-import { getPublicAssetPath } from "@/lib/site-paths";
-import { pageMetadata } from "@/lib/seo";
-import { getSiteUrl } from "@/lib/site-url";
+import { COMPANY, ROUTES, WORKFLOW_STEPS } from "@/data/site";
+import { TEAM_NOTE, getServicePage, type ServicePage } from "@/data/services";
+import { AREA_SERVED, absoluteUrl, faqPageNode, organizationRef, pageMetadata, routeToPath } from "@/lib/seo";
+import { sentenceCase } from "@/lib/text";
+
+const FAQ_ANCHOR = "hoi-dap";
+
+function pagePath(page: ServicePage): string {
+  return routeToPath(ROUTES.detail(page.slug));
+}
 
 export function serviceMetadata(page: ServicePage): Metadata {
-  return pageMetadata({ path: `${page.slug}/`, title: page.metaTitle, description: page.metaDescription });
+  return pageMetadata({ path: pagePath(page), title: page.metaTitle, description: page.metaDescription });
 }
 
-function titleCase(text: string) {
-  return text.charAt(0) + text.slice(1).toLocaleLowerCase("vi");
-}
-
-function jsonLd(page: ServicePage): string {
-  const siteUrl = getSiteUrl();
-  const base = siteUrl?.toString();
-  const pageUrl = siteUrl ? new URL(`${page.slug}/`, siteUrl).toString() : undefined;
-  const provider = {
-    "@type": "ProfessionalService",
-    ...(base ? { "@id": `${base}#organization`, url: base } : {}),
-    name: COMPANY.name,
-    telephone: COMPANY.phoneE164,
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: COMPANY.street,
-      addressLocality: COMPANY.ward,
-      addressRegion: COMPANY.region,
-      addressCountry: "VN",
-    },
+function serviceNode(page: ServicePage) {
+  const url = absoluteUrl(pagePath(page));
+  return {
+    "@type": "Service",
+    ...(url ? { "@id": `${url}#service`, url } : {}),
+    name: page.h1,
+    serviceType: page.name,
+    description: page.summary,
+    inLanguage: "vi-VN",
+    areaServed: AREA_SERVED,
+    provider: organizationRef(),
   };
-  const graph = [
-    {
-      "@type": "Service",
-      ...(pageUrl ? { "@id": `${pageUrl}#service`, url: pageUrl } : {}),
-      name: page.h1,
-      serviceType: page.name,
-      description: page.summary,
-      inLanguage: "vi-VN",
-      areaServed: { "@type": "City", name: COMPANY.region },
-      provider,
-    },
-    {
-      "@type": "BreadcrumbList",
-      itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Trang chủ", ...(base ? { item: base } : {}) },
-        { "@type": "ListItem", position: 2, name: page.name, ...(pageUrl ? { item: pageUrl } : {}) },
-      ],
-    },
-    {
-      "@type": "FAQPage",
-      ...(pageUrl ? { "@id": `${pageUrl}#hoi-dap`, url: `${pageUrl}#hoi-dap` } : {}),
-      inLanguage: "vi-VN",
-      mainEntity: page.faq.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: { "@type": "Answer", text: item.answer },
-      })),
-    },
-  ];
-  return JSON.stringify({ "@context": "https://schema.org", "@graph": graph })
-    .replace(/</g, "\\u003c")
-    .replace(/>/g, "\\u003e")
-    .replace(/&/g, "\\u0026")
-    .replace(/\u2028/g, "\\u2028")
-    .replace(/\u2029/g, "\\u2029");
 }
-
-const TICK = "/assets/tick-1-300x300-c2a0320a.png";
 
 export function ServiceDetailPage({ page }: { page: ServicePage }) {
-  const related = page.related
-    .map((slug) => SERVICE_PAGES.find((item) => item.slug === slug))
-    .filter((item): item is ServicePage => Boolean(item));
+  const related = page.related.map((slug) => getServicePage(slug)).filter((item): item is ServicePage => Boolean(item));
 
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(page) }} />
+      <JsonLd nodes={[serviceNode(page), faqPageNode(page.faq, pagePath(page), FAQ_ANCHOR)]} />
       <Header />
-      <main id="main" className="svc-page">
+      <main id="main">
         <section className="page-banner svc-banner" aria-labelledby="svc-title">
           <div className="container svc-narrow">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-              <Link href={ROUTES.home}>Trang chủ</Link>
-              <span aria-hidden="true">/</span>
-              <Link href={ROUTES.services}>Dịch vụ</Link>
-              <span aria-hidden="true">/</span>
-              <span aria-current="page">{page.name}</span>
-            </nav>
+            <Breadcrumbs
+              path={pagePath(page)}
+              items={[{ label: "Trang chủ", href: ROUTES.home }, { label: "Dịch vụ", href: ROUTES.services }, { label: page.name }]}
+            />
             <h1 id="svc-title">{page.h1}</h1>
             <p className="svc-lead">{page.lead}</p>
             <div className="button-row svc-banner-actions">
@@ -108,11 +66,11 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
               <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>
             ))}
             <li><a href={`#${page.pricing.id}`}>{page.pricing.title}</a></li>
-            <li><a href="#hoi-dap">Hỏi đáp</a></li>
+            <li><a href={`#${FAQ_ANCHOR}`}>Hỏi đáp</a></li>
           </ul>
         </nav>
 
-        <section className="svc-section svc-intro" aria-labelledby="svc-intro-title">
+        <section className="svc-section" aria-labelledby="svc-intro-title">
           <div className="container svc-narrow">
             <h2 className="svc-h2" id="svc-intro-title">{page.intro.title}</h2>
             {page.intro.paragraphs.map((text) => <p key={text}>{text}</p>)}
@@ -177,9 +135,9 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
             <ol className="svc-steps">
               {WORKFLOW_STEPS.map((step, index) => (
                 <li key={step.slug}>
-                  <Link href={ROUTES.workflow(step.slug)}>
+                  <Link href={ROUTES.detail(step.slug)}>
                     <span className="svc-step-no" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                    <h3>{titleCase(step.title)}</h3>
+                    <h3>{sentenceCase(step.title)}</h3>
                     <p>{step.description}</p>
                   </Link>
                 </li>
@@ -192,17 +150,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
           <div className="container svc-narrow">
             <h2 className="svc-h2" id="svc-why-title">{page.whyTitle}</h2>
             <p>{TEAM_NOTE}</p>
-            <ul className="benefit-list svc-benefits">
-              {BENEFITS.map((benefit) => (
-                <li key={benefit.title}>
-                  <img src={getPublicAssetPath(TICK)} alt="" width="36" height="36" loading="lazy" />
-                  <div>
-                    <h3>{benefit.title}</h3>
-                    <p>{benefit.description}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <BenefitList className="svc-benefits" />
           </div>
         </section>
 
@@ -216,17 +164,10 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
           </div>
         </section>
 
-        <section className="svc-section" id="hoi-dap" aria-labelledby="svc-faq-title">
+        <section className="svc-section" id={FAQ_ANCHOR} aria-labelledby="svc-faq-title">
           <div className="container svc-narrow">
             <h2 className="svc-h2 svc-h2-center" id="svc-faq-title">{page.faqTitle}</h2>
-            <div className="faq-list">
-              {page.faq.map((item) => (
-                <details key={item.question}>
-                  <summary><h3>{item.question}</h3></summary>
-                  <p>{item.answer}</p>
-                </details>
-              ))}
-            </div>
+            <FaqList items={page.faq} />
             <p className="faq-contact">Chưa thấy câu trả lời bạn cần? Gọi <a href={COMPANY.hotlineHref}>{COMPANY.hotline}</a> hoặc <a href="#lien-he">gửi câu hỏi</a> cho Ngọc Hoàng.</p>
           </div>
         </section>
@@ -237,7 +178,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
             <ul className="svc-related">
               {related.map((item) => (
                 <li key={item.slug}>
-                  <Link href={`/${item.slug}/`}>
+                  <Link href={ROUTES.detail(item.slug)}>
                     <h3>{item.name}</h3>
                     <p>{item.summary}</p>
                     <span className="svc-related-more">Xem chi tiết</span>

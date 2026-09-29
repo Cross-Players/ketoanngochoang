@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -24,13 +25,15 @@ import {
 } from "@/data/about";
 import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
-import { pageMetadata } from "@/lib/seo";
+import { pageMetadata, routeToPath } from "@/lib/seo";
 
 const title = "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng";
 const description =
   "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng tại Đà Nẵng – Điểm tựa cho khởi đầu, Hài hòa cùng thịnh vượng. Dịch vụ thuế, kế toán và thành lập doanh nghiệp.";
 
-export const metadata: Metadata = pageMetadata({ path: "gioi-thieu/", title, description });
+const PATH = routeToPath(ROUTES.about);
+
+export const metadata: Metadata = pageMetadata({ path: PATH, title, description });
 
 function Rich({ text }: { text: RichText }) {
   return (
@@ -49,11 +52,7 @@ export default function AboutPage() {
       <main id="main" className="about-page">
         <section className="page-banner" aria-labelledby="about-title">
           <div className="container">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-              <Link href={ROUTES.home}>Trang chủ</Link>
-              <span aria-hidden="true">/</span>
-              <span aria-current="page">Giới thiệu</span>
-            </nav>
+            <Breadcrumbs path={PATH} items={[{ label: "Trang chủ", href: ROUTES.home }, { label: "Giới thiệu" }]} />
             <h1 id="about-title">Giới thiệu</h1>
           </div>
         </section>

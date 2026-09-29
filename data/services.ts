@@ -758,10 +758,8 @@ export const SERVICE_PAGES: readonly ServicePage[] = [
   },
 ];
 
-export function getServicePage(slug: string): ServicePage {
-  const page = SERVICE_PAGES.find((item) => item.slug === slug);
-  if (!page) throw new Error(`Không tìm thấy trang dịch vụ "${slug}"`);
-  return page;
+export function getServicePage(slug: string): ServicePage | undefined {
+  return SERVICE_PAGES.find((page) => page.slug === slug);
 }
 
 /** Câu giới thiệu đội ngũ dùng ở mục "Vì sao chọn" – "trên 10 năm kinh nghiệm" là của ĐỘI NGŨ, không phải công ty. */

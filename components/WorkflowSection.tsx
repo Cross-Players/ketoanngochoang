@@ -12,7 +12,7 @@ export function WorkflowSection() {
             <Link
               className="workflow-card"
               key={step.slug}
-              href={ROUTES.workflow(step.slug)}
+              href={ROUTES.detail(step.slug)}
               aria-labelledby={`workflow-more-${index} workflow-title-${index}`}
             >
               <span className="workflow-image" aria-hidden="true">

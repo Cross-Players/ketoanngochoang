@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { AboutTeaser } from "@/components/AboutTeaser";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { CalloutSection } from "@/components/CalloutSection";
@@ -11,109 +12,50 @@ import { QuickContact } from "@/components/QuickContact";
 import { ServicesSection } from "@/components/ServicesSection";
 import { WorkflowSection } from "@/components/WorkflowSection";
 import { FaqSection } from "@/components/FaqSection";
-import { COMPANY, FAQ_ITEMS } from "@/data/site";
+import { JsonLd } from "@/components/JsonLd";
+import { FAQ_ITEMS, ROUTES } from "@/data/site";
 import { SERVICE_PAGES } from "@/data/services";
-import { PAGE_DESCRIPTION } from "@/lib/seo";
-import { getSiteUrl } from "@/lib/site-url";
+import {
+  AREA_SERVED,
+  PAGE_DESCRIPTION,
+  PAGE_TITLE,
+  absoluteUrl,
+  faqPageNode,
+  organizationId,
+  organizationNode,
+  pageMetadata,
+  routeToPath,
+  websiteNode,
+} from "@/lib/seo";
 
-const siteUrl = getSiteUrl();
-const siteUrlString = siteUrl?.toString();
-const absolute = (path: string) => (siteUrl ? new URL(path, siteUrl).toString() : undefined);
-const organizationId = siteUrlString ? `${siteUrlString}#organization` : undefined;
+export const metadata: Metadata = pageMetadata({ path: "", title: PAGE_TITLE, description: PAGE_DESCRIPTION, absoluteTitle: true });
 
-const businessNode = {
-  "@type": "ProfessionalService",
-  ...(organizationId ? { "@id": organizationId } : {}),
-  name: COMPANY.name,
-  alternateName: COMPANY.shortName,
-  legalName: COMPANY.name,
-  description: PAGE_DESCRIPTION,
-  taxID: COMPANY.taxId,
-  foundingDate: COMPANY.foundingDate,
-  telephone: COMPANY.phoneE164,
-  ...(siteUrlString ? { url: siteUrlString } : {}),
-  ...(siteUrl
-    ? {
-        logo: {
-          "@type": "ImageObject",
-          url: absolute("logo-ngoc-hoang-512.png"),
-          width: 512,
-          height: 512,
-        },
-        image: [absolute("og-ngoc-hoang.png"), absolute("logo-hero.webp")],
-      }
-    : {}),
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: COMPANY.street,
-    addressLocality: COMPANY.ward,
-    addressRegion: COMPANY.region,
-    addressCountry: "VN",
-  },
-  areaServed: { "@type": "City", name: COMPANY.region },
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: COMPANY.phoneE164,
-    contactType: "customer service",
-    areaServed: "VN",
-    availableLanguage: ["vi"],
-  },
+const providerId = organizationId();
+
+const businessNode = organizationNode({
   knowsAbout: ["Kế toán thuế", "Kế toán doanh nghiệp", "Thành lập doanh nghiệp", "Tính lương"],
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Dịch vụ của Ngọc Hoàng",
-    // Mỗi dịch vụ trỏ tới trang chi tiết riêng (round 6). Không đưa mục bảo hiểm vào schema.
+    // Mỗi dịch vụ trỏ tới trang chi tiết riêng. Không đưa mục bảo hiểm vào schema.
     itemListElement: SERVICE_PAGES.map((page) => ({
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
         name: page.name,
         description: page.summary,
-        ...(siteUrl ? { url: absolute(`${page.slug}/`) } : {}),
-        areaServed: { "@type": "City", name: COMPANY.region },
-        ...(organizationId ? { provider: { "@id": organizationId } } : {}),
+        url: absoluteUrl(routeToPath(ROUTES.detail(page.slug))),
+        areaServed: AREA_SERVED,
+        ...(providerId ? { provider: { "@id": providerId } } : {}),
       },
     })),
   },
-};
-
-const websiteNode = siteUrlString
-  ? {
-      "@type": "WebSite",
-      "@id": `${siteUrlString}#website`,
-      url: siteUrlString,
-      name: COMPANY.shortName,
-      alternateName: COMPANY.name,
-      inLanguage: "vi-VN",
-      publisher: { "@id": organizationId },
-    }
-  : undefined;
-
-const faqNode = {
-  "@type": "FAQPage",
-  ...(siteUrlString ? { "@id": `${siteUrlString}#faq`, url: `${siteUrlString}#faq` } : {}),
-  inLanguage: "vi-VN",
-  mainEntity: FAQ_ITEMS.map((item) => ({
-    "@type": "Question",
-    name: item.question,
-    acceptedAnswer: { "@type": "Answer", text: item.answer },
-  })),
-};
-
-const businessJsonLd = JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [businessNode, ...(websiteNode ? [websiteNode] : []), faqNode],
-})
-  .replace(/</g, "\\u003c")
-  .replace(/>/g, "\\u003e")
-  .replace(/&/g, "\\u0026")
-  .replace(/\u2028/g, "\\u2028")
-  .replace(/\u2029/g, "\\u2029");
+});
 
 export default function HomePage() {
   return (
     <>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: businessJsonLd }} />
+      <JsonLd nodes={[businessNode, websiteNode(), faqPageNode(FAQ_ITEMS, "", "faq")]} />
       <Header />
       <main id="main">
         <Hero />

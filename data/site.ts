@@ -37,7 +37,7 @@ export interface WorkflowStep {
    * đã có trên website (dịch vụ, liên hệ, câu hỏi thường gặp); không có số liệu, thời hạn hay cam kết mới.
    */
   body: readonly string[];
-  /** Icon bước (đã tách khỏi ảnh thẻ cũ quy-trinh-0x.jpg) – canh giữa vùng trắng của thẻ. */
+  /** Icon bước (public/assets/workflow/) – canh giữa vùng trắng của thẻ. */
   image: string;
   alt: string;
 }
@@ -83,8 +83,11 @@ export const ROUTES = {
   about: "/gioi-thieu/",
   services: "/#dich-vu",
   contact: "/#lien-he",
-  /** Trang chi tiết một bước quy trình, vd. ROUTES.workflow("tiep-nhan-thong-tin") → "/tiep-nhan-thong-tin/". */
-  workflow: (slug: string) => `/${slug}/`,
+  /**
+   * Trang chi tiết (bước quy trình hoặc dịch vụ) – cùng một route app/[slug]/page.tsx,
+   * vd. ROUTES.detail("dich-vu-ke-toan-da-nang") → "/dich-vu-ke-toan-da-nang/".
+   */
+  detail: (slug: string) => `/${slug}/`,
 } as const;
 
 export const NAVIGATION: readonly NavigationLink[] = [
@@ -281,6 +284,10 @@ export const WORKFLOW_STEPS: readonly WorkflowStep[] = [
     alt: "Bước 04 – bàn giao, hoàn trả hồ sơ cho khách hàng",
   },
 ];
+
+export function getWorkflowStep(slug: string): WorkflowStep | undefined {
+  return WORKFLOW_STEPS.find((step) => step.slug === slug);
+}
 
 export const NEWS_ITEMS: readonly NewsItem[] = [
   {
