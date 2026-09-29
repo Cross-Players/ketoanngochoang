@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import { COMPANY } from "@/data/site";
 import { PAGE_DESCRIPTION, PAGE_TITLE } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
+import "lenis/dist/lenis.css";
 import "./globals.css";
 
 const quicksand = localFont({
@@ -63,13 +65,21 @@ export const metadata: Metadata = {
   },
 };
 
+const MOTION_BOOTSTRAP =
+  "try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion: no-preference)').matches&&'IntersectionObserver'in window)document.documentElement.classList.add('m-js')}catch(e){}";
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="vi">
+    <html lang="vi" suppressHydrationWarning>
+      <head>
+        {/* Bật chế độ chuyển động TRƯỚC lần vẽ đầu (tránh nháy); không JS / reduced-motion → không gắn, trang hiện tĩnh. */}
+        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOTSTRAP }} />
+      </head>
       <body className={quicksand.variable}>
         <a className="skip-link" href="#main">Bỏ qua điều hướng</a>
         {children}
         <RevealOnScroll />
+        <SmoothScroll />
       </body>
     </html>
   );

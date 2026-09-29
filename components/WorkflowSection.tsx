@@ -6,7 +6,7 @@ export function WorkflowSection() {
   return (
     <section className="workflow section-space" id="quy-trinh">
       <div className="container">
-        <h2 className="section-title">QUY TRÌNH LÀM VIỆC TẠI NGỌC HOÀNG</h2>
+        <h2 className="section-title"><span className="section-title-text">QUY TRÌNH LÀM VIỆC TẠI NGỌC HOÀNG</span></h2>
         <div className="workflow-grid">
           {WORKFLOW_STEPS.map((step, index) => (
             <Link

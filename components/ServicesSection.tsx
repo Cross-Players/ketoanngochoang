@@ -9,7 +9,7 @@ export function ServicesSection() {
   return (
     <section className="services section-space" id="dich-vu" aria-labelledby="services-title">
       <div className="container">
-        <h2 className="section-title" id="services-title">DỊCH VỤ BHXH, BHYT VÀ KẾ TOÁN THUẾ TẠI ĐÀ NẴNG</h2>
+        <h2 className="section-title" id="services-title"><span className="section-title-text">DỊCH VỤ BHXH, BHYT VÀ KẾ TOÁN THUẾ TẠI ĐÀ NẴNG</span></h2>
         <div className="service-grid">
           {SERVICES.map((service) => (
             <article className="service-card" key={service.slug} id={service.slug}>

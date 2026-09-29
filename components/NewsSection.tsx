@@ -5,7 +5,7 @@ export function NewsSection() {
   return (
     <section className="news section-space" id="co-hoi-moi">
       <div className="container">
-        <h2 className="section-title">CÓ GÌ MỚI VỀ BHXH, THUẾ VÀ DOANH NGHIỆP?</h2>
+        <h2 className="section-title"><span className="section-title-text">CÓ GÌ MỚI VỀ BHXH, THUẾ VÀ DOANH NGHIỆP?</span></h2>
         <div className="news-grid">
           {NEWS_ITEMS.map((item) => (
             <article key={item.title}>

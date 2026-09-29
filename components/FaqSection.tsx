@@ -18,7 +18,7 @@ export function FaqSection() {
   return (
     <section className="faq section-space" id="faq" aria-labelledby="faq-title">
       <div className="container">
-        <h2 className="section-title" id="faq-title">CÂU HỎI THƯỜNG GẶP VỀ DỊCH VỤ BHXH, BHYT TẠI ĐÀ NẴNG</h2>
+        <h2 className="section-title" id="faq-title"><span className="section-title-text">CÂU HỎI THƯỜNG GẶP VỀ DỊCH VỤ BHXH, BHYT TẠI ĐÀ NẴNG</span></h2>
         <div className="faq-list">
           {FAQ_ITEMS.map((item, index) => (
             <details key={item.question} open={index === 0}>

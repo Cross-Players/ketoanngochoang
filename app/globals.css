@@ -177,9 +177,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero-phone:hover strong { color: #ffd24d; }
 .hero-image { min-width: 0; overflow: hidden; border: 6px solid rgb(255 255 255 / 16%); border-radius: 10px; background: #fbf8ef; box-shadow: 0 18px 40px rgb(0 0 0 / 25%); }
 .hero-image img { width: 100%; height: auto; object-fit: contain; transform-origin: center center; }
-/* C. Parallax: scale sẵn 1.1 (đệm 5% mỗi cạnh, bị .hero-image overflow:hidden cắt) để JS chỉ việc dịch translateY. */
+/* Parallax: scale sẵn 1.14 (đệm 7% mỗi cạnh, bị .hero-image overflow:hidden cắt) để JS chỉ việc dịch translateY. */
 @media (prefers-reduced-motion: no-preference) {
-  .hero-image img { transform: scale(1.1); will-change: transform; }
+  .hero-image img { transform: scale(1.14); will-change: transform; }
 }
 .section-space { padding-block: 68px; }
 .section-title { margin: 0 0 24px; color: var(--blue); font-size: 27px; line-height: 1.3; text-align: center; text-wrap: balance; }
@@ -244,7 +244,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .benefit-list h3 { margin: 0 0 1px; color: var(--blue); font-size: 16px; }
 .benefit-list p { margin: 0; color: #555; font-size: 15px; line-height: 1.6; }
 
-.pricing { min-height: 0; background: #f7f8f9; }
+.pricing { min-height: 0; background: #f7f8f9; text-align: center; }
 .pricing .section-title { margin-bottom: 0; }
 .section-intro { margin: 3px 0 38px; color: var(--blue); font-size: 19px; line-height: 1.5; text-align: center; }
 
@@ -572,21 +572,159 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .copyright { min-height: 45px; font-size: 13px; }
 }
 
-/* Hiệu ứng xuất hiện khi cuộn (RevealOnScroll): chỉ opacity + transform, 560ms ease-out, so le tối đa 280ms.
-   Lớp .reveal-pending chỉ được JS gắn cho phần tử còn nằm dưới màn hình → không JS vẫn thấy đủ nội dung. */
-@media (prefers-reduced-motion: no-preference) {
-  .reveal-pending { opacity: 0; transform: translateY(14px); }
-  .reveal-pending.is-revealed { opacity: 1; transform: none; transition: opacity .56s cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms), transform .56s cubic-bezier(.16, 1, .3, 1) var(--reveal-delay, 0ms); }
+/* ==========================================================================
+   Motion (round 5b) – chuyển động cuộn cao cấp, vẫn điềm đạm cho một công ty tư vấn.
+   - Chỉ transform, opacity, filter, clip-path → chạy trên compositor, không dịch chuyển bố cục.
+   - Trạng thái "ẩn chờ" chỉ áp dụng khi JS đã gắn .reveal-pending (phần tử còn dưới màn hình) → không JS vẫn thấy đủ.
+   - Hero intro là CSS thuần: không JS vẫn chạy và kết thúc ở trạng thái hiển thị.
+   - prefers-reduced-motion: reduce → không có gì ở đây được áp dụng (mọi thứ tĩnh, hiện sẵn).
+   ========================================================================== */
+:root {
+  --ease-out-expo: cubic-bezier(.16, 1, .3, 1);
+  --ease-out-quint: cubic-bezier(.22, 1, .36, 1);
+  --ease-spring: cubic-bezier(.34, 1.36, .64, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+  --m-rise: 38px;
+  --m-blur: 10px;
+  --m-scale: .96;
 }
-/* A. Vạch hai bên tiêu đề section "vẽ" từ phía sát chữ ra ngoài (scaleX 0 → 1, 700ms ease-out) khi tiêu đề xuất hiện.
-   Chỉ áp dụng khi JS đã gắn .reveal-pending (tiêu đề còn dưới màn hình) → không JS / reduced-motion: vạch hiện sẵn. */
+/* Điện thoại: quãng di chuyển ngắn hơn, blur nhẹ hơn (rẻ hơn cho GPU di động). */
+@media (max-width: 760px) { :root { --m-rise: 24px; --m-blur: 5px; } }
+
+/* Gốc biến đổi cho các chi tiết (không đổi gì khi đứng yên). */
+.section-title::before { transform-origin: right center; }
+.section-title::after { transform-origin: left center; }
+.service-card { position: relative; }
+.service-points li:nth-child(2) { --n: 1; }
+.service-points li:nth-child(3) { --n: 2; }
+.service-points li:nth-child(4) { --n: 3; }
+.service-more { --n: 4; }
+.callout-line:nth-child(2) { --n: 1; }
+.callout-line:nth-child(3) { --n: 2; }
+/* Trễ thêm cho phần tử đi sau tiêu đề trong cùng một lượt xuất hiện. */
+.section-intro { --extra-delay: 160ms; }
+.pricing .button { --extra-delay: 320ms; }
+.contact-form { --extra-delay: 140ms; }
+.faq-contact { --extra-delay: 200ms; }
+.callout .button-row { --extra-delay: 460ms; }
+.callout { position: relative; overflow: hidden; isolation: isolate; }
+
 @media (prefers-reduced-motion: no-preference) {
-  .section-title.reveal-pending::before { transform: scaleX(0); transform-origin: right center; }
-  .section-title.reveal-pending::after { transform: scaleX(0); transform-origin: left center; }
-  .section-title.reveal-pending.is-revealed::before,
-  .section-title.reveal-pending.is-revealed::after { transform: none; transition: transform .7s cubic-bezier(.16, 1, .3, 1) calc(var(--reveal-delay, 0ms) + 80ms); }
+  /* ---------- Hero intro (khi tải trang) ----------
+     Tiêu đề: từng từ nổi lên sau mặt nạ, blur → nét, so le 48ms. Mặt nạ (clip-path) nới rộng trên/dưới để không cắt dấu tiếng Việt.
+     Khẩu hiệu mờ → nét, nút + hotline nhích lên, khung ảnh mở ra (clip-path) trong khi ảnh thu nhỏ về vị trí. */
+  .hero-word { display: inline-block; clip-path: inset(-.45em -.16em -.32em -.16em); }
+  .hero-word-inner { display: inline-block; transform-origin: 0 100%; animation: m-word-in 1.1s var(--ease-out-expo) both; animation-delay: calc(140ms + var(--i, 0) * 48ms); }
+  .hero-tagline { animation: m-soft-in 1.1s var(--ease-out-expo) .72s both; }
+  .hero-actions > * { animation: m-rise-in 1s var(--ease-out-expo) .88s both; }
+  .hero-actions > :nth-child(2) { animation-delay: 1s; }
+  .hero-image { animation: m-frame-in 1.8s var(--ease-out-quint) .1s both; }
+  .hero-image img { animation: m-img-settle 2.4s var(--ease-out-expo) .1s both; }
+  /* Vòng tròn cam nền: hiện dần rồi trôi ngược chiều cuộn (biến --hero-p do HeroParallax cập nhật). */
+  .hero::after { translate: 0 calc(var(--hero-p, 0) * -170px); animation: m-orb-in 2.2s var(--ease-out-expo) .2s both; }
+  /* Quầng sáng rất nhẹ trôi chậm ở góc trái – tạo chiều sâu cho nền xanh; dừng khi hero ngoài màn hình. */
+  .hero::before { content: ""; position: absolute; top: -48%; left: -18%; width: min(920px, 110vw); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(closest-side, rgb(255 255 255 / 11%), rgb(255 255 255 / 0)); pointer-events: none; animation: m-glow-drift 18s ease-in-out infinite alternate; }
+  .hero[data-inview="false"]::before { animation-play-state: paused; }
+
+  /* ---------- Xuất hiện khi cuộn (RevealOnScroll) ----------
+     html.m-js (script nội tuyến trong <head>): ẩn sẵn các phần tử động cho tới khi RevealOnScroll nhận chúng (data-reveal).
+     Failsafe: nếu JS không chạy, sau 3s tự hiện lại. Danh sách phải khớp GROUPS trong RevealOnScroll.tsx. */
+  html.m-js :is(.section-title, .service-card, .contact-form, .about-teaser-inner, .workflow-card, .news-grid > article, .benefit-list > li, .about-benefits > li, .callout p, .benefit-content > h2, .section-intro, .services-more, .pricing .button, .faq-list > details, .faq-contact, .contact h2, .callout .button-row):not([data-reveal]) { opacity: 0; animation: m-failsafe 0s linear 3s forwards; }
+
+  .reveal-pending { --m-delay: calc(var(--reveal-delay, 0ms) + var(--extra-delay, 0ms)); }
+  .reveal-pending:not(.is-revealed) { opacity: 0; transform: translate3d(0, var(--m-rise), 0); }
+  .reveal-pending.is-revealed {
+    transition: opacity .8s var(--ease-out-quint) var(--m-delay), transform 1.15s var(--ease-out-expo) var(--m-delay), filter .95s var(--ease-out-quint) var(--m-delay);
+    will-change: transform, opacity, filter;
+  }
+  /* Thẻ: mờ + thu nhỏ 0.96 + nhích lên → rõ nét. */
+  [data-motion="card"].reveal-pending:not(.is-revealed),
+  [data-motion="step"].reveal-pending:not(.is-revealed),
+  [data-motion="news"].reveal-pending:not(.is-revealed) { transform: translate3d(0, var(--m-rise), 0) scale(var(--m-scale)); filter: blur(var(--m-blur)); }
+  [data-motion="item"].reveal-pending:not(.is-revealed) { transform: translate3d(-28px, 0, 0); filter: blur(calc(var(--m-blur) * .6)); }
+  [data-motion="rise"].reveal-pending:not(.is-revealed) { filter: blur(calc(var(--m-blur) * .5)); }
+  /* Tiêu đề / đoạn CTA: bản thân phần tử đứng yên, chỉ phần con chuyển động. */
+  [data-motion="title"].reveal-pending:not(.is-revealed),
+  [data-motion="lines"].reveal-pending:not(.is-revealed) { opacity: 1; transform: none; }
+
+  /* Tiêu đề section: chữ nổi lên từ dưới "mép sàn" (clip-path mở từ dưới lên + dịch lên + blur → nét),
+     rồi hai vạch bên vẽ từ sát chữ ra ngoài. */
+  .section-title-text { clip-path: inset(-.5em -.4em -.5em -.4em); }
+  [data-motion="title"].reveal-pending:not(.is-revealed) .section-title-text { opacity: 0; transform: translate3d(0, .65em, 0); clip-path: inset(100% -.4em -.5em -.4em); filter: blur(6px); }
+  [data-motion="title"].is-revealed .section-title-text {
+    transition: opacity .7s var(--ease-out-quint) var(--m-delay), transform 1.15s var(--ease-out-expo) var(--m-delay), clip-path 1.15s var(--ease-out-expo) var(--m-delay), filter .9s var(--ease-out-quint) var(--m-delay);
+  }
+  [data-motion="title"].reveal-pending:not(.is-revealed)::before,
+  [data-motion="title"].reveal-pending:not(.is-revealed)::after { transform: scaleX(0); }
+  [data-motion="title"].is-revealed::before,
+  [data-motion="title"].is-revealed::after { transition: transform 1.05s var(--ease-out-expo) calc(var(--m-delay) + 300ms); }
+
+  /* Thẻ dịch vụ: icon "bật" nhẹ (lò xo nhỏ), các dòng mô tả hiện lần lượt. Khối giới thiệu: logo xoay vào. */
+  [data-motion="card"].reveal-pending:not(.is-revealed) .service-icon { opacity: 0; transform: scale(.5) rotate(-20deg); }
+  [data-motion="card"].is-revealed .service-icon { transition: opacity .5s var(--ease-out-quint) calc(var(--m-delay) + 240ms), transform .95s var(--ease-spring) calc(var(--m-delay) + 240ms); }
+  [data-motion="card"].reveal-pending:not(.is-revealed) :is(.service-points li, .service-more) { opacity: 0; transform: translate3d(-12px, 0, 0); }
+  [data-motion="card"].is-revealed :is(.service-points li, .service-more) {
+    transition: opacity .6s var(--ease-out-quint) calc(var(--m-delay) + 340ms + var(--n, 0) * 70ms), transform .85s var(--ease-out-expo) calc(var(--m-delay) + 340ms + var(--n, 0) * 70ms);
+  }
+  [data-motion="card"].reveal-pending:not(.is-revealed) .about-teaser-mark { opacity: 0; transform: rotate(-70deg) scale(.6); }
+  [data-motion="card"].is-revealed .about-teaser-mark { transition: opacity .6s var(--ease-out-quint) calc(var(--m-delay) + 200ms), transform 1.2s var(--ease-out-expo) calc(var(--m-delay) + 200ms); }
+
+  /* Quy trình 01→04: khối màu số quét từ trái sang, số hiện + đếm lên, icon bật nhẹ. */
+  .workflow-image::before { clip-path: inset(0); }
+  [data-motion="step"].reveal-pending:not(.is-revealed) .workflow-image::before { clip-path: inset(0 100% 0 0); }
+  [data-motion="step"].is-revealed .workflow-image::before { transition: clip-path .9s var(--ease-in-out) calc(var(--m-delay) + 160ms); }
+  /* Số đi cùng vệt quét (cùng clip-path) để chữ trắng không "lơ lửng" trên nền trắng, rồi nhích lên nhẹ. */
+  .workflow-number { clip-path: inset(0); }
+  [data-motion="step"].reveal-pending:not(.is-revealed) .workflow-number { clip-path: inset(0 100% 0 0); transform: translate3d(0, 22%, 0); }
+  [data-motion="step"].is-revealed .workflow-number { transition: clip-path .9s var(--ease-in-out) calc(var(--m-delay) + 160ms), transform 1s var(--ease-out-expo) calc(var(--m-delay) + 380ms); }
+  [data-motion="step"].reveal-pending:not(.is-revealed) .workflow-image img { opacity: 0; transform: scale(.7); }
+  [data-motion="step"].is-revealed .workflow-image img { transition: opacity .6s var(--ease-out-quint) calc(var(--m-delay) + 480ms), transform 1s var(--ease-spring) calc(var(--m-delay) + 480ms); }
+
+  /* Tin tức: ảnh mở dần từ trên xuống như tấm rèm. */
+  .news-grid img { clip-path: inset(0); }
+  [data-motion="news"].reveal-pending:not(.is-revealed) img { clip-path: inset(0 0 100% 0); }
+  [data-motion="news"].is-revealed img { transition: clip-path 1.05s var(--ease-in-out) calc(var(--m-delay) + 120ms); }
+
+  /* Dòng lợi ích: dấu tick bật nhẹ sau khi dòng trượt vào. */
+  [data-motion="item"].reveal-pending:not(.is-revealed) > img { opacity: 0; transform: scale(.4); }
+  [data-motion="item"].is-revealed > img { transition: opacity .45s var(--ease-out-quint) calc(var(--m-delay) + 200ms), transform .8s var(--ease-spring) calc(var(--m-delay) + 200ms); }
+
+  /* Dải CTA xanh: từng dòng hiện lần lượt (mobile các dòng nối liền → chỉ mờ/blur, không dịch). */
+  [data-motion="lines"].reveal-pending:not(.is-revealed) .callout-line { opacity: 0; transform: translate3d(0, 18px, 0); filter: blur(8px); }
+  [data-motion="lines"].is-revealed .callout-line {
+    transition: opacity .8s var(--ease-out-quint) calc(var(--m-delay) + var(--n, 0) * 170ms), transform 1.1s var(--ease-out-expo) calc(var(--m-delay) + var(--n, 0) * 170ms), filter .9s var(--ease-out-quint) calc(var(--m-delay) + var(--n, 0) * 170ms);
+  }
+  /* Dải CTA: vệt sáng rất nhẹ lướt chéo chậm (10s/lần), dừng khi ngoài màn hình. Giữa các lần lướt là màu xanh gốc. */
+  .callout::before { content: ""; position: absolute; z-index: -1; inset: -50%; background: linear-gradient(105deg, rgb(255 255 255 / 0) 38%, rgb(255 255 255 / 7%) 46%, rgb(255 255 255 / 13%) 50%, rgb(255 255 255 / 7%) 54%, rgb(255 255 255 / 0) 62%); transform: translate3d(-75%, 0, 0); animation: m-sheen 10s var(--ease-in-out) 1.2s infinite; pointer-events: none; }
+  .callout[data-inview="false"]::before { animation-play-state: paused; }
 }
-@media print { .reveal-pending, .reveal-pending::before, .reveal-pending::after { opacity: 1 !important; transform: none !important; } }
+
+/* Hover tinh tế (chỉ thiết bị có chuột): thẻ dịch vụ phát sáng mềm (lớp ::after, chỉ đổi opacity), icon nhích lên + nghiêng nhẹ;
+   thẻ quy trình: icon nổi nhẹ. Không nâng cả thẻ dịch vụ (round 3 đã bỏ vì thẻ không phải link). */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .service-card::after { content: ""; position: absolute; inset: -3px -1px -1px; border-radius: inherit; box-shadow: 0 24px 46px -20px rgb(16 92 170 / 42%), 0 0 0 1px rgb(16 92 170 / 16%); opacity: 0; transition: opacity .5s var(--ease-out-quint); pointer-events: none; }
+  .service-card:hover::after { opacity: 1; }
+  .service-icon, .service-icon img, .workflow-image img { transition: transform .6s var(--ease-spring); }
+  .service-card:hover .service-icon { transform: translate3d(0, -3px, 0) scale(1.07); }
+  .service-card:hover .service-icon img { transform: rotate(-8deg) scale(1.04); }
+  .workflow-card:hover .workflow-image img, .workflow-card:focus-visible .workflow-image img { transform: translate3d(0, -5px, 0) scale(1.05); }
+}
+
+@keyframes m-word-in { from { opacity: 0; transform: translate3d(0, 110%, 0) rotate(3deg); filter: blur(8px); } 45% { opacity: 1; } to { opacity: 1; transform: none; filter: none; } }
+@keyframes m-soft-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes m-rise-in { from { opacity: 0; transform: translate3d(0, 22px, 0); } to { opacity: 1; transform: none; } }
+@keyframes m-frame-in { from { opacity: 0; clip-path: inset(14% 12% 14% 12% round 22px); } 30% { opacity: 1; } to { opacity: 1; clip-path: inset(-90px round 10px); } }
+@keyframes m-img-settle { from { scale: 1.32; } to { scale: 1; } }
+@keyframes m-orb-in { from { opacity: 0; scale: .55; } to { opacity: 1; scale: 1; } }
+@keyframes m-glow-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(22%, 16%, 0); } }
+@keyframes m-failsafe { to { opacity: 1; } }
+@keyframes m-sheen { 0% { transform: translate3d(-75%, 0, 0); } 42%, 100% { transform: translate3d(75%, 0, 0); } }
+
+@media print {
+  html.m-js :is(.section-title, .service-card, .contact-form, .about-teaser-inner, .workflow-card, .news-grid > article, .benefit-list > li, .about-benefits > li, .callout p, .benefit-content > h2, .section-intro, .services-more, .pricing .button, .faq-list > details, .faq-contact, .contact h2, .callout .button-row) { opacity: 1 !important; animation: none !important; }
+  .reveal-pending, .reveal-pending *, .reveal-pending::before, .reveal-pending::after { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
+  .hero-word-inner, .hero-tagline, .hero-actions > *, .hero-image, .hero-image img { animation: none !important; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { transform: none; }
