@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
-import { COMPANY, NAVIGATION, ROUTES, SERVICES } from "@/data/site";
+import { useEffect, useRef, useState } from "react";
+import { COMPANY, NAVIGATION, ROUTES, SERVICES, serviceItemHref } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
 
 function normalizePath(path: string | null): string {
@@ -17,6 +17,8 @@ export function Header() {
   const [servicesOpen, setServicesOpen] = useState(false);
   const pathname = normalizePath(usePathname());
 
+  const progressRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
@@ -27,6 +29,34 @@ export function Header() {
 
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
+  }, []);
+
+  // Thanh tiến độ cuộn mỏng ở đáy header: scaleX theo % trang đã cuộn (rAF, passive). Ẩn khi reduced-motion (CSS).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const bar = progressRef.current;
+    if (!bar) return;
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const doc = document.documentElement;
+      const max = Math.max(1, doc.scrollHeight - window.innerHeight);
+      const p = Math.min(1, Math.max(0, window.scrollY / max));
+      bar.style.transform = `scaleX(${p.toFixed(4)})`;
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    update();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   function closeAll() {
@@ -68,11 +98,12 @@ export function Header() {
           >
             <span className={`menu-icon${menuOpen ? " is-open" : ""}`} aria-hidden="true"><i /><i /><i /></span>
           </button>
-          <Link className="brand" href={ROUTES.home} aria-label="Ngọc Hoàng — Trang chủ" onClick={closeAll}>
+          <Link className="brand" href={ROUTES.home} aria-label={`${COMPANY.name} – Trang chủ`} onClick={closeAll}>
             <img src={getPublicAssetPath("/logo-ngoc-hoang-256.png")} width="256" height="256" alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" />
             <span className="brand-text">
+              {/* Tên pháp nhân đầy đủ: "CÔNG TY TNHH TƯ VẤN & DỊCH VỤ" trên, "NGỌC HOÀNG" dưới. */}
+              <span className="brand-sub">CÔNG TY TNHH TƯ VẤN &amp; DỊCH VỤ</span>
               <span className="brand-name">NGỌC HOÀNG</span>
-              <span className="brand-sub">Tư vấn &amp; Dịch vụ</span>
             </span>
           </Link>
           <nav className={`primary-nav${menuOpen ? " is-open" : ""}`} id="primary-nav" aria-label="Điều hướng chính">
@@ -100,11 +131,11 @@ export function Header() {
                             <div className="mega-col" key={service.slug}>
                               <p className="mega-title">
                                 <img src={getPublicAssetPath(service.image)} alt="" width="28" height="28" loading="lazy" />
-                                <Link href={`/#${service.slug}`} onClick={closeAll}>{service.menuTitle}</Link>
+                                <Link href={service.href} onClick={closeAll}>{service.title}</Link>
                               </p>
                               <ul>
                                 {service.subServices.map((sub) => (
-                                  <li key={sub}><Link href={`/#${service.slug}`} onClick={closeAll}>{sub}</Link></li>
+                                  <li key={sub}><Link href={serviceItemHref(sub)} onClick={closeAll}>{sub}</Link></li>
                                 ))}
                               </ul>
                             </div>
@@ -129,6 +160,7 @@ export function Header() {
           </a>
         </div>
       </div>
+      <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
     </header>
   );
 }

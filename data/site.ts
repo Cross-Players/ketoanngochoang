@@ -5,17 +5,19 @@ export interface NavigationLink {
   cta?: boolean;
 }
 export interface Service {
-  /** Anchor id of the card on the home page (used by the Dịch vụ mega menu). */
+  /** Anchor id của thẻ trên trang chủ (footer "Dịch vụ Pháp lý" và breadcrumb "Dịch vụ" dẫn về khu vực này). */
   slug: string;
+  /** Tên nhóm – dùng chung cho cột mega menu, tiêu đề thẻ dịch vụ trang chủ và JSON-LD. */
   title: string;
-  /** Short column heading used in the Dịch vụ mega menu. */
-  menuTitle: string;
   image: string;
   alt: string;
-  /** Full description of the service (used for JSON-LD). */
-  items: readonly string[];
-  /** Short sub-service labels (mega menu; the first three are shown on the home card). */
+  /**
+   * Danh sách dịch vụ con – NGUỒN DỮ LIỆU DUY NHẤT cho mega menu Dịch vụ, thẻ dịch vụ trang chủ
+   * (3 mục đầu) và JSON-LD. Sửa ở đây là đồng bộ mọi nơi.
+   */
   subServices: readonly string[];
+  /** Trang chi tiết của nhóm (tiêu đề cột mega menu, tiêu đề thẻ + "Xem thêm dịch vụ" trên trang chủ). */
+  href: string;
 }
 
 export interface Benefit {
@@ -25,8 +27,17 @@ export interface Benefit {
 
 
 export interface WorkflowStep {
+  /** Đoạn đường dẫn trang chi tiết: "/{slug}/". */
+  slug: string;
   title: string;
+  /** Mô tả ngắn trên thẻ trang chủ; cũng là đoạn mở đầu (in đậm) của trang chi tiết. */
   description: string;
+  /**
+   * Nội dung trang chi tiết – BẢN NHÁP chờ khách hàng duyệt. Chỉ diễn đạt lại mô tả thẻ và các thông tin
+   * đã có trên website (dịch vụ, liên hệ, câu hỏi thường gặp); không có số liệu, thời hạn hay cam kết mới.
+   */
+  body: readonly string[];
+  /** Icon bước (public/assets/workflow/) – canh giữa vùng trắng của thẻ. */
   image: string;
   alt: string;
 }
@@ -44,13 +55,15 @@ export interface FaqItem {
 
 export const COMPANY = {
   name: "CÔNG TY TNHH TƯ VẤN & DỊCH VỤ NGỌC HOÀNG",
+  /** Chữ thương hiệu cạnh logo trên header, tách 2 dòng (ghép lại đúng bằng `name`). */
+  wordmark: ["CÔNG TY TNHH TƯ VẤN & DỊCH VỤ", "NGỌC HOÀNG"],
   shortName: "Ngọc Hoàng",
   taxId: "0402357190",
   foundingDate: "2026-09-21",
-  street: "Thôn Phước Khương",
+  street: "Thôn Phú Hòa",
   ward: "Xã Bà Nà",
   region: "Đà Nẵng",
-  address: "Thôn Phước Khương, xã Bà Nà",
+  address: "Thôn Phú Hòa, xã Bà Nà",
   city: "Thành phố Đà Nẵng",
   phoneE164: "+84963548333",
   phone: "0963 548 333",
@@ -62,7 +75,7 @@ export const COMPANY = {
 } as const;
 
 /** Ngày cập nhật nội dung gần nhất, dùng cho lastModified trong sitemap. */
-export const CONTENT_UPDATED_AT = "2026-09-27";
+export const CONTENT_UPDATED_AT = "2026-09-29";
 
 /** Internal routes (Next.js adds the GitHub Pages basePath automatically). */
 export const ROUTES = {
@@ -70,6 +83,11 @@ export const ROUTES = {
   about: "/gioi-thieu/",
   services: "/#dich-vu",
   contact: "/#lien-he",
+  /**
+   * Trang chi tiết (bước quy trình hoặc dịch vụ) – cùng một route app/[slug]/page.tsx,
+   * vd. ROUTES.detail("dich-vu-ke-toan-da-nang") → "/dich-vu-ke-toan-da-nang/".
+   */
+  detail: (slug: string) => `/${slug}/`,
 } as const;
 
 export const NAVIGATION: readonly NavigationLink[] = [
@@ -85,36 +103,11 @@ export const NAVIGATION: readonly NavigationLink[] = [
 
 export const SERVICES: readonly Service[] = [
   {
-    slug: "dv-bhxh",
-    title: "DỊCH VỤ BẢO HIỂM XÃ HỘI",
-    menuTitle: "Dịch vụ BHXH",
-    image: "/assets/employee-300x300-b0d92d6c.png",
-    alt: "Biểu tượng người lao động – dịch vụ BHXH và BHYT tại Đà Nẵng",
-    items: [
-      "Đăng ký tham gia, báo tăng, báo giảm lao động BHXH cho doanh nghiệp",
-      "Hướng dẫn đăng ký đóng BHXH tự nguyện cho cá nhân",
-      "Gia hạn, mua mới BHYT hộ gia đình",
-      "Hướng dẫn hồ sơ hưởng các chế độ BHXH; điều chỉnh thông tin, cấp lại sổ BHXH",
-    ],
-    subServices: [
-      "Báo tăng, báo giảm lao động BHXH cho doanh nghiệp",
-      "Đăng ký đóng BHXH tự nguyện cho cá nhân",
-      "Gia hạn, mua mới BHYT hộ gia đình",
-      "Hồ sơ hưởng các chế độ BHXH",
-      "Điều chỉnh thông tin, cấp lại sổ BHXH",
-    ],
-  },
-  {
     slug: "dv-phap-ly",
-    title: "DỊCH VỤ PHÁP LÝ DOANH NGHIỆP",
-    menuTitle: "Pháp lý doanh nghiệp",
+    href: "/thanh-lap-cong-ty-da-nang/",
+    title: "Pháp lý doanh nghiệp",
     image: "/assets/company-300x300-57c03f3f.png",
     alt: "Biểu tượng tòa nhà văn phòng – dịch vụ thành lập doanh nghiệp tại Đà Nẵng",
-    items: [
-      "Tư vấn thủ tục thành lập doanh nghiệp trong nước",
-      "Thành lập chi nhánh, văn phòng đại diện và đơn vị phụ thuộc",
-      "Thay đổi giấy phép kinh doanh; tạm ngưng hoạt động hoặc giải thể doanh nghiệp",
-    ],
     subServices: [
       "Thành lập doanh nghiệp trong nước",
       "Thành lập chi nhánh, văn phòng đại diện, đơn vị phụ thuộc",
@@ -125,18 +118,12 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-thue",
-    title: "DỊCH VỤ THUẾ",
-    menuTitle: "Dịch vụ thuế",
+    href: "/dich-vu-ke-toan-da-nang/#thue",
+    title: "Dịch vụ thuế",
     image: "/assets/tax-300x300-ca352e40.png",
     alt: "Biểu tượng tờ khai thuế – dịch vụ kê khai và quyết toán thuế",
-    items: [
-      "Kê khai thuế",
-      "Rà soát tính tuân thủ pháp luật thuế",
-      "Quyết toán thuế cuối năm cho doanh nghiệp",
-      "Quyết toán thuế thu nhập cá nhân (TNCN)",
-    ],
     subServices: [
-      "Kê khai thuế",
+      "Dịch vụ kê khai thuế",
       "Rà soát tính tuân thủ pháp luật thuế",
       "Quyết toán thuế cuối năm cho doanh nghiệp",
       "Quyết toán thuế TNCN",
@@ -144,59 +131,80 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-ke-toan",
-    title: "DỊCH VỤ KẾ TOÁN",
-    menuTitle: "Dịch vụ kế toán",
+    href: "/dich-vu-ke-toan-da-nang/",
+    title: "Dịch vụ kế toán",
     image: "/assets/accounting-300x300-2b340415.png",
-    alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán thuế trọn gói",
-    items: [
-      "Kế toán thuế trọn gói; tư vấn, thiết lập hệ thống kế toán",
-      "Kiểm tra, hoàn thiện sổ sách kế toán; lập báo cáo tài chính cuối năm; đánh giá nhanh báo cáo tài chính, quyết toán cuối năm và lập hóa đơn GTGT",
-    ],
+    alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán trọn gói",
     subServices: [
-      "Kế toán thuế trọn gói",
+      "Dịch vụ kế toán trọn gói",
       "Tư vấn, thiết lập hệ thống kế toán",
       "Kiểm tra, hoàn thiện sổ sách kế toán",
       "Lập báo cáo tài chính cuối năm",
       "Đánh giá nhanh BCTC, quyết toán cuối năm",
-      "Lập hóa đơn GTGT",
+      "Dịch vụ lập hoá đơn GTGT",
     ],
   },
   {
     slug: "dv-nhan-su",
-    title: "DỊCH VỤ NHÂN SỰ & TIỀN LƯƠNG",
-    menuTitle: "Nhân sự & tiền lương",
+    href: "/dich-vu-tinh-luong-da-nang/",
+    title: "Nhân sự & tiền lương",
     image: "/assets/accounting-1-300x300-32be194d.png",
     alt: "Biểu tượng nhân viên tính lương – dịch vụ nhân sự và tiền lương",
-    items: [
-      "Dịch vụ nhân sự ban đầu cho doanh nghiệp mới thành lập",
-      "Dịch vụ tính lương",
-      "Theo dõi trích nộp BHXH, BHYT và thuế thu nhập cá nhân (TNCN)",
-    ],
     subServices: [
       "Dịch vụ nhân sự ban đầu",
       "Dịch vụ tính lương",
-      "Theo dõi trích nộp BHXH, BHYT, thuế TNCN",
+      "Theo dõi trích nộp thuế TNCN",
+      "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động",
     ],
   },
   {
     slug: "dv-ho-tro",
-    title: "GIẢI PHÁP HỖ TRỢ DOANH NGHIỆP",
-    menuTitle: "Hỗ trợ khác",
+    href: "/chu-ky-so-hoa-don-dien-tu-da-nang/",
+    title: "Dịch vụ khác",
     image: "/assets/tax-1-300x300-9799d5c8.png",
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
-    items: [
-      "Đại lý chữ ký số, hóa đơn điện tử và phần mềm kê khai BHXH (đối tác Viettel)",
+    subServices: [
+      "Chữ ký số, hóa đơn điện tử (đối tác Viettel)",
       "Bảng hiệu và dấu tên",
       "Thành lập tài khoản ngân hàng số đẹp (đối tác Techcombank)",
     ],
-    subServices: [
-      "Chữ ký số, hóa đơn điện tử (đối tác Viettel)",
-      "Phần mềm kê khai BHXH (đối tác Viettel)",
-      "Bảng hiệu và dấu tên",
-      "Tài khoản ngân hàng số đẹp (đối tác Techcombank)",
-    ],
   },
 ];
+
+/**
+ * Liên kết của từng mục dịch vụ con trong mega menu → trang/mục chi tiết (round 6). Khóa phải trùng NGUYÊN VĂN tên mục
+ * trong SERVICES; thiếu khóa → serviceItemHref() báo lỗi ngay khi build.
+ */
+export const SERVICE_ITEM_LINKS: Readonly<Record<string, string>> = {
+  "Thành lập doanh nghiệp trong nước": "/thanh-lap-cong-ty-da-nang/#thanh-lap",
+  "Thành lập chi nhánh, văn phòng đại diện, đơn vị phụ thuộc": "/thanh-lap-cong-ty-da-nang/#chi-nhanh",
+  "Thay đổi giấy phép kinh doanh": "/thay-doi-dang-ky-kinh-doanh-da-nang/",
+  "Tạm ngưng hoạt động": "/tam-ngung-giai-the-cong-ty-da-nang/#tam-ngung",
+  "Giải thể doanh nghiệp": "/tam-ngung-giai-the-cong-ty-da-nang/#giai-the",
+  "Dịch vụ kê khai thuế": "/dich-vu-ke-toan-da-nang/#thue",
+  "Rà soát tính tuân thủ pháp luật thuế": "/dich-vu-ke-toan-da-nang/#thue",
+  "Quyết toán thuế cuối năm cho doanh nghiệp": "/dich-vu-ke-toan-da-nang/#quyet-toan",
+  "Quyết toán thuế TNCN": "/dich-vu-tinh-luong-da-nang/#thue-tncn",
+  "Dịch vụ kế toán trọn gói": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Tư vấn, thiết lập hệ thống kế toán": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Kiểm tra, hoàn thiện sổ sách kế toán": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Lập báo cáo tài chính cuối năm": "/dich-vu-ke-toan-da-nang/#quyet-toan",
+  "Đánh giá nhanh BCTC, quyết toán cuối năm": "/dich-vu-ke-toan-da-nang/#quyet-toan",
+  "Dịch vụ lập hoá đơn GTGT": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Dịch vụ nhân sự ban đầu": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Dịch vụ tính lương": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Theo dõi trích nộp thuế TNCN": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Chữ ký số, hóa đơn điện tử (đối tác Viettel)": "/chu-ky-so-hoa-don-dien-tu-da-nang/#chu-ky-so",
+  "Bảng hiệu và dấu tên": "/chu-ky-so-hoa-don-dien-tu-da-nang/#dau-bang-hieu",
+  "Thành lập tài khoản ngân hàng số đẹp (đối tác Techcombank)": "/chu-ky-so-hoa-don-dien-tu-da-nang/#tai-khoan-so-dep",
+};
+
+export function serviceItemHref(name: string): string {
+  const href = SERVICE_ITEM_LINKS[name];
+  if (!href) throw new Error(`Thiếu liên kết cho mục dịch vụ "${name}" (SERVICE_ITEM_LINKS, data/site.ts)`);
+  return href;
+}
 
 export const BENEFITS: readonly Benefit[] = [
   {
@@ -204,8 +212,8 @@ export const BENEFITS: readonly Benefit[] = [
     description: "Lắng nghe nhu cầu của từng cá nhân, hộ gia đình và doanh nghiệp, giải thích rõ các bước thủ tục trước khi thực hiện.",
   },
   {
-    title: "Am hiểu thủ tục BHXH và thuế",
-    description: "Đội ngũ tư vấn am hiểu thủ tục BHXH, BHYT, thuế và kế toán, hướng dẫn hồ sơ theo quy định hiện hành.",
+    title: "Am hiểu thuế, kế toán và thủ tục doanh nghiệp",
+    description: "Đội ngũ tư vấn am hiểu thuế, kế toán và thủ tục doanh nghiệp, hướng dẫn hồ sơ theo quy định hiện hành.",
   },
   {
     title: "Báo giá rõ ràng trước khi làm",
@@ -217,7 +225,7 @@ export const BENEFITS: readonly Benefit[] = [
   },
   {
     title: "Theo dõi quy định mới",
-    description: "Thường xuyên cập nhật thay đổi về BHXH, BHYT, thuế và kế toán để tư vấn kịp thời.",
+    description: "Thường xuyên cập nhật thay đổi về thuế và kế toán để tư vấn kịp thời.",
   },
   {
     title: "Gần gũi, dễ liên hệ",
@@ -228,34 +236,58 @@ export const BENEFITS: readonly Benefit[] = [
 
 export const WORKFLOW_STEPS: readonly WorkflowStep[] = [
   {
+    slug: "tiep-nhan-thong-tin",
     title: "TIẾP NHẬN THÔNG TIN",
     description:
       "Lắng nghe nhu cầu, khó khăn và thông tin doanh nghiệp để xác định nội dung cần tư vấn.",
-    image: "/assets/quy-trinh-01.jpg",
+    body: [
+      "Bạn có thể liên hệ Ngọc Hoàng qua điện thoại, Zalo hoặc gửi yêu cầu tư vấn ngay trên website.",
+      "Hồ sơ cần chuẩn bị tùy thuộc vào từng thủ tục. Ngọc Hoàng sẽ gửi danh sách hồ sơ cụ thể sau khi nắm rõ trường hợp của bạn.",
+    ],
+    image: "/assets/workflow/step-01.png",
     alt: "Bước 01 – tiếp nhận thông tin và nhu cầu của khách hàng",
   },
   {
+    slug: "tien-hanh-xu-ly",
     title: "TIẾN HÀNH XỬ LÝ",
     description:
       "Thực hiện công việc theo quy trình dịch vụ, tuân thủ quy định pháp luật liên quan.",
-    image: "/assets/quy-trinh-02.jpg",
+    body: [
+      "Phạm vi công việc và chi phí được thống nhất với bạn trước khi thực hiện.",
+      "Ngọc Hoàng xử lý hồ sơ theo đúng phạm vi đã trao đổi, trong các mảng pháp lý doanh nghiệp, thuế, kế toán, nhân sự & tiền lương và các dịch vụ khác.",
+    ],
+    image: "/assets/workflow/step-02.png",
     alt: "Bước 02 – đội ngũ Ngọc Hoàng tiến hành xử lý hồ sơ",
   },
   {
+    slug: "cap-nhat-tien-do",
     title: "CẬP NHẬT TIẾN ĐỘ",
     description:
       "Phản hồi tiến độ xử lý và chủ động trao đổi khi khách hàng cần được tư vấn.",
-    image: "/assets/quy-trinh-03.jpg",
+    body: [
+      "Trong quá trình xử lý, bạn có thể hỏi tình trạng hồ sơ qua điện thoại hoặc Zalo.",
+      "Khi có thông tin cần bổ sung hoặc cần bạn quyết định, Ngọc Hoàng sẽ trao đổi để bạn nắm rõ trước khi làm tiếp.",
+    ],
+    image: "/assets/workflow/step-03.png",
     alt: "Bước 03 – cập nhật tiến độ xử lý cho khách hàng",
   },
   {
+    slug: "hoan-tra-ho-so",
     title: "HOÀN TRẢ HỒ SƠ",
     description:
       "Bàn giao hồ sơ để khách hàng lưu trữ sau khi hoàn thành công việc.",
-    image: "/assets/quy-trinh-04.jpg",
+    body: [
+      "Hồ sơ được bàn giao lại để bạn lưu trữ.",
+      "Nếu cần hỗ trợ thêm các thủ tục khác, bạn có thể tiếp tục liên hệ Ngọc Hoàng qua điện thoại hoặc Zalo.",
+    ],
+    image: "/assets/workflow/step-04.png",
     alt: "Bước 04 – bàn giao, hoàn trả hồ sơ cho khách hàng",
   },
 ];
+
+export function getWorkflowStep(slug: string): WorkflowStep | undefined {
+  return WORKFLOW_STEPS.find((step) => step.slug === slug);
+}
 
 export const NEWS_ITEMS: readonly NewsItem[] = [
   {
@@ -266,48 +298,33 @@ export const NEWS_ITEMS: readonly NewsItem[] = [
   {
     title: "Quy định về hưởng chế độ ốm đau đối với người lao động",
     image: "/assets/che-do-om-dau-500x281-49bc54a6.jpg",
-    alt: "Người lao động bị ốm tại văn phòng – minh họa chế độ ốm đau BHXH",
+    alt: "Người lao động bị ốm tại văn phòng – minh họa chế độ ốm đau",
   },
   {
     title: "Quy định về trợ cấp mất việc làm",
     image: "/assets/tro-cap-mat-viec-500x281-74822570.jpg",
     alt: "Ký văn bản chấm dứt hợp đồng – minh họa trợ cấp mất việc làm",
   },
-  {
-    title: "Các khoản phụ cấp tính đóng và không tính đóng BHXH 2026",
-    image: "/assets/pc-dong-bhxh-500x281-86540f91.jpg",
-    alt: "Bàn tay che chở mô hình gia đình – minh họa phụ cấp tính đóng BHXH",
-  },
 ];
 
 export const FAQ_ITEMS: readonly FaqItem[] = [
   {
-    question: "Ngọc Hoàng hỗ trợ những thủ tục BHXH, BHYT nào tại Đà Nẵng?",
+    question: "Ngọc Hoàng cung cấp những dịch vụ nào?",
     answer:
-      "Ngọc Hoàng hỗ trợ doanh nghiệp đăng ký tham gia, báo tăng, báo giảm lao động BHXH; hướng dẫn cá nhân đăng ký đóng BHXH tự nguyện; gia hạn, mua mới BHYT hộ gia đình; hướng dẫn hồ sơ hưởng các chế độ BHXH và thủ tục điều chỉnh thông tin, cấp lại sổ BHXH.",
+      "Ngọc Hoàng hỗ trợ kế toán và thuế, pháp lý doanh nghiệp (thành lập, thay đổi giấy phép kinh doanh, tạm ngưng hoạt động, giải thể), nhân sự & tiền lương, cùng các dịch vụ khác như chữ ký số, hóa đơn điện tử, bảng hiệu và dấu tên. Mỗi nhóm dịch vụ có trang giới thiệu riêng trong mục Dịch vụ.",
   },
   {
     question: "Ngọc Hoàng phục vụ cá nhân hay doanh nghiệp?",
     answer:
-      "Ngọc Hoàng tư vấn cho cả cá nhân, hộ gia đình và doanh nghiệp. Với doanh nghiệp, dịch vụ BHXH có thể kết hợp cùng thành lập doanh nghiệp, kế toán thuế và tính lương.",
-  },
-  {
-    question: "Cần chuẩn bị giấy tờ gì khi làm thủ tục BHXH, BHYT?",
-    answer:
-      "Hồ sơ tùy thuộc vào từng thủ tục. Thông thường cần căn cước công dân và mã số BHXH (nếu đã có); với doanh nghiệp cần thêm thông tin đăng ký doanh nghiệp, danh sách và hợp đồng lao động. Ngọc Hoàng sẽ gửi danh sách hồ sơ cụ thể sau khi nắm rõ trường hợp của bạn.",
+      "Ngọc Hoàng tư vấn cho cả cá nhân, hộ gia đình và doanh nghiệp.",
   },
   {
     question: "Ngọc Hoàng hỗ trợ khách hàng ở khu vực nào?",
     answer:
-      "Ngọc Hoàng có địa chỉ tại Thôn Phước Khương, xã Bà Nà, thành phố Đà Nẵng và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
+      "Ngọc Hoàng có địa chỉ tại Thôn Phú Hòa, xã Bà Nà, thành phố Đà Nẵng và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
   },
   {
-    question: "Làm sao tự tra cứu quá trình đóng BHXH và thẻ BHYT?",
-    answer:
-      "Bạn có thể tra cứu trên Cổng thông tin điện tử BHXH Việt Nam (baohiemxahoi.gov.vn) hoặc ứng dụng VssID – Bảo hiểm xã hội số. Nếu thông tin chưa khớp, Ngọc Hoàng có thể hướng dẫn thủ tục điều chỉnh.",
-  },
-  {
-    question: "Chi phí dịch vụ BHXH, BHYT được tính như thế nào?",
+    question: "Chi phí dịch vụ được tính như thế nào?",
     answer:
       "Chi phí phụ thuộc vào loại thủ tục và số lượng hồ sơ. Vui lòng gọi hoặc nhắn Zalo 0963 548 333 để được tư vấn và báo giá trước khi thực hiện.",
   },
@@ -317,11 +334,10 @@ export const FOOTER_LINK_GROUPS = [
   {
     title: "Dịch vụ",
     links: [
-      ["Dịch vụ BHXH, BHYT", "/#dv-bhxh"],
-      ["Tư vấn thành lập doanh nghiệp", "/#dv-phap-ly"],
-      ["Dịch vụ Thuế", "/#dv-thue"],
-      ["Dịch vụ Kế toán", "/#dv-ke-toan"],
-      ["Dịch vụ Nhân sự", "/#dv-nhan-su"],
+      ["Tư vấn thành lập doanh nghiệp", "/thanh-lap-cong-ty-da-nang/"],
+      ["Dịch vụ Thuế", "/dich-vu-ke-toan-da-nang/#thue"],
+      ["Dịch vụ Kế toán", "/dich-vu-ke-toan-da-nang/"],
+      ["Dịch vụ Nhân sự", "/dich-vu-tinh-luong-da-nang/"],
       ["Dịch vụ Pháp lý", "/#dv-phap-ly"],
     ],
   },
