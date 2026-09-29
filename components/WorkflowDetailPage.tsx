@@ -6,32 +6,19 @@ import { Header } from "@/components/Header";
 import { QuickContact } from "@/components/QuickContact";
 import { COMPANY, ROUTES, WORKFLOW_STEPS, type WorkflowStep } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
-import { getSiteUrl } from "@/lib/site-url";
+import { pageMetadata } from "@/lib/seo";
 
 export function getWorkflowStep(slug: string): WorkflowStep | undefined {
   return WORKFLOW_STEPS.find((step) => step.slug === slug);
 }
 
 export function workflowMetadata(step: WorkflowStep): Metadata {
-  const siteUrl = getSiteUrl();
-  const pageUrl = siteUrl ? new URL(`${step.slug}/`, siteUrl).toString() : undefined;
-  const title = `${titleCase(step.title)} – Quy trình làm việc`;
-  const description = step.description;
-  return {
-    title,
-    description,
-    alternates: pageUrl ? { canonical: pageUrl } : undefined,
-    openGraph: {
-      type: "article",
-      locale: "vi_VN",
-      siteName: COMPANY.name,
-      title,
-      description,
-      ...(pageUrl
-        ? { url: pageUrl, images: [{ url: new URL("og-ngoc-hoang.png", siteUrl).toString(), width: 1200, height: 630 }] }
-        : {}),
-    },
-  };
+  return pageMetadata({
+    path: `${step.slug}/`,
+    title: `${titleCase(step.title)} – Quy trình làm việc`,
+    description: step.description,
+    type: "article",
+  });
 }
 
 function titleCase(text: string) {

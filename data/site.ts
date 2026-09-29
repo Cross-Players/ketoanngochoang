@@ -167,8 +167,8 @@ export const BENEFITS: readonly Benefit[] = [
     description: "Lắng nghe nhu cầu của từng cá nhân, hộ gia đình và doanh nghiệp, giải thích rõ các bước thủ tục trước khi thực hiện.",
   },
   {
-    title: "Am hiểu thủ tục thuế",
-    description: "Đội ngũ tư vấn am hiểu thủ tục thuế và kế toán, hướng dẫn hồ sơ theo quy định hiện hành.",
+    title: "Am hiểu thuế, kế toán và thủ tục doanh nghiệp",
+    description: "Đội ngũ tư vấn am hiểu thuế, kế toán và thủ tục doanh nghiệp, hướng dẫn hồ sơ theo quy định hiện hành.",
   },
   {
     title: "Báo giá rõ ràng trước khi làm",
@@ -259,6 +259,11 @@ export const NEWS_ITEMS: readonly NewsItem[] = [
 ];
 
 export const FAQ_ITEMS: readonly FaqItem[] = [
+  {
+    question: "Ngọc Hoàng cung cấp những dịch vụ nào?",
+    answer:
+      "Ngọc Hoàng hỗ trợ kế toán và thuế, pháp lý doanh nghiệp (thành lập, thay đổi giấy phép kinh doanh, tạm ngưng hoạt động, giải thể), nhân sự & tiền lương, cùng các dịch vụ khác như chữ ký số, hóa đơn điện tử, bảng hiệu và dấu tên. Mỗi nhóm dịch vụ có trang giới thiệu riêng trong mục Dịch vụ.",
+  },
   {
     question: "Ngọc Hoàng phục vụ cá nhân hay doanh nghiệp?",
     answer:

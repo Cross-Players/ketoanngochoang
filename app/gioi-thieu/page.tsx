@@ -24,29 +24,13 @@ import {
 } from "@/data/about";
 import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
-import { getSiteUrl } from "@/lib/site-url";
+import { pageMetadata } from "@/lib/seo";
 
-const siteUrl = getSiteUrl();
-const pageUrl = siteUrl ? new URL("gioi-thieu/", siteUrl).toString() : undefined;
 const title = "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng";
 const description =
   "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng tại Đà Nẵng – Điểm tựa cho khởi đầu, Hài hòa cùng thịnh vượng. Dịch vụ thuế, kế toán và thành lập doanh nghiệp.";
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: pageUrl ? { canonical: pageUrl } : undefined,
-  openGraph: {
-    type: "website",
-    locale: "vi_VN",
-    siteName: COMPANY.name,
-    title,
-    description,
-    ...(pageUrl
-      ? { url: pageUrl, images: [{ url: new URL("og-ngoc-hoang.png", siteUrl).toString(), width: 1200, height: 630 }] }
-      : {}),
-  },
-};
+export const metadata: Metadata = pageMetadata({ path: "gioi-thieu/", title, description });
 
 function Rich({ text }: { text: RichText }) {
   return (
