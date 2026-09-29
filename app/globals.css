@@ -214,6 +214,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .service-icon { width: 64px; height: 64px; flex: 0 0 64px; display: grid; place-items: center; border-radius: 50%; background: #eef5fc; }
 .service-icon img { width: 46px; height: 46px; object-fit: contain; }
 .service-card h3 { margin: 0; color: var(--blue); font-size: 16px; line-height: 1.35; text-transform: uppercase; text-wrap: balance; }
+.service-card h3 a { color: inherit; }
+.service-card h3 a:hover { color: var(--orange); }
 .service-points { flex: 1 1 auto; padding: 0; margin: 0; list-style: none; text-align: left; }
 .service-points li { position: relative; padding: 3px 0 3px 18px; color: #555; font-size: 14.5px; line-height: 1.55; }
 .service-points li::before { content: ""; position: absolute; left: 2px; top: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
