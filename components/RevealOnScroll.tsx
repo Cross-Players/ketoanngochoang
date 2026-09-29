@@ -39,7 +39,7 @@ const GROUPS: ReadonlyArray<readonly [string, Variant]> = [
   [".benefit-list > li, .about-benefits > li", "item"],
   [".callout p", "lines"],
   [
-    ".benefit-content > h2, .section-intro, .services-more, .pricing .button, .faq-list > details, .faq-contact, .contact h2, .callout .button-row",
+    ".section-intro, .services-more, .pricing .button, .faq-list > details, .faq-contact, .callout .button-row",
     "rise",
   ],
 ];

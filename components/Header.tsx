@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { COMPANY, NAVIGATION, ROUTES, SERVICES } from "@/data/site";
+import { COMPANY, NAVIGATION, ROUTES, SERVICES, serviceItemHref } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
 
 function normalizePath(path: string | null): string {
@@ -131,11 +131,11 @@ export function Header() {
                             <div className="mega-col" key={service.slug}>
                               <p className="mega-title">
                                 <img src={getPublicAssetPath(service.image)} alt="" width="28" height="28" loading="lazy" />
-                                <Link href={`/#${service.slug}`} onClick={closeAll}>{service.title}</Link>
+                                <Link href={service.href} onClick={closeAll}>{service.title}</Link>
                               </p>
                               <ul>
                                 {service.subServices.map((sub) => (
-                                  <li key={sub}><Link href={`/#${service.slug}`} onClick={closeAll}>{sub}</Link></li>
+                                  <li key={sub}><Link href={serviceItemHref(sub)} onClick={closeAll}>{sub}</Link></li>
                                 ))}
                               </ul>
                             </div>

@@ -5,7 +5,7 @@ export interface NavigationLink {
   cta?: boolean;
 }
 export interface Service {
-  /** Anchor id of the card on the home page (used by the Dịch vụ mega menu). */
+  /** Anchor id của thẻ trên trang chủ (footer "Dịch vụ Pháp lý" và breadcrumb "Dịch vụ" dẫn về khu vực này). */
   slug: string;
   /** Tên nhóm – dùng chung cho cột mega menu, tiêu đề thẻ dịch vụ trang chủ và JSON-LD. */
   title: string;
@@ -16,6 +16,8 @@ export interface Service {
    * (3 mục đầu) và JSON-LD. Sửa ở đây là đồng bộ mọi nơi.
    */
   subServices: readonly string[];
+  /** Trang chi tiết của nhóm (tiêu đề cột mega menu, tiêu đề thẻ + "Xem thêm dịch vụ" trên trang chủ). */
+  href: string;
 }
 
 export interface Benefit {
@@ -35,7 +37,7 @@ export interface WorkflowStep {
    * đã có trên website (dịch vụ, liên hệ, câu hỏi thường gặp); không có số liệu, thời hạn hay cam kết mới.
    */
   body: readonly string[];
-  /** Icon bước (đã tách khỏi ảnh thẻ cũ quy-trinh-0x.jpg) – canh giữa vùng trắng của thẻ. */
+  /** Icon bước (public/assets/workflow/) – canh giữa vùng trắng của thẻ. */
   image: string;
   alt: string;
 }
@@ -81,8 +83,11 @@ export const ROUTES = {
   about: "/gioi-thieu/",
   services: "/#dich-vu",
   contact: "/#lien-he",
-  /** Trang chi tiết một bước quy trình, vd. ROUTES.workflow("tiep-nhan-thong-tin") → "/tiep-nhan-thong-tin/". */
-  workflow: (slug: string) => `/${slug}/`,
+  /**
+   * Trang chi tiết (bước quy trình hoặc dịch vụ) – cùng một route app/[slug]/page.tsx,
+   * vd. ROUTES.detail("dich-vu-ke-toan-da-nang") → "/dich-vu-ke-toan-da-nang/".
+   */
+  detail: (slug: string) => `/${slug}/`,
 } as const;
 
 export const NAVIGATION: readonly NavigationLink[] = [
@@ -99,6 +104,7 @@ export const NAVIGATION: readonly NavigationLink[] = [
 export const SERVICES: readonly Service[] = [
   {
     slug: "dv-phap-ly",
+    href: "/thanh-lap-cong-ty-da-nang/",
     title: "Pháp lý doanh nghiệp",
     image: "/assets/company-300x300-57c03f3f.png",
     alt: "Biểu tượng tòa nhà văn phòng – dịch vụ thành lập doanh nghiệp tại Đà Nẵng",
@@ -112,6 +118,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-thue",
+    href: "/dich-vu-ke-toan-da-nang/#thue",
     title: "Dịch vụ thuế",
     image: "/assets/tax-300x300-ca352e40.png",
     alt: "Biểu tượng tờ khai thuế – dịch vụ kê khai và quyết toán thuế",
@@ -124,6 +131,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-ke-toan",
+    href: "/dich-vu-ke-toan-da-nang/",
     title: "Dịch vụ kế toán",
     image: "/assets/accounting-300x300-2b340415.png",
     alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán trọn gói",
@@ -138,6 +146,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-nhan-su",
+    href: "/dich-vu-tinh-luong-da-nang/",
     title: "Nhân sự & tiền lương",
     image: "/assets/accounting-1-300x300-32be194d.png",
     alt: "Biểu tượng nhân viên tính lương – dịch vụ nhân sự và tiền lương",
@@ -150,6 +159,7 @@ export const SERVICES: readonly Service[] = [
   },
   {
     slug: "dv-ho-tro",
+    href: "/chu-ky-so-hoa-don-dien-tu-da-nang/",
     title: "Dịch vụ khác",
     image: "/assets/tax-1-300x300-9799d5c8.png",
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
@@ -161,14 +171,49 @@ export const SERVICES: readonly Service[] = [
   },
 ];
 
+/**
+ * Liên kết của từng mục dịch vụ con trong mega menu → trang/mục chi tiết (round 6). Khóa phải trùng NGUYÊN VĂN tên mục
+ * trong SERVICES; thiếu khóa → serviceItemHref() báo lỗi ngay khi build.
+ */
+export const SERVICE_ITEM_LINKS: Readonly<Record<string, string>> = {
+  "Thành lập doanh nghiệp trong nước": "/thanh-lap-cong-ty-da-nang/#thanh-lap",
+  "Thành lập chi nhánh, văn phòng đại diện, đơn vị phụ thuộc": "/thanh-lap-cong-ty-da-nang/#chi-nhanh",
+  "Thay đổi giấy phép kinh doanh": "/thay-doi-dang-ky-kinh-doanh-da-nang/",
+  "Tạm ngưng hoạt động": "/tam-ngung-giai-the-cong-ty-da-nang/#tam-ngung",
+  "Giải thể doanh nghiệp": "/tam-ngung-giai-the-cong-ty-da-nang/#giai-the",
+  "Dịch vụ kê khai thuế": "/dich-vu-ke-toan-da-nang/#thue",
+  "Rà soát tính tuân thủ pháp luật thuế": "/dich-vu-ke-toan-da-nang/#thue",
+  "Quyết toán thuế cuối năm cho doanh nghiệp": "/dich-vu-ke-toan-da-nang/#quyet-toan",
+  "Quyết toán thuế TNCN": "/dich-vu-tinh-luong-da-nang/#thue-tncn",
+  "Dịch vụ kế toán trọn gói": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Tư vấn, thiết lập hệ thống kế toán": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Kiểm tra, hoàn thiện sổ sách kế toán": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Lập báo cáo tài chính cuối năm": "/dich-vu-ke-toan-da-nang/#quyet-toan",
+  "Đánh giá nhanh BCTC, quyết toán cuối năm": "/dich-vu-ke-toan-da-nang/#quyet-toan",
+  "Dịch vụ lập hoá đơn GTGT": "/dich-vu-ke-toan-da-nang/#ke-toan",
+  "Dịch vụ nhân sự ban đầu": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Dịch vụ tính lương": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Theo dõi trích nộp thuế TNCN": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động": "/dich-vu-tinh-luong-da-nang/#nhan-su-tien-luong",
+  "Chữ ký số, hóa đơn điện tử (đối tác Viettel)": "/chu-ky-so-hoa-don-dien-tu-da-nang/#chu-ky-so",
+  "Bảng hiệu và dấu tên": "/chu-ky-so-hoa-don-dien-tu-da-nang/#dau-bang-hieu",
+  "Thành lập tài khoản ngân hàng số đẹp (đối tác Techcombank)": "/chu-ky-so-hoa-don-dien-tu-da-nang/#tai-khoan-so-dep",
+};
+
+export function serviceItemHref(name: string): string {
+  const href = SERVICE_ITEM_LINKS[name];
+  if (!href) throw new Error(`Thiếu liên kết cho mục dịch vụ "${name}" (SERVICE_ITEM_LINKS, data/site.ts)`);
+  return href;
+}
+
 export const BENEFITS: readonly Benefit[] = [
   {
     title: "Tận tâm với từng hồ sơ",
     description: "Lắng nghe nhu cầu của từng cá nhân, hộ gia đình và doanh nghiệp, giải thích rõ các bước thủ tục trước khi thực hiện.",
   },
   {
-    title: "Am hiểu thủ tục thuế",
-    description: "Đội ngũ tư vấn am hiểu thủ tục thuế và kế toán, hướng dẫn hồ sơ theo quy định hiện hành.",
+    title: "Am hiểu thuế, kế toán và thủ tục doanh nghiệp",
+    description: "Đội ngũ tư vấn am hiểu thuế, kế toán và thủ tục doanh nghiệp, hướng dẫn hồ sơ theo quy định hiện hành.",
   },
   {
     title: "Báo giá rõ ràng trước khi làm",
@@ -240,6 +285,10 @@ export const WORKFLOW_STEPS: readonly WorkflowStep[] = [
   },
 ];
 
+export function getWorkflowStep(slug: string): WorkflowStep | undefined {
+  return WORKFLOW_STEPS.find((step) => step.slug === slug);
+}
+
 export const NEWS_ITEMS: readonly NewsItem[] = [
   {
     title: "Loại hình Công ty TNHH một thành viên",
@@ -259,6 +308,11 @@ export const NEWS_ITEMS: readonly NewsItem[] = [
 ];
 
 export const FAQ_ITEMS: readonly FaqItem[] = [
+  {
+    question: "Ngọc Hoàng cung cấp những dịch vụ nào?",
+    answer:
+      "Ngọc Hoàng hỗ trợ kế toán và thuế, pháp lý doanh nghiệp (thành lập, thay đổi giấy phép kinh doanh, tạm ngưng hoạt động, giải thể), nhân sự & tiền lương, cùng các dịch vụ khác như chữ ký số, hóa đơn điện tử, bảng hiệu và dấu tên. Mỗi nhóm dịch vụ có trang giới thiệu riêng trong mục Dịch vụ.",
+  },
   {
     question: "Ngọc Hoàng phục vụ cá nhân hay doanh nghiệp?",
     answer:
@@ -280,10 +334,10 @@ export const FOOTER_LINK_GROUPS = [
   {
     title: "Dịch vụ",
     links: [
-      ["Tư vấn thành lập doanh nghiệp", "/#dv-phap-ly"],
-      ["Dịch vụ Thuế", "/#dv-thue"],
-      ["Dịch vụ Kế toán", "/#dv-ke-toan"],
-      ["Dịch vụ Nhân sự", "/#dv-nhan-su"],
+      ["Tư vấn thành lập doanh nghiệp", "/thanh-lap-cong-ty-da-nang/"],
+      ["Dịch vụ Thuế", "/dich-vu-ke-toan-da-nang/#thue"],
+      ["Dịch vụ Kế toán", "/dich-vu-ke-toan-da-nang/"],
+      ["Dịch vụ Nhân sự", "/dich-vu-tinh-luong-da-nang/"],
       ["Dịch vụ Pháp lý", "/#dv-phap-ly"],
     ],
   },

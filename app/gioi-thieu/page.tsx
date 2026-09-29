@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { QuickContact } from "@/components/QuickContact";
+import { SectionTitle } from "@/components/SectionTitle";
 import {
   ABOUT_BENEFITS,
   ABOUT_BENEFITS_LEAD,
@@ -24,29 +26,15 @@ import {
 } from "@/data/about";
 import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
-import { getSiteUrl } from "@/lib/site-url";
+import { pageMetadata, routeToPath } from "@/lib/seo";
 
-const siteUrl = getSiteUrl();
-const pageUrl = siteUrl ? new URL("gioi-thieu/", siteUrl).toString() : undefined;
 const title = "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng";
 const description =
   "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng tại Đà Nẵng – Điểm tựa cho khởi đầu, Hài hòa cùng thịnh vượng. Dịch vụ thuế, kế toán và thành lập doanh nghiệp.";
 
-export const metadata: Metadata = {
-  title,
-  description,
-  alternates: pageUrl ? { canonical: pageUrl } : undefined,
-  openGraph: {
-    type: "website",
-    locale: "vi_VN",
-    siteName: COMPANY.name,
-    title,
-    description,
-    ...(pageUrl
-      ? { url: pageUrl, images: [{ url: new URL("og-ngoc-hoang.png", siteUrl).toString(), width: 1200, height: 630 }] }
-      : {}),
-  },
-};
+const PATH = routeToPath(ROUTES.about);
+
+export const metadata: Metadata = pageMetadata({ path: PATH, title, description });
 
 function Rich({ text }: { text: RichText }) {
   return (
@@ -65,11 +53,7 @@ export default function AboutPage() {
       <main id="main" className="about-page">
         <section className="page-banner" aria-labelledby="about-title">
           <div className="container">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-              <Link href={ROUTES.home}>Trang chủ</Link>
-              <span aria-hidden="true">/</span>
-              <span aria-current="page">Giới thiệu</span>
-            </nav>
+            <Breadcrumbs path={PATH} items={[{ label: "Trang chủ", href: ROUTES.home }, { label: "Giới thiệu" }]} />
             <h1 id="about-title">Giới thiệu</h1>
           </div>
         </section>
@@ -84,25 +68,25 @@ export default function AboutPage() {
         </section>
 
         <section className="about-intro section-space" aria-labelledby="about-heading">
-          <div className="container about-intro-grid">
-            <div className="about-intro-text">
-              <p className="about-eyebrow" aria-hidden="true">{COMPANY.name}</p>
-              <h2 id="about-heading">GIỚI THIỆU VỀ NGỌC HOÀNG</h2>
-              <p className="sr-only">{ABOUT_DOC_HEADING}</p>
-              <p><Rich text={ABOUT_INTRO} /></p>
+          <div className="container">
+            <p className="about-eyebrow" aria-hidden="true">{COMPANY.name}</p>
+            <SectionTitle id="about-heading">GIỚI THIỆU VỀ NGỌC HOÀNG</SectionTitle>
+            <p className="sr-only">{ABOUT_DOC_HEADING}</p>
+            <div className="about-intro-grid">
+              <p className="about-intro-text"><Rich text={ABOUT_INTRO} /></p>
+              <figure className="about-intro-image">
+                <img src={getPublicAssetPath("/logo-hero.webp")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – Tận tâm, chuyên nghiệp, hiệu quả" width="1408" height="768" />
+              </figure>
             </div>
-            <figure className="about-intro-image">
-              <img src={getPublicAssetPath("/logo-hero.webp")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – Tận tâm, chuyên nghiệp, hiệu quả" width="1408" height="768" />
-            </figure>
           </div>
         </section>
 
         <article className="about-body">
           <div className="container about-body-inner">
-            <h2>{ABOUT_TAX_HEADING}</h2>
+            <SectionTitle>{ABOUT_TAX_HEADING}</SectionTitle>
             {ABOUT_TAX_PARAGRAPHS.map((paragraph, index) => <p key={index}><Rich text={paragraph} /></p>)}
 
-            <h2>{ABOUT_WHY_HEADING}</h2>
+            <SectionTitle>{ABOUT_WHY_HEADING}</SectionTitle>
             <ul className="about-list">
               {ABOUT_WHY_LIST.map((item) => <li key={item}>{item}</li>)}
               <li>

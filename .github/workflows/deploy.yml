@@ -33,6 +33,8 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: https://tiendat11.github.io/ngochoangbhxh/
+          # Repository variable (Settings → Secrets and variables → Actions → Variables); để trống → form chạy chế độ trình diễn.
+          NEXT_PUBLIC_CONTACT_FORM_ENDPOINT: ${{ vars.CONTACT_FORM_ENDPOINT }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:

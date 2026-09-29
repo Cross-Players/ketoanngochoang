@@ -1,41 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { QuickContact } from "@/components/QuickContact";
 import { COMPANY, ROUTES, WORKFLOW_STEPS, type WorkflowStep } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
-import { getSiteUrl } from "@/lib/site-url";
-
-export function getWorkflowStep(slug: string): WorkflowStep | undefined {
-  return WORKFLOW_STEPS.find((step) => step.slug === slug);
-}
+import { pageMetadata, routeToPath } from "@/lib/seo";
+import { sentenceCase } from "@/lib/text";
 
 export function workflowMetadata(step: WorkflowStep): Metadata {
-  const siteUrl = getSiteUrl();
-  const pageUrl = siteUrl ? new URL(`${step.slug}/`, siteUrl).toString() : undefined;
-  const title = `${titleCase(step.title)} – Quy trình làm việc`;
-  const description = step.description;
-  return {
-    title,
-    description,
-    alternates: pageUrl ? { canonical: pageUrl } : undefined,
-    openGraph: {
-      type: "article",
-      locale: "vi_VN",
-      siteName: COMPANY.name,
-      title,
-      description,
-      ...(pageUrl
-        ? { url: pageUrl, images: [{ url: new URL("og-ngoc-hoang.png", siteUrl).toString(), width: 1200, height: 630 }] }
-        : {}),
-    },
-  };
-}
-
-function titleCase(text: string) {
-  return text.charAt(0) + text.slice(1).toLocaleLowerCase("vi");
+  return pageMetadata({
+    path: routeToPath(ROUTES.detail(step.slug)),
+    title: `${sentenceCase(step.title)} – Quy trình làm việc`,
+    description: step.description,
+    type: "article",
+  });
 }
 
 export function WorkflowDetailPage({ step }: { step: WorkflowStep }) {
@@ -50,13 +31,10 @@ export function WorkflowDetailPage({ step }: { step: WorkflowStep }) {
       <main id="main" className="workflow-detail">
         <section className="workflow-detail-hero" aria-labelledby="workflow-detail-title">
           <div className="container">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
-              <Link href={ROUTES.home}>Trang chủ</Link>
-              <span aria-hidden="true">/</span>
-              <Link href="/#quy-trinh">Quy trình</Link>
-              <span aria-hidden="true">/</span>
-              <span aria-current="page">{titleCase(step.title)}</span>
-            </nav>
+            <Breadcrumbs
+              path={routeToPath(ROUTES.detail(step.slug))}
+              items={[{ label: "Trang chủ", href: ROUTES.home }, { label: "Quy trình", href: "/#quy-trinh" }, { label: sentenceCase(step.title) }]}
+            />
             <p className="workflow-detail-kicker">Bước {stepNumber} / 04</p>
             <h1 id="workflow-detail-title">{step.title}</h1>
           </div>
@@ -78,15 +56,15 @@ export function WorkflowDetailPage({ step }: { step: WorkflowStep }) {
 
             <nav className="workflow-nav" aria-label="Các bước quy trình khác">
               {prev ? (
-                <Link href={ROUTES.workflow(prev.slug)}>
+                <Link href={ROUTES.detail(prev.slug)}>
                   <span className="wn-label">Bước trước</span>
-                  <span className="wn-title">{titleCase(prev.title)}</span>
+                  <span className="wn-title">{sentenceCase(prev.title)}</span>
                 </Link>
               ) : <span />}
               {next ? (
-                <Link className="wn-next" href={ROUTES.workflow(next.slug)}>
+                <Link className="wn-next" href={ROUTES.detail(next.slug)}>
                   <span className="wn-label">Bước tiếp</span>
-                  <span className="wn-title">{titleCase(next.title)}</span>
+                  <span className="wn-title">{sentenceCase(next.title)}</span>
                 </Link>
               ) : <span />}
             </nav>
