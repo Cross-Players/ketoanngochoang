@@ -4,7 +4,8 @@ import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { HeroParallax } from "@/components/HeroParallax";
 
-const HERO_TITLE = "Dịch vụ kế toán tại Đà Nẵng – Ngọc Hoàng";
+// "Đà\u00A0Nẵng" dùng khoảng trắng không ngắt để địa danh không bị tách xuống 2 dòng (và giữ chung 1 từ khi tách chữ).
+const HERO_TITLE = "Dịch vụ kế toán tại Đà\u00A0Nẵng – Ngọc Hoàng";
 
 /**
  * Tiêu đề hero tách theo từ để "nổi" lên lần lượt sau mặt nạ (CSS, xem globals.css – Hero intro).
