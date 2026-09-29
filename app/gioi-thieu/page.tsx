@@ -5,6 +5,7 @@ import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { QuickContact } from "@/components/QuickContact";
+import { SectionTitle } from "@/components/SectionTitle";
 import {
   ABOUT_BENEFITS,
   ABOUT_BENEFITS_LEAD,
@@ -67,25 +68,25 @@ export default function AboutPage() {
         </section>
 
         <section className="about-intro section-space" aria-labelledby="about-heading">
-          <div className="container about-intro-grid">
-            <div className="about-intro-text">
-              <p className="about-eyebrow" aria-hidden="true">{COMPANY.name}</p>
-              <h2 id="about-heading">GIỚI THIỆU VỀ NGỌC HOÀNG</h2>
-              <p className="sr-only">{ABOUT_DOC_HEADING}</p>
-              <p><Rich text={ABOUT_INTRO} /></p>
+          <div className="container">
+            <p className="about-eyebrow" aria-hidden="true">{COMPANY.name}</p>
+            <SectionTitle id="about-heading">GIỚI THIỆU VỀ NGỌC HOÀNG</SectionTitle>
+            <p className="sr-only">{ABOUT_DOC_HEADING}</p>
+            <div className="about-intro-grid">
+              <p className="about-intro-text"><Rich text={ABOUT_INTRO} /></p>
+              <figure className="about-intro-image">
+                <img src={getPublicAssetPath("/logo-hero.webp")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – Tận tâm, chuyên nghiệp, hiệu quả" width="1408" height="768" />
+              </figure>
             </div>
-            <figure className="about-intro-image">
-              <img src={getPublicAssetPath("/logo-hero.webp")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – Tận tâm, chuyên nghiệp, hiệu quả" width="1408" height="768" />
-            </figure>
           </div>
         </section>
 
         <article className="about-body">
           <div className="container about-body-inner">
-            <h2>{ABOUT_TAX_HEADING}</h2>
+            <SectionTitle>{ABOUT_TAX_HEADING}</SectionTitle>
             {ABOUT_TAX_PARAGRAPHS.map((paragraph, index) => <p key={index}><Rich text={paragraph} /></p>)}
 
-            <h2>{ABOUT_WHY_HEADING}</h2>
+            <SectionTitle>{ABOUT_WHY_HEADING}</SectionTitle>
             <ul className="about-list">
               {ABOUT_WHY_LIST.map((item) => <li key={item}>{item}</li>)}
               <li>

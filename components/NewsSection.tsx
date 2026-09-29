@@ -1,3 +1,4 @@
+import { SectionTitle } from "@/components/SectionTitle";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { NEWS_ITEMS } from "@/data/site";
 
@@ -5,7 +6,7 @@ export function NewsSection() {
   return (
     <section className="news section-space" id="co-hoi-moi">
       <div className="container">
-        <h2 className="section-title"><span className="section-title-text">CÓ GÌ MỚI VỀ THUẾ VÀ DOANH NGHIỆP?</span></h2>
+        <SectionTitle>CÓ GÌ MỚI VỀ THUẾ VÀ DOANH NGHIỆP?</SectionTitle>
         <div className="news-grid">
           {NEWS_ITEMS.map((item) => (
             <article key={item.title}>

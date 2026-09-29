@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { ROUTES, WORKFLOW_STEPS } from "@/data/site";
+import { SectionTitle } from "@/components/SectionTitle";
 
 export function WorkflowSection() {
   return (
     <section className="workflow section-space" id="quy-trinh">
       <div className="container">
-        <h2 className="section-title"><span className="section-title-text">QUY TRÌNH LÀM VIỆC TẠI NGỌC HOÀNG</span></h2>
+        <SectionTitle>QUY TRÌNH LÀM VIỆC TẠI NGỌC HOÀNG</SectionTitle>
         <div className="workflow-grid">
           {WORKFLOW_STEPS.map((step, index) => (
             <Link

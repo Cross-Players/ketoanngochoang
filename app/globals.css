@@ -184,7 +184,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .section-space { padding-block: 68px; }
 .section-title { margin: 0 0 24px; color: var(--blue); font-size: 27px; line-height: 1.3; text-align: center; text-wrap: balance; }
 /* Polish: tiêu đề nhiều dòng chia dòng cân đối, không để 1 chữ mồ côi ở dòng cuối. */
-.contact h2, .faq-list summary h3, .news-grid h3, .workflow-grid h3, .about-body h2, .benefit-content h2 { text-wrap: balance; }
+.faq-list summary h3, .news-grid h3, .workflow-grid h3, .about-contact h2 { text-wrap: balance; }
 /* Đường kẻ mảnh hai bên tiêu đề (kiểu TIM SEN: —— TIÊU ĐỀ ——); tiêu đề dài tự xuống dòng, vạch co lại tới min-width. */
 .section-title { display: flex; align-items: center; justify-content: center; gap: 18px; }
 .section-title::before,
@@ -245,7 +245,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .benefits { min-height: 0; }
 .benefits-layout { display: grid; grid-template-columns: 1fr; align-items: center; gap: 48px; }
-.benefit-content h2 { margin: 0 0 17px; color: var(--blue); font-size: 23px; }
 .benefit-list { padding: 0; margin: 0; list-style: none; }
 .benefit-list li { display: flex; gap: 14px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid #eee; }
 .benefit-list li:last-child { border-bottom: 0; }
@@ -285,7 +284,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 
 .contact { min-height: 0; display: flex; align-items: center; padding-block: 50px; background: #fff; scroll-margin-top: calc(var(--nav-h) + 12px); }
 .contact-inner { max-width: 810px; }
-.contact h2 { margin: 0 0 24px; color: var(--blue); font-size: 27px; line-height: 1.4; text-align: center; }
 .contact-form { display: grid; gap: 13px; padding: 25px 28px; border: 1px solid #f3a02c; background: #fff; }
 .contact-form input, .contact-form textarea { width: 100%; min-height: 43px; padding: 11px 13px; border: 1px solid #d9dfe4; border-radius: 2px; color: var(--ink); background: #fff; font-size: 14px; }
 .contact-form textarea { resize: vertical; }
@@ -403,15 +401,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .about-quote-slogan { margin: 8px 0 10px; color: var(--blue); font-size: clamp(20px, 2.2vw, 26px); font-weight: 700; font-style: italic; line-height: 1.4; }
 .about-quote-motto { margin: 0; color: #444; font-size: 16px; line-height: 1.7; }
 .about-intro-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; gap: 44px; }
-.about-eyebrow { margin: 0 0 6px; color: var(--orange); font-size: 13px; font-weight: 700; letter-spacing: .03em; }
-.about-intro h2, .svc-h2 { position: relative; margin: 0 0 18px; padding-bottom: 12px; color: var(--blue); font-size: 27px; line-height: 1.3; }
-.about-intro h2::after, .svc-h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 64px; height: 3px; background: var(--orange); }
+.about-eyebrow { margin: 0 0 6px; text-align: center; text-wrap: balance; color: var(--orange); font-size: 13px; font-weight: 700; letter-spacing: .03em; }
+/* Tiêu đề trong khung báo giá: gạch cam ngắn bên dưới (tiêu đề khung, không phải tiêu đề section). */
+.svc-pricing h2 { position: relative; margin: 0 0 18px; padding-bottom: 12px; color: var(--blue); font-size: 25px; line-height: 1.3; text-wrap: balance; }
+.svc-pricing h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 64px; height: 3px; background: var(--orange); }
 .about-intro p { font-size: 16px; line-height: 1.75; }
 .about-intro-image { margin: 0; overflow: hidden; border-radius: 10px; background: #fbf8ef; box-shadow: 0 14px 30px rgb(22 47 83 / 14%); }
 .about-body { padding-bottom: 60px; }
 .about-body-inner { max-width: 900px; }
-.about-body h2 { margin: 34px 0 12px; color: var(--blue); font-size: 22px; line-height: 1.4; }
-.about-body h2:first-child { margin-top: 0; }
+.about-body .section-title { margin-top: 34px; }
+.about-body .section-title:first-child { margin-top: 0; }
 .about-body p { margin: 0 0 14px; font-size: 16px; line-height: 1.75; text-align: left; }
 .about-body strong { color: var(--blue-dark); }
 .about-list { margin: 0 0 14px; padding-left: 22px; }
@@ -429,7 +428,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .about-hotline a { color: var(--blue); }
 .about-contact { margin-top: 30px; }
 .about-contact, .svc-pricing { padding: 24px 26px; border: 1px solid #f3a02c; border-radius: 8px; background: #fffaf5; }
-.about-contact h2 { margin: 0 0 8px; font-size: 19px; }
+.about-contact h2 { margin: 0 0 8px; color: var(--blue); font-size: 19px; line-height: 1.4; }
 .about-contact p { margin: 0; }
 .about-contact a { color: var(--blue); font-weight: 700; }
 .about-contact .button-row { justify-content: flex-start; margin-top: 16px; }
@@ -448,9 +447,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .svc-section { padding-block: 44px; }
 .svc-section:nth-of-type(even) { background: #f7fafd; }
 .svc-narrow { max-width: 980px; }
-.svc-h2 { font-size: 25px; text-wrap: balance; }
-.svc-h2-center { text-align: center; }
-.svc-h2-center::after { left: 50%; transform: translateX(-50%); }
 .svc-section p { margin: 0 0 14px; font-size: 16px; line-height: 1.75; }
 .svc-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
 .svc-items li { padding: 18px 20px; border: 1px solid var(--line); border-top: 3px solid var(--blue); border-radius: 6px; background: #fff; }
@@ -482,7 +478,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .svc-lead { font-size: 16px; }
   .svc-banner-actions .button { flex: 1 1 100%; }
   .svc-section { padding-block: 34px; }
-  .svc-h2 { font-size: 21px; }
+  .svc-pricing h2 { font-size: 21px; }
   .svc-items, .svc-steps, .svc-related { grid-template-columns: 1fr; }
   .svc-pricing .button { flex: 1 1 100%; }
 }
@@ -592,9 +588,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .about-quote-motto { font-size: 15px; }
   .about-quote-motto br { display: none; }
   .about-intro-grid { grid-template-columns: 1fr; gap: 22px; }
-  .about-intro h2 { font-size: 22px; }
   .about-intro p, .about-body p { font-size: 15px; line-height: 1.7; }
-  .about-body h2 { margin-top: 26px; font-size: 19px; }
+  .about-body .section-title { margin-top: 26px; }
   .about-benefits { padding: 16px 14px; gap: 12px; }
   .about-benefits li { padding-left: 32px; font-size: 15px; }
   .about-contact, .svc-pricing { padding: 18px 16px; }
@@ -609,7 +604,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .button { min-height: 44px; font-size: 14px; }
   .benefits { min-height: 0; padding-block: 31px; }
   .benefits-layout { grid-template-columns: 1fr; gap: 22px; }
-  .benefit-content h2 { font-size: 20px; }
   .benefit-list li { padding-block: 8px; }
   .benefit-list h3 { font-size: 16px; }
   .benefit-list p { font-size: 15px; line-height: 1.6; }
@@ -627,7 +621,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .faq { padding-block: 31px; }
   .faq-list summary h3 { font-size: 16px; }
   .contact { min-height: 0; padding-block: 37px; }
-  .contact h2 { margin-bottom: 18px; font-size: 22px; }
   .contact-form { gap: 10px; padding: 17px; }
   .contact-form input { min-height: 48px; }
   .contact-form textarea { min-height: 110px; }

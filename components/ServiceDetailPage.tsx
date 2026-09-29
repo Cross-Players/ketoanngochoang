@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
 import { QuickContact } from "@/components/QuickContact";
+import { SectionTitle } from "@/components/SectionTitle";
 import { COMPANY, ROUTES, WORKFLOW_STEPS } from "@/data/site";
 import { TEAM_NOTE, getServicePage, type ServicePage } from "@/data/services";
 import { AREA_SERVED, absoluteUrl, faqPageNode, organizationRef, pageMetadata, routeToPath } from "@/lib/seo";
@@ -72,7 +73,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" aria-labelledby="svc-intro-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2" id="svc-intro-title">{page.intro.title}</h2>
+            <SectionTitle id="svc-intro-title">{page.intro.title}</SectionTitle>
             {page.intro.paragraphs.map((text) => <p key={text}>{text}</p>)}
           </div>
         </section>
@@ -80,7 +81,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
         {page.sections.map((section) => (
           <section className="svc-section" id={section.id} key={section.id} aria-labelledby={`${section.id}-title`}>
             <div className="container svc-narrow">
-              <h2 className="svc-h2" id={`${section.id}-title`}>{section.title}</h2>
+              <SectionTitle id={`${section.id}-title`}>{section.title}</SectionTitle>
               {section.paragraphs?.map((text) => <p key={text}>{text}</p>)}
               {section.items && (
                 <ul className="svc-items">
@@ -109,7 +110,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" aria-labelledby="svc-audience-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2" id="svc-audience-title">{page.audience.title}</h2>
+            <SectionTitle id="svc-audience-title">{page.audience.title}</SectionTitle>
             <ul className="svc-check">
               {page.audience.items.map((item) => <li key={item}>{item}</li>)}
             </ul>
@@ -119,7 +120,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
         <section className="svc-section" id={page.pricing.id} aria-labelledby="svc-pricing-title">
           <div className="container svc-narrow">
             <div className="svc-pricing">
-              <h2 className="svc-h2" id="svc-pricing-title">{page.pricing.title}</h2>
+              <h2 id="svc-pricing-title">{page.pricing.title}</h2>
               {page.pricing.paragraphs.map((text) => <p key={text}>{text}</p>)}
               <div className="button-row">
                 <a className="button button-orange" href="#lien-he">Nhận báo giá</a>
@@ -131,7 +132,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" aria-labelledby="svc-process-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2 svc-h2-center" id="svc-process-title">Quy trình làm việc</h2>
+            <SectionTitle id="svc-process-title">Quy trình làm việc</SectionTitle>
             <ol className="svc-steps">
               {WORKFLOW_STEPS.map((step, index) => (
                 <li key={step.slug}>
@@ -148,7 +149,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" aria-labelledby="svc-why-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2" id="svc-why-title">{page.whyTitle}</h2>
+            <SectionTitle id="svc-why-title">{page.whyTitle}</SectionTitle>
             <p>{TEAM_NOTE}</p>
             <BenefitList className="svc-benefits" />
           </div>
@@ -156,7 +157,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" aria-labelledby="svc-prepare-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2" id="svc-prepare-title">{page.prepare.title}</h2>
+            <SectionTitle id="svc-prepare-title">{page.prepare.title}</SectionTitle>
             <ul className="svc-check">
               {page.prepare.items.map((item) => <li key={item}>{item}</li>)}
             </ul>
@@ -166,7 +167,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" id={FAQ_ANCHOR} aria-labelledby="svc-faq-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2 svc-h2-center" id="svc-faq-title">{page.faqTitle}</h2>
+            <SectionTitle id="svc-faq-title">{page.faqTitle}</SectionTitle>
             <FaqList items={page.faq} />
             <p className="faq-contact">Chưa thấy câu trả lời bạn cần? Gọi <a href={COMPANY.hotlineHref}>{COMPANY.hotline}</a> hoặc <a href="#lien-he">gửi câu hỏi</a> cho Ngọc Hoàng.</p>
           </div>
@@ -174,7 +175,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
 
         <section className="svc-section" aria-labelledby="svc-related-title">
           <div className="container svc-narrow">
-            <h2 className="svc-h2 svc-h2-center" id="svc-related-title">Dịch vụ liên quan</h2>
+            <SectionTitle id="svc-related-title">Dịch vụ liên quan</SectionTitle>
             <ul className="svc-related">
               {related.map((item) => (
                 <li key={item.slug}>

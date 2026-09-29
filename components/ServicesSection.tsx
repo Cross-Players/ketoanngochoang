@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { ROUTES, SERVICES } from "@/data/site";
+import { SectionTitle } from "@/components/SectionTitle";
 
 /** Số dòng mô tả ngắn hiển thị trên mỗi thẻ dịch vụ (danh sách đầy đủ nằm trong menu Dịch vụ). */
 const CARD_LINES = 3;
@@ -9,7 +10,7 @@ export function ServicesSection() {
   return (
     <section className="services section-space" id="dich-vu" aria-labelledby="services-title">
       <div className="container">
-        <h2 className="section-title" id="services-title"><span className="section-title-text">DỊCH VỤ KẾ TOÁN THUẾ, PHÁP LÝ DOANH NGHIỆP VÀ TIỀN LƯƠNG TẠI ĐÀ NẴNG</span></h2>
+        <SectionTitle id="services-title">DỊCH VỤ KẾ TOÁN THUẾ, PHÁP LÝ DOANH NGHIỆP VÀ TIỀN LƯƠNG TẠI ĐÀ NẴNG</SectionTitle>
         <div className="service-grid">
           {SERVICES.map((service) => (
             <article className="service-card" key={service.slug} id={service.slug}>
