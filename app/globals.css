@@ -428,6 +428,61 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .about-contact .button-orange { color: #fff; }
 .about-contact .button-blue { color: #fff; }
 
+/* ---------- Trang chi tiết dịch vụ (round 6, components/ServiceDetailPage.tsx) ---------- */
+.svc-page { background: #fff; }
+.svc-banner h1 { max-width: 30ch; text-wrap: balance; }
+.svc-lead { max-width: 70ch; margin: 14px 0 0; color: #e6f0fa; font-size: 17px; line-height: 1.65; }
+.svc-banner-actions { justify-content: flex-start; flex-wrap: wrap; margin-top: 22px; }
+.svc-toc { padding-block: 18px 4px; }
+.svc-toc ul { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 0; padding: 0; list-style: none; }
+.svc-toc a { display: inline-flex; align-items: center; min-height: 36px; padding: 6px 14px; border: 1px solid #d6e3f1; border-radius: 999px; color: var(--blue); background: #f4f8fd; font-size: 14px; font-weight: 600; line-height: 1.35; }
+.svc-toc a:hover { border-color: var(--orange); color: var(--orange); }
+.svc-section { padding-block: 44px; }
+.svc-section:nth-of-type(even) { background: #f7fafd; }
+.svc-narrow { max-width: 980px; }
+.svc-h2 { position: relative; margin: 0 0 18px; padding-bottom: 12px; color: var(--blue); font-size: 25px; line-height: 1.35; text-wrap: balance; }
+.svc-h2::after { content: ""; position: absolute; left: 0; bottom: 0; width: 64px; height: 3px; background: var(--orange); }
+.svc-h2-center { text-align: center; }
+.svc-h2-center::after { left: 50%; transform: translateX(-50%); }
+.svc-section p { margin: 0 0 14px; font-size: 16px; line-height: 1.75; }
+.svc-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 18px 0 0; padding: 0; list-style: none; }
+.svc-items li { padding: 18px 20px; border: 1px solid var(--line); border-top: 3px solid var(--blue); border-radius: 6px; background: #fff; }
+.svc-items h3 { margin: 0 0 6px; color: var(--blue-dark); font-size: 17px; line-height: 1.4; }
+.svc-items p { margin: 0; color: #444; font-size: 15px; line-height: 1.65; }
+.svc-links { margin-top: 18px !important; font-size: 15px !important; }
+.svc-check { display: grid; gap: 10px; margin: 0 0 14px; padding: 0; list-style: none; }
+.svc-check li { position: relative; padding-left: 32px; font-size: 16px; line-height: 1.65; }
+.svc-check li::before { content: "✓"; position: absolute; left: 0; top: 2px; width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; color: #fff; background: var(--blue); font-size: 13px; font-weight: 700; }
+.svc-muted { color: #5a6470; font-size: 15px !important; font-style: italic; }
+.svc-pricing { padding: 26px 28px; border: 1px solid #f3a02c; border-radius: 8px; background: #fffaf5; }
+.svc-pricing .button-row { justify-content: flex-start; flex-wrap: wrap; margin-top: 8px; }
+.svc-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 8px 0 0; padding: 0; list-style: none; }
+.svc-steps a { height: 100%; display: block; padding: 20px 18px; border: 1px solid var(--line); border-radius: 8px; color: inherit; background: #fff; transition: border-color .15s ease, box-shadow .15s ease; }
+.svc-steps a:hover { border-color: var(--orange); box-shadow: 0 8px 20px rgb(22 47 83 / 10%); }
+.svc-step-no { display: inline-grid; place-items: center; width: 44px; height: 44px; margin-bottom: 10px; border-radius: 50%; color: #fff; background: var(--blue); font-size: 17px; font-weight: 700; }
+.svc-steps h3 { margin: 0 0 6px; color: var(--blue); font-size: 17px; line-height: 1.4; }
+.svc-steps p { margin: 0; color: #555; font-size: 15px; line-height: 1.6; }
+.svc-benefits { margin-top: 6px; }
+.svc-related { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 8px 0 0; padding: 0; list-style: none; }
+.svc-related a { height: 100%; display: flex; flex-direction: column; padding: 20px; border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 6px; color: inherit; background: #fff; transition: box-shadow .15s ease; }
+.svc-related a:hover { box-shadow: 0 8px 20px rgb(22 47 83 / 10%); }
+.svc-related h3 { margin: 0 0 6px; color: var(--blue); font-size: 17px; }
+.svc-related p { flex: 1; margin: 0 0 10px; color: #555; font-size: 15px; line-height: 1.6; }
+.svc-related-more { color: var(--blue); font-size: 14px; font-weight: 700; }
+.svc-related a:hover .svc-related-more { color: var(--orange); }
+@media (max-width: 1060px) {
+  .svc-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .svc-lead { font-size: 16px; }
+  .svc-banner-actions .button { flex: 1 1 100%; }
+  .svc-section { padding-block: 34px; }
+  .svc-h2 { font-size: 21px; }
+  .svc-items, .svc-steps, .svc-related { grid-template-columns: 1fr; }
+  .svc-pricing { padding: 20px 18px; }
+  .svc-pricing .button { flex: 1 1 100%; }
+}
+
 @media (max-width: 1240px) {
   .nav-phone span { display: none; }
   /* 1061–1240px: giữ chữ thương hiệu cạnh logo, thu nhỏ logo/chữ và khoảng đệm menu để vừa một hàng. */

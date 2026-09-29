@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { CONTENT_UPDATED_AT, WORKFLOW_STEPS } from "@/data/site";
+import { SERVICE_PAGES } from "@/data/services";
 import { requireSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-static";
@@ -18,6 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
         new URL("logo-ngoc-hoang-512.png", siteUrl).toString(),
       ],
     },
+    ...SERVICE_PAGES.map((page) => ({
+      url: new URL(`${page.slug}/`, siteUrl).toString(),
+      lastModified: updated,
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
     {
       url: new URL("gioi-thieu/", siteUrl).toString(),
       lastModified: updated,

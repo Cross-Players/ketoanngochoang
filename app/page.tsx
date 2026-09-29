@@ -11,7 +11,8 @@ import { QuickContact } from "@/components/QuickContact";
 import { ServicesSection } from "@/components/ServicesSection";
 import { WorkflowSection } from "@/components/WorkflowSection";
 import { FaqSection } from "@/components/FaqSection";
-import { COMPANY, FAQ_ITEMS, SERVICES } from "@/data/site";
+import { COMPANY, FAQ_ITEMS } from "@/data/site";
+import { SERVICE_PAGES } from "@/data/services";
 import { PAGE_DESCRIPTION } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 
@@ -61,12 +62,14 @@ const businessNode = {
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Dịch vụ của Ngọc Hoàng",
-    itemListElement: SERVICES.map((service) => ({
+    // Mỗi dịch vụ trỏ tới trang chi tiết riêng (round 6). Không đưa mục bảo hiểm vào schema.
+    itemListElement: SERVICE_PAGES.map((page) => ({
       "@type": "Offer",
       itemOffered: {
         "@type": "Service",
-        name: service.title,
-        description: service.subServices.join("; "),
+        name: page.name,
+        description: page.summary,
+        ...(siteUrl ? { url: absolute(`${page.slug}/`) } : {}),
         areaServed: { "@type": "City", name: COMPANY.region },
         ...(organizationId ? { provider: { "@id": organizationId } } : {}),
       },
