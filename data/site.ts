@@ -98,15 +98,6 @@ export const NAVIGATION: readonly NavigationLink[] = [
 
 export const SERVICES: readonly Service[] = [
   {
-    slug: "dv-bhxh",
-    title: "Dịch vụ BHXH",
-    image: "/assets/employee-300x300-b0d92d6c.png",
-    alt: "Biểu tượng người lao động",
-    subServices: [
-      "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động",
-    ],
-  },
-  {
     slug: "dv-phap-ly",
     title: "Pháp lý doanh nghiệp",
     image: "/assets/company-300x300-57c03f3f.png",
@@ -154,6 +145,7 @@ export const SERVICES: readonly Service[] = [
       "Dịch vụ nhân sự ban đầu",
       "Dịch vụ tính lương",
       "Theo dõi trích nộp thuế TNCN",
+      "Theo dõi trích nộp BHXH, BHYT, BHTN cho người lao động",
     ],
   },
   {
