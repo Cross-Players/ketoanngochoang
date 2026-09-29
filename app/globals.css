@@ -614,8 +614,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
      Tiêu đề: từng từ nổi lên sau mặt nạ, blur → nét, so le 48ms. Mặt nạ (clip-path) nới rộng trên/dưới để không cắt dấu tiếng Việt.
      Khẩu hiệu mờ → nét, nút + hotline nhích lên, khung ảnh mở ra (clip-path) trong khi ảnh thu nhỏ về vị trí. */
   .hero-word { display: inline-block; clip-path: inset(-.45em -.16em -.32em -.16em); }
-  .hero-word-inner { display: inline-block; transform-origin: 0 100%; animation: m-word-in 1.1s var(--ease-out-expo) both; animation-delay: calc(140ms + var(--i, 0) * 48ms); }
-  .hero-tagline { animation: m-soft-in 1.1s var(--ease-out-expo) .72s both; }
+  .hero-word-inner { display: inline-block; transform-origin: 0 100%; animation: m-word-in 1.1s var(--ease-out-expo) backwards; animation-delay: calc(140ms + var(--i, 0) * 48ms); }
+  .hero-tagline { animation: m-soft-in 1.1s var(--ease-out-expo) .72s backwards; }
   .hero-actions > * { animation: m-rise-in 1s var(--ease-out-expo) .88s both; }
   .hero-actions > :nth-child(2) { animation-delay: 1s; }
   .hero-image { animation: m-frame-in 1.8s var(--ease-out-quint) .1s both; }
@@ -627,16 +627,19 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .hero[data-inview="false"]::before { animation-play-state: paused; }
 
   /* ---------- Xuất hiện khi cuộn (RevealOnScroll) ----------
-     html.m-js (script nội tuyến trong <head>): ẩn sẵn các phần tử động cho tới khi RevealOnScroll nhận chúng (data-reveal).
-     Failsafe: nếu JS không chạy, sau 3s tự hiện lại. Danh sách phải khớp GROUPS trong RevealOnScroll.tsx. */
-  html.m-js :is(.section-title, .service-card, .contact-form, .about-teaser-inner, .workflow-card, .news-grid > article, .benefit-list > li, .about-benefits > li, .callout p, .benefit-content > h2, .section-intro, .services-more, .pricing .button, .faq-list > details, .faq-contact, .contact h2, .callout .button-row):not([data-reveal]) { opacity: 0; animation: m-failsafe 0s linear 3s forwards; }
-
+     MẶC ĐỊNH HIỂN THỊ: không có quy tắc nào ẩn nội dung trước JS. Chỉ .reveal-pending (do RevealOnScroll gắn khi
+     IntersectionObserver đã hoạt động và phần tử còn nằm dưới màn hình) mới ẩn tạm. Không JS / JS lỗi → thấy đủ ngay. */
   .reveal-pending { --m-delay: calc(var(--reveal-delay, 0ms) + var(--extra-delay, 0ms)); }
   .reveal-pending:not(.is-revealed) { opacity: 0; transform: translate3d(0, var(--m-rise), 0); }
   .reveal-pending.is-revealed {
     transition: opacity .8s var(--ease-out-quint) var(--m-delay), transform 1.15s var(--ease-out-expo) var(--m-delay), filter .95s var(--ease-out-quint) var(--m-delay);
     will-change: transform, opacity, filter;
   }
+  /* Đích của transition blur là blur(0), KHÔNG phải `none`: WebKit (Safari engine) crash khi nội suy blur() → none.
+     Khi chuỗi chuyển động xong, RevealOnScroll gỡ lớp → trở về filter gốc (none) mà không nội suy. */
+  .reveal-pending.is-revealed:is([data-motion="card"], [data-motion="step"], [data-motion="news"], [data-motion="item"], [data-motion="rise"]),
+  [data-motion="title"].is-revealed .section-title-text,
+  [data-motion="lines"].is-revealed .callout-line { filter: blur(0); }
   /* Thẻ: mờ + thu nhỏ 0.96 + nhích lên → rõ nét. */
   [data-motion="card"].reveal-pending:not(.is-revealed),
   [data-motion="step"].reveal-pending:not(.is-revealed),
@@ -710,18 +713,18 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .workflow-card:hover .workflow-image img, .workflow-card:focus-visible .workflow-image img { transform: translate3d(0, -5px, 0) scale(1.05); }
 }
 
-@keyframes m-word-in { from { opacity: 0; transform: translate3d(0, 110%, 0) rotate(3deg); filter: blur(8px); } 45% { opacity: 1; } to { opacity: 1; transform: none; filter: none; } }
-@keyframes m-soft-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(10px); } to { opacity: 1; transform: none; filter: none; } }
+/* Keyframe blur kết thúc bằng blur(0), KHÔNG dùng `filter: none`: WebKit (Safari engine) crash khi nội suy blur() → none trong @keyframes.
+   fill-mode backwards → hết chuyển động trả về style gốc (không còn filter/lớp compositor thừa). */
+@keyframes m-word-in { from { opacity: 0; transform: translate3d(0, 110%, 0) rotate(3deg); filter: blur(8px); } 45% { opacity: 1; } to { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes m-soft-in { from { opacity: 0; transform: translate3d(0, 12px, 0); filter: blur(10px); } to { opacity: 1; transform: none; filter: blur(0); } }
 @keyframes m-rise-in { from { opacity: 0; transform: translate3d(0, 22px, 0); } to { opacity: 1; transform: none; } }
 @keyframes m-frame-in { from { opacity: 0; clip-path: inset(14% 12% 14% 12% round 22px); } 30% { opacity: 1; } to { opacity: 1; clip-path: inset(-90px round 10px); } }
 @keyframes m-img-settle { from { scale: 1.32; } to { scale: 1; } }
 @keyframes m-orb-in { from { opacity: 0; scale: .55; } to { opacity: 1; scale: 1; } }
 @keyframes m-glow-drift { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(22%, 16%, 0); } }
-@keyframes m-failsafe { to { opacity: 1; } }
 @keyframes m-sheen { 0% { transform: translate3d(-75%, 0, 0); } 42%, 100% { transform: translate3d(75%, 0, 0); } }
 
 @media print {
-  html.m-js :is(.section-title, .service-card, .contact-form, .about-teaser-inner, .workflow-card, .news-grid > article, .benefit-list > li, .about-benefits > li, .callout p, .benefit-content > h2, .section-intro, .services-more, .pricing .button, .faq-list > details, .faq-contact, .contact h2, .callout .button-row) { opacity: 1 !important; animation: none !important; }
   .reveal-pending, .reveal-pending *, .reveal-pending::before, .reveal-pending::after { opacity: 1 !important; transform: none !important; filter: none !important; clip-path: none !important; }
   .hero-word-inner, .hero-tagline, .hero-actions > *, .hero-image, .hero-image img { animation: none !important; }
 }

@@ -65,16 +65,9 @@ export const metadata: Metadata = {
   },
 };
 
-const MOTION_BOOTSTRAP =
-  "try{if(window.matchMedia&&matchMedia('(prefers-reduced-motion: no-preference)').matches&&'IntersectionObserver'in window)document.documentElement.classList.add('m-js')}catch(e){}";
-
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <head>
-        {/* Bật chế độ chuyển động TRƯỚC lần vẽ đầu (tránh nháy); không JS / reduced-motion → không gắn, trang hiện tĩnh. */}
-        <script dangerouslySetInnerHTML={{ __html: MOTION_BOOTSTRAP }} />
-      </head>
       <body className={quicksand.variable}>
         <a className="skip-link" href="#main">Bỏ qua điều hướng</a>
         {children}
