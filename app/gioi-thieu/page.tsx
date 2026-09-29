@@ -30,7 +30,7 @@ const siteUrl = getSiteUrl();
 const pageUrl = siteUrl ? new URL("gioi-thieu/", siteUrl).toString() : undefined;
 const title = "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng";
 const description =
-  "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng tại Đà Nẵng – Điểm tựa cho khởi đầu, Hài hòa cùng thịnh vượng. Dịch vụ BHXH, thuế, kế toán và thành lập doanh nghiệp.";
+  "Giới thiệu Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng tại Đà Nẵng – Điểm tựa cho khởi đầu, Hài hòa cùng thịnh vượng. Dịch vụ thuế, kế toán và thành lập doanh nghiệp.";
 
 export const metadata: Metadata = {
   title,

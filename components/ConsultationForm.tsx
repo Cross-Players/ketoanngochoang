@@ -18,7 +18,7 @@ export function ConsultationForm() {
       <label className="sr-only" htmlFor="contact-phone">Số điện thoại hoặc Zalo</label>
       <input id="contact-phone" name="phone" type="tel" placeholder="Số điện thoại hoặc Zalo" autoComplete="tel" required />
       <label className="sr-only" htmlFor="contact-message">Nội dung cần tư vấn</label>
-      <textarea id="contact-message" name="message" rows={4} placeholder="Nội dung cần tư vấn (Ví dụ: đóng BHXH cho nhân viên, gia hạn BHYT hộ gia đình)" required />
+      <textarea id="contact-message" name="message" rows={4} placeholder="Nội dung cần tư vấn" required />
       <button className="button button-orange" type="submit">GỬI YÊU CẦU TƯ VẤN</button>
       <p className="form-status" aria-live="polite">{status}</p>
     </form>

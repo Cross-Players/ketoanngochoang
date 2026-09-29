@@ -6,7 +6,7 @@ export function BenefitsSection() {
     <section className="benefits section-space">
       <div className="container benefits-layout">
         <div className="benefit-content">
-          <h2>Vì sao chọn Ngọc Hoàng cho dịch vụ BHXH và kế toán?</h2>
+          <h2>Vì sao chọn Ngọc Hoàng cho dịch vụ kế toán?</h2>
           <ul className="benefit-list">
             {BENEFITS.map((benefit) => (
               <li key={benefit.title}>

@@ -20,7 +20,7 @@ const siteUrlString = siteUrl?.toString();
 const pageTitle = PAGE_TITLE;
 const pageDescription = PAGE_DESCRIPTION;
 const socialImage = siteUrlString ? `${siteUrlString}og-ngoc-hoang.png` : undefined;
-const socialImageAlt = "Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – dịch vụ BHXH, BHYT và kế toán thuế tại Đà Nẵng";
+const socialImageAlt = "Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – dịch vụ kế toán thuế tại Đà Nẵng";
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,

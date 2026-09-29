@@ -179,8 +179,8 @@ export const BENEFITS: readonly Benefit[] = [
     description: "Lắng nghe nhu cầu của từng cá nhân, hộ gia đình và doanh nghiệp, giải thích rõ các bước thủ tục trước khi thực hiện.",
   },
   {
-    title: "Am hiểu thủ tục BHXH và thuế",
-    description: "Đội ngũ tư vấn am hiểu thủ tục BHXH, BHYT, thuế và kế toán, hướng dẫn hồ sơ theo quy định hiện hành.",
+    title: "Am hiểu thủ tục thuế",
+    description: "Đội ngũ tư vấn am hiểu thủ tục thuế và kế toán, hướng dẫn hồ sơ theo quy định hiện hành.",
   },
   {
     title: "Báo giá rõ ràng trước khi làm",
@@ -192,7 +192,7 @@ export const BENEFITS: readonly Benefit[] = [
   },
   {
     title: "Theo dõi quy định mới",
-    description: "Thường xuyên cập nhật thay đổi về BHXH, BHYT, thuế và kế toán để tư vấn kịp thời.",
+    description: "Thường xuyên cập nhật thay đổi về thuế và kế toán để tư vấn kịp thời.",
   },
   {
     title: "Gần gũi, dễ liên hệ",
@@ -221,7 +221,7 @@ export const WORKFLOW_STEPS: readonly WorkflowStep[] = [
       "Thực hiện công việc theo quy trình dịch vụ, tuân thủ quy định pháp luật liên quan.",
     body: [
       "Phạm vi công việc và chi phí được thống nhất với bạn trước khi thực hiện.",
-      "Ngọc Hoàng xử lý hồ sơ theo đúng phạm vi đã trao đổi, trong các mảng BHXH, pháp lý doanh nghiệp, thuế, kế toán, nhân sự & tiền lương và các dịch vụ khác.",
+      "Ngọc Hoàng xử lý hồ sơ theo đúng phạm vi đã trao đổi, trong các mảng pháp lý doanh nghiệp, thuế, kế toán, nhân sự & tiền lương và các dịch vụ khác.",
     ],
     image: "/assets/workflow/step-02.png",
     alt: "Bước 02 – đội ngũ Ngọc Hoàng tiến hành xử lý hồ sơ",
@@ -277,9 +277,9 @@ export const NEWS_ITEMS: readonly NewsItem[] = [
 
 export const FAQ_ITEMS: readonly FaqItem[] = [
   {
-    question: "Ngọc Hoàng hỗ trợ những thủ tục BHXH, BHYT nào tại Đà Nẵng?",
+    question: "Ngọc Hoàng hỗ trợ những thủ tục BHXH nào tại Đà Nẵng?",
     answer:
-      "Ngọc Hoàng hỗ trợ doanh nghiệp đăng ký tham gia, báo tăng, báo giảm lao động BHXH; hướng dẫn cá nhân đăng ký đóng BHXH tự nguyện; gia hạn, mua mới BHYT hộ gia đình; hướng dẫn hồ sơ hưởng các chế độ BHXH và thủ tục điều chỉnh thông tin, cấp lại sổ BHXH.",
+      "Ngọc Hoàng hỗ trợ doanh nghiệp đăng ký tham gia, báo tăng, báo giảm lao động BHXH; hướng dẫn hồ sơ hưởng các chế độ BHXH và thủ tục điều chỉnh thông tin, cấp lại sổ BHXH.",
   },
   {
     question: "Ngọc Hoàng phục vụ cá nhân hay doanh nghiệp?",
@@ -302,7 +302,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
       "Bạn có thể tra cứu trên Cổng thông tin điện tử BHXH Việt Nam (baohiemxahoi.gov.vn) hoặc ứng dụng VssID – Bảo hiểm xã hội số. Nếu thông tin chưa khớp, Ngọc Hoàng có thể hướng dẫn thủ tục điều chỉnh.",
   },
   {
-    question: "Chi phí dịch vụ BHXH, BHYT được tính như thế nào?",
+    question: "Chi phí dịch vụ được tính như thế nào?",
     answer:
       "Chi phí phụ thuộc vào loại thủ tục và số lượng hồ sơ. Vui lòng gọi hoặc nhắn Zalo 0963 548 333 để được tư vấn và báo giá trước khi thực hiện.",
   },

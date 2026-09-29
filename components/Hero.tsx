@@ -4,7 +4,7 @@ import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { HeroParallax } from "@/components/HeroParallax";
 
-const HERO_TITLE = "Dịch vụ BHXH và kế toán tại Đà Nẵng – Ngọc Hoàng";
+const HERO_TITLE = "Dịch vụ kế toán tại Đà Nẵng – Ngọc Hoàng";
 
 /**
  * Tiêu đề hero tách theo từ để "nổi" lên lần lượt sau mặt nạ (CSS, xem globals.css – Hero intro).
