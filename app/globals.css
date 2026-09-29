@@ -290,6 +290,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .contact-form textarea { resize: vertical; }
 .contact-form .button { justify-self: start; }
 .form-status { min-height: 1.5em; margin: 0; color: var(--blue-dark); font-size: 13px; }
+.form-status.is-error { color: #b42318; font-weight: 600; }
+.contact-form [aria-invalid="true"] { border-color: #b42318; }
+.contact-form .button:disabled { cursor: progress; opacity: .7; }
 
 .site-footer { color: #fff; background: #162f53; }
 .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr .9fr; gap: 32px; padding-top: 36px; padding-bottom: 25px; }
