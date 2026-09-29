@@ -236,8 +236,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .button { min-height: 44px; display: inline-flex; justify-content: center; align-items: center; padding: 9px 20px; border: 1px solid transparent; border-radius: 2px; font-size: 15px; font-weight: 700; text-align: center; cursor: pointer; transition: background-color .15s ease, color .15s ease; }
 .button-outline { border-color: #fff; color: #fff; background: transparent; }
 .button-outline:hover { color: var(--blue); background: #fff; }
-.button-light { color: var(--blue); background: #fff; }
-.button-light:hover { background: #e9f2fb; }
 .button-blue { color: #fff; background: var(--blue); }
 .button-blue:hover { background: #0b4c8e; }
 .button-orange { color: #162f53; background: var(--orange); }
@@ -304,7 +302,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .footer-grid ul { padding-left: 15px; margin: 0; }
 .footer-grid li { padding: 3px 0; }
 .footer-grid a:hover { text-decoration: underline; }
-.footer-cert { width: 70px; height: 70px; object-fit: contain; }
 .copyright { min-height: 53px; display: flex; align-items: center; border-top: 1px solid rgb(255 255 255 / 14%); background: #102643; color: #dfe8f3; font-size: 12px; }
 .copyright strong { margin-left: 3px; }
 /* Góc phải dưới: chữ canh trái nên đặt bên trái sẽ che đầu dòng, icon và nút gửi form. */
@@ -552,7 +549,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .section-title::before, .section-title::after { flex-basis: 18px; min-width: 18px; }
   .topline { font-size: 12px; }
   .topline-inner { justify-content: center; }
-  .topline-actions { display: none !important; }
+  .topline .topline-actions { display: none; }
   .nav-phone img { width: 40px; height: 40px; }
   /* Header điện thoại: lề 12px để tên công ty đủ chỗ trên tối đa 2 dòng ở 360–390px. */
   .nav-row { width: calc(100% - 24px); }
@@ -796,7 +793,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 @media (prefers-reduced-motion: reduce) {
   .workflow-grid > .workflow-card:hover, .workflow-grid > .workflow-card:focus-visible { transform: none; }
   :root { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; }
   .quick-contact .quick-link::before,
   .quick-contact .quick-link::after,
   .quick-contact .quick-link img { animation: none; }
