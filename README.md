@@ -21,7 +21,7 @@ npm run dev
 
 ## Tài nguyên
 
-Logo Ngọc Hoàng tại `public/logo-ngoc-hoang-256.png`/`-512.png` (vector: `public/logo-ngoc-hoang.svg`) và ảnh hero tại `public/logo-hero.webp`; ảnh dịch vụ và font Quicksand còn lại nằm tại `public/assets/`. Site không có backend; biểu mẫu tư vấn gửi tới Google Apps Script (xem bên dưới).
+Logo Ngọc Hoàng tại `public/logo-ngoc-hoang-256.png`/`-512.png` (vector: `public/logo-ngoc-hoang.svg`) và ảnh hero tại `public/logo-hero.webp`; ảnh dịch vụ và font Quicksand còn lại nằm tại `public/assets/`. `public/google3db2e7de2c792d70.html` là file xác minh quyền sở hữu Google Search Console, không được xoá hay sửa. Site không có backend; biểu mẫu tư vấn gửi tới Google Apps Script (xem bên dưới).
 
 ## URL công khai và SEO
 
