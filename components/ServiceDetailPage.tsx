@@ -85,7 +85,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
       <Header />
       <main id="main" className="svc-page">
         <section className="page-banner svc-banner" aria-labelledby="svc-title">
-          <div className="container">
+          <div className="container svc-narrow">
             <nav className="breadcrumb" aria-label="Breadcrumb">
               <Link href={ROUTES.home}>Trang chủ</Link>
               <span aria-hidden="true">/</span>
@@ -102,7 +102,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
           </div>
         </section>
 
-        <nav className="svc-toc container" aria-label="Nội dung trang">
+        <nav className="svc-toc container svc-narrow" aria-label="Nội dung trang">
           <ul>
             {page.sections.map((section) => (
               <li key={section.id}><a href={`#${section.id}`}>{section.title}</a></li>
@@ -172,7 +172,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
         </section>
 
         <section className="svc-section" aria-labelledby="svc-process-title">
-          <div className="container">
+          <div className="container svc-narrow">
             <h2 className="svc-h2 svc-h2-center" id="svc-process-title">Quy trình làm việc</h2>
             <ol className="svc-steps">
               {WORKFLOW_STEPS.map((step, index) => (
@@ -217,7 +217,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
         </section>
 
         <section className="svc-section" id="hoi-dap" aria-labelledby="svc-faq-title">
-          <div className="container">
+          <div className="container svc-narrow">
             <h2 className="svc-h2 svc-h2-center" id="svc-faq-title">{page.faqTitle}</h2>
             <div className="faq-list">
               {page.faq.map((item) => (
@@ -232,7 +232,7 @@ export function ServiceDetailPage({ page }: { page: ServicePage }) {
         </section>
 
         <section className="svc-section" aria-labelledby="svc-related-title">
-          <div className="container">
+          <div className="container svc-narrow">
             <h2 className="svc-h2 svc-h2-center" id="svc-related-title">Dịch vụ liên quan</h2>
             <ul className="svc-related">
               {related.map((item) => (
