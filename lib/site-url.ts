@@ -44,7 +44,7 @@ export function requireSiteUrl(): URL {
   const siteUrl = getSiteUrl();
   if (!siteUrl) {
     throw new Error(
-      "Set NEXT_PUBLIC_SITE_URL to the public site URL (for example, https://example.com/ or https://example.com/ngochoangbhxh/) before requesting sitemap.xml or robots.txt.",
+      "Set NEXT_PUBLIC_SITE_URL to the public site URL (for example, https://ketoanngochoang.com.vn/) before requesting sitemap.xml or robots.txt.",
     );
   }
   return siteUrl;

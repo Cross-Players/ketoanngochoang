@@ -1,4 +1,4 @@
-export const PUBLIC_BASE_PATH = "/ngochoangbhxh";
+export const PUBLIC_BASE_PATH = "";
 
 export function getPublicAssetPath(path: string): string {
   if (

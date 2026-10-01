@@ -6,14 +6,13 @@ export default function nextConfig(phase: string): NextConfig {
   const config: NextConfig = {
     output: "export",
     basePath: PUBLIC_BASE_PATH,
-    // Mỗi route xuất thành thư mục/index.html (vd. /gioi-thieu/) để GitHub Pages phục vụ ổn định.
+    // Mỗi route xuất thành thư mục/index.html (vd. /gioi-thieu/), canonical và sitemap đều dùng dấu "/" cuối.
     trailingSlash: true,
   };
 
-  // Chỉ khi chạy `npm run dev`: mở gốc http://127.0.0.1:4173/ sẽ tự chuyển sang /ngochoangbhxh/
-  // thay vì trang 404. Không áp dụng cho `next build` (output: "export" không hỗ trợ redirects),
-  // nên bản static export / GitHub Pages không đổi.
-  if (phase === PHASE_DEVELOPMENT_SERVER) {
+  // Chỉ khi chạy `npm run dev` và có basePath: mở gốc http://127.0.0.1:4173/ sẽ tự chuyển sang basePath
+  // thay vì trang 404. Bỏ qua khi site chạy ở gốc tên miền (basePath rỗng) để tránh vòng chuyển hướng.
+  if (phase === PHASE_DEVELOPMENT_SERVER && PUBLIC_BASE_PATH) {
     config.redirects = async () => [
       {
         source: "/",

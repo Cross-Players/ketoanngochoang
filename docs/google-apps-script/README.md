@@ -1,6 +1,6 @@
 # Biểu mẫu tư vấn → Google Sheet
 
-Website là bản static export (GitHub Pages) nên không có máy chủ riêng. Biểu mẫu "Gửi yêu cầu tư vấn"
+Website là bản static export (triển khai trên Vercel) nên không có máy chủ riêng. Biểu mẫu "Gửi yêu cầu tư vấn"
 gửi thẳng từ trình duyệt tới một Google Apps Script Web App; script ghi mỗi yêu cầu thành một dòng trong Google Sheet.
 
 ## Dữ liệu gửi đi
@@ -26,9 +26,8 @@ Sheet `LienHe` (script tự tạo nếu chưa có) gồm các cột: **Thời gi
    - *Người có quyền truy cập*: **Bất kỳ ai**
 4. Cấp quyền khi được hỏi, sao chép **URL ứng dụng web** (dạng `https://script.google.com/macros/s/…/exec`).
 5. Khai báo URL cho website:
-   - GitHub: **Settings → Secrets and variables → Actions → Variables → New repository variable**,
-     tên `CONTACT_FORM_ENDPOINT`, giá trị là URL ở bước 4. Workflow `deploy.yml` truyền biến này vào
-     `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` khi build; chạy lại workflow để áp dụng.
+   - Vercel: **Project Settings → Environment Variables**, thêm `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT` với giá trị
+     là URL ở bước 4 (chọn Production và Preview), rồi **Redeploy** để áp dụng (biến được nhúng lúc build).
    - Chạy thử ở máy: tạo `.env.local` (không commit) với `NEXT_PUBLIC_CONTACT_FORM_ENDPOINT=<URL>` rồi `npm run dev`.
 
 Khi sửa `contact-form.gs`, cần **Triển khai → Quản lý triển khai → Chỉnh sửa → Phiên bản mới** thì URL cũ mới chạy code mới.
