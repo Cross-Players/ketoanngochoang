@@ -106,7 +106,7 @@ export const SERVICES: readonly Service[] = [
     slug: "dv-phap-ly",
     href: "/thanh-lap-cong-ty-da-nang/",
     title: "Pháp lý doanh nghiệp",
-    image: "/assets/company-300x300-57c03f3f.png",
+    image: "/assets/company-128x128-4e2f3d96.webp",
     alt: "Biểu tượng tòa nhà văn phòng – dịch vụ thành lập doanh nghiệp tại Đà Nẵng",
     subServices: [
       "Thành lập doanh nghiệp trong nước",
@@ -120,7 +120,7 @@ export const SERVICES: readonly Service[] = [
     slug: "dv-thue",
     href: "/dich-vu-ke-toan-da-nang/#thue",
     title: "Dịch vụ thuế",
-    image: "/assets/tax-300x300-ca352e40.png",
+    image: "/assets/tax-128x128-b7955682.webp",
     alt: "Biểu tượng tờ khai thuế – dịch vụ kê khai và quyết toán thuế",
     subServices: [
       "Dịch vụ kê khai thuế",
@@ -133,7 +133,7 @@ export const SERVICES: readonly Service[] = [
     slug: "dv-ke-toan",
     href: "/dich-vu-ke-toan-da-nang/",
     title: "Dịch vụ kế toán",
-    image: "/assets/accounting-300x300-2b340415.png",
+    image: "/assets/accounting-128x128-af2c63bf.webp",
     alt: "Biểu tượng máy tính tiền và bút – dịch vụ kế toán trọn gói",
     subServices: [
       "Dịch vụ kế toán trọn gói",
@@ -148,7 +148,7 @@ export const SERVICES: readonly Service[] = [
     slug: "dv-nhan-su",
     href: "/dich-vu-tinh-luong-da-nang/",
     title: "Nhân sự & tiền lương",
-    image: "/assets/accounting-1-300x300-32be194d.png",
+    image: "/assets/accounting-1-128x128-15a345ad.webp",
     alt: "Biểu tượng nhân viên tính lương – dịch vụ nhân sự và tiền lương",
     subServices: [
       "Dịch vụ nhân sự ban đầu",
@@ -161,7 +161,7 @@ export const SERVICES: readonly Service[] = [
     slug: "dv-ho-tro",
     href: "/chu-ky-so-hoa-don-dien-tu-da-nang/",
     title: "Dịch vụ khác",
-    image: "/assets/tax-1-300x300-9799d5c8.png",
+    image: "/assets/tax-1-128x128-e127b44d.webp",
     alt: "Biểu tượng phong bì hóa đơn – chữ ký số, hóa đơn điện tử cho doanh nghiệp",
     subServices: [
       "Chữ ký số, hóa đơn điện tử (đối tác Viettel)",

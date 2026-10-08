@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Fragment, type CSSProperties } from "react";
+import { ABOUT_SLOGAN } from "@/data/about";
 import { COMPANY, ROUTES } from "@/data/site";
 import { getPublicAssetPath } from "@/lib/site-paths";
 import { HeroParallax } from "@/components/HeroParallax";
@@ -34,7 +35,7 @@ export function Hero() {
       <div className="container hero-inner">
         <div className="hero-content">
           <HeroTitle />
-          <p className="hero-tagline">Điểm tựa cho khởi đầu – Hài hòa cùng thịnh vượng</p>
+          <p className="hero-tagline">{ABOUT_SLOGAN}</p>
           <div className="hero-actions">
             <Link className="button button-orange hero-cta" href={ROUTES.contact}>Tư vấn ngay</Link>
             <a className="hero-phone" href={COMPANY.hotlineHref}>
@@ -46,11 +47,15 @@ export function Hero() {
           </div>
         </div>
         <div className="hero-image">
+          {/* Ảnh chân dung (cắt từ ảnh dọc 683×1024 còn 683×640 quanh mặt/thân trên), khung ngang dùng object-fit: cover;
+              ảnh LCP của trang chủ → fetchPriority="high", srcSet để điện thoại tải bản nhỏ. */}
           <img
-            src={getPublicAssetPath("/logo-hero.webp")}
-            alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng – Tận tâm, chuyên nghiệp, hiệu quả"
-            width="1408"
-            height="768"
+            src={getPublicAssetPath("/hero-photo-480.webp")}
+            srcSet={`${getPublicAssetPath("/hero-photo-360.webp")} 360w, ${getPublicAssetPath("/hero-photo-480.webp")} 480w, ${getPublicAssetPath("/hero-photo-683.webp")} 683w`}
+            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1060px) 45vw, 560px"
+            alt="Đại diện Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng"
+            width="683"
+            height="640"
             fetchPriority="high"
           />
           <HeroParallax />

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { AboutTeaser } from "@/components/AboutTeaser";
 import { BenefitsSection } from "@/components/BenefitsSection";
 import { CalloutSection } from "@/components/CalloutSection";
 import { ContactSection } from "@/components/ContactSection";
@@ -60,7 +59,6 @@ export default function HomePage() {
       <main id="main">
         <Hero />
         <ServicesSection />
-        <AboutTeaser />
         <CalloutSection />
         <BenefitsSection />
         <PricingSection />

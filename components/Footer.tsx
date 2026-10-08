@@ -7,7 +7,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="container footer-grid">
         <div className="footer-company">
-          <Link href="/" className="footer-brand"><img src={getPublicAssetPath("/logo-ngoc-hoang-256.png")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" width="256" height="256" loading="lazy" /></Link>
+          <Link href="/" className="footer-brand"><img src={getPublicAssetPath("/logo-ngoc-hoang-192.png")} alt="Biểu trưng Công ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng" width="192" height="192" loading="lazy" /></Link>
           <h2>{COMPANY.name}</h2>
           <p>{COMPANY.address}, {COMPANY.city}</p>
           <p className="footer-tax">Mã số thuế: {COMPANY.taxId}</p>

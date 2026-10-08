@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { COMPANY } from "@/data/site";
@@ -7,13 +6,6 @@ import { PAGE_DESCRIPTION, PAGE_TITLE, TITLE_TEMPLATE } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import "lenis/dist/lenis.css";
 import "./globals.css";
-
-const quicksand = localFont({
-  src: "../public/assets/6xKtdSZaM9iE8KbpRA_hK1QN-21dc8b9f.woff2",
-  variable: "--font-quicksand",
-  display: "swap",
-  weight: "300 700",
-});
 
 /**
  * Giá trị mặc định toàn site. Canonical, Open Graph và Twitter của từng trang do chính trang khai báo qua
@@ -42,7 +34,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={quicksand.variable}>
+      <body>
         <a className="skip-link" href="#main">Bỏ qua điều hướng</a>
         {children}
         <RevealOnScroll />

@@ -1,7 +1,8 @@
 "use client";
 
 import Lenis from "lenis";
-import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 /**
  * Cuộn mượt (Lenis, ~5 KB gzip) cho chuột/touchpad trên máy tính.
@@ -13,10 +14,38 @@ import { useEffect } from "react";
  *   propagation — nên onClick của React (vd. đóng menu mobile) vẫn chạy; next/link thấy defaultPrevented thì bỏ qua.
  *   URL vẫn cập nhật #hash qua history.pushState (Next.js App Router hỗ trợ). Bấm bằng bàn phím → chuyển focus tới đích.
  * - Menu mobile (cuộn riêng khi mở) và link có phím bổ trợ / target=_blank giữ hành vi gốc.
+ * - Chuyển trang bằng next/link (menu, thẻ dịch vụ, footer…): trang mới luôn bắt đầu ở đầu trang. Không có bước này,
+ *   Lenis (và scroll-behavior: smooth) làm trang mới giữ vị trí cuộn của trang cũ. Bỏ qua khi URL có #hash (Next tự cuộn
+ *   tới đích) và khi đi lùi/tới bằng nút trình duyệt (popstate → trình duyệt/Next khôi phục vị trí cũ).
  */
 const ANCHOR_EASE = (t: number) => (t < 0.5 ? 16 * t ** 5 : 1 - (-2 * t + 2) ** 5 / 2);
 
 export function SmoothScroll() {
+  const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
+  const popstatePathRef = useRef<string | null>(null);
+  const prevPathRef = useRef(pathname);
+
+  useEffect(() => {
+    // Ghi lại đường dẫn đích của back/forward để hiệu ứng đổi pathname bên dưới không kéo về đầu trang.
+    const onPopState = () => {
+      popstatePathRef.current = window.location.pathname;
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  useEffect(() => {
+    if (prevPathRef.current === pathname) return; // lần render đầu
+    prevPathRef.current = pathname;
+    const fromHistory = popstatePathRef.current !== null && popstatePathRef.current === window.location.pathname;
+    popstatePathRef.current = null;
+    if (fromHistory || window.location.hash) return;
+    const lenis = lenisRef.current;
+    if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+    else window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [pathname]);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -28,6 +57,7 @@ export function SmoothScroll() {
       stopInertiaOnNavigate: true,
       prevent: (node) => node instanceof Element && node.closest(".primary-nav.is-open") !== null,
     });
+    lenisRef.current = lenis;
 
     const onClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -59,6 +89,7 @@ export function SmoothScroll() {
     return () => {
       window.removeEventListener("click", onClick, true);
       lenis.destroy();
+      lenisRef.current = null;
     };
   }, []);
 

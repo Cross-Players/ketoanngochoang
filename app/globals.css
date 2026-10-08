@@ -1,6 +1,6 @@
 @font-face {
   font-family: Quicksand;
-  src: url("/assets/6xKtdSZaM9iE8KbpRA_hJFQNcOM-f5424fe5.woff2") format("woff2");
+  src: url("./fonts/6xKtdSZaM9iE8KbpRA_hJFQNcOM-f5424fe5.woff2") format("woff2");
   font-style: normal;
   font-weight: 300 700;
   font-display: swap;
@@ -9,7 +9,7 @@
 
 @font-face {
   font-family: Quicksand;
-  src: url("/assets/6xKtdSZaM9iE8KbpRA_hJVQNcOM-4ea6d8c4.woff2") format("woff2");
+  src: url("./fonts/6xKtdSZaM9iE8KbpRA_hJVQNcOM-4ea6d8c4.woff2") format("woff2");
   font-style: normal;
   font-weight: 300 700;
   font-display: swap;
@@ -18,7 +18,7 @@
 
 @font-face {
   font-family: Quicksand;
-  src: url("/assets/6xKtdSZaM9iE8KbpRA_hK1QN-21dc8b9f.woff2") format("woff2");
+  src: url("./fonts/6xKtdSZaM9iE8KbpRA_hK1QN-21dc8b9f.woff2") format("woff2");
   font-style: normal;
   font-weight: 300 700;
   font-display: swap;
@@ -175,8 +175,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .hero-phone small { display: block; color: #cfe0f2; font-size: 12px; font-weight: 600; }
 .hero-phone strong { display: block; font-size: 22px; line-height: 1.2; }
 .hero-phone:hover strong { color: #ffd24d; }
-.hero-image { min-width: 0; overflow: hidden; border: 6px solid rgb(255 255 255 / 16%); border-radius: 10px; background: #fbf8ef; box-shadow: 0 18px 40px rgb(0 0 0 / 25%); }
-.hero-image img { width: 100%; height: auto; object-fit: contain; transform-origin: center center; }
+/* Khung ảnh chân dung: tỉ lệ ngang cố định (không làm hero cao thêm nhiều), ảnh cover + canh vào mặt/thân trên, không méo. */
+.hero-image { min-width: 0; aspect-ratio: 16 / 10; overflow: hidden; border: 6px solid rgb(255 255 255 / 16%); border-radius: 10px; background: #1d2a3a; box-shadow: 0 18px 40px rgb(0 0 0 / 25%); }
+.hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform-origin: center center; }
 /* Parallax: scale sẵn 1.14 (đệm 7% mỗi cạnh, bị .hero-image overflow:hidden cắt) để JS chỉ việc dịch translateY. */
 @media (prefers-reduced-motion: no-preference) {
   .hero-image img { transform: scale(1.14); will-change: transform; }
@@ -189,12 +190,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .section-title { display: flex; align-items: center; justify-content: center; gap: 18px; }
 .section-title::before,
 .section-title::after { content: ""; flex: 1 1 40px; min-width: 40px; height: 2px; border-radius: 2px; background: currentColor; opacity: .18; }
-.about-teaser { background: #fff; }
-.about-teaser-inner { max-width: 980px; display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 28px; padding: 28px 32px; border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 6px; background: #fbfcfe; }
-.about-teaser-mark { width: 96px; height: 96px; object-fit: contain; }
-.about-teaser h2 { margin: 0 0 6px; color: var(--blue); font-size: 20px; line-height: 1.35; }
-.about-teaser-slogan { margin: 0 0 6px; color: var(--orange); font-size: 17px; font-weight: 700; font-style: italic; }
-.about-teaser p { margin: 0 0 10px; font-size: 15px; line-height: 1.65; }
+/* Thẻ nhân sự (components/StaffShowcase.tsx): ảnh chân dung 4:5 lớn, chữ căn giữa, chi tiết cam; ≤760px thẻ dọc xếp chồng.
+   Chữ trong thẻ dùng `.staff-body .staff-*` để không bị kiểu `p` của section chứa (vd. .about-intro p) đè. */
+.staff-grid { max-width: 1100px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; margin: 0 auto; padding: 0; list-style: none; }
+.staff-card { display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #fff; box-shadow: 0 1px 2px rgb(11 39 71 / 8%), 0 28px 50px -26px rgb(11 39 71 / 55%); }
+.staff-photo { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #e9eef4; }
+.staff-photo::after { content: ""; position: absolute; inset: auto 0 0; height: 30%; background: linear-gradient(to top, rgb(11 39 71 / 22%), transparent); pointer-events: none; }
+.staff-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.staff-body { position: relative; flex: 1; display: flex; flex-direction: column; padding: 26px 18px 22px; text-align: center; }
+.staff-body::before { content: ""; position: absolute; top: -2px; left: 50%; width: 56px; height: 4px; border-radius: 4px; background: var(--orange); transform: translateX(-50%); }
+.staff-body .staff-name { margin: 0 0 6px; color: #0b2747; font-size: 22px; font-weight: 700; line-height: 1.3; letter-spacing: .005em; }
+.staff-body .staff-title { margin: 0 0 14px; color: #b4530f; font-size: 12.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+/* Slogan là điểm nhấn đọc được: chữ navy đậm vừa, cỡ lớn, dải nền ấm nhạt, ngoặc kép màu cam; khung giãn đều (flex: 1)
+   nên 3 thẻ cùng hàng có khung slogan cao bằng nhau. */
+.staff-body .staff-slogan { flex: 1; display: flex; flex-direction: column; justify-content: center; margin: 0; padding: 14px 12px 15px; border: 1px solid #f8dcc4; border-radius: 12px; color: #0b2747; background: linear-gradient(180deg, #fff8f1 0%, #fdf0e4 100%); font-size: 17.5px; font-weight: 600; line-height: 1.5; }
+.staff-quote { color: var(--orange); font-size: 1.2em; font-weight: 700; line-height: 0; }
+.staff-slogan-part { display: block; text-wrap: balance; }
+.about-intro .staff-grid { margin-top: 40px; }
 .text-link { color: var(--blue); font-weight: 700; }
 .text-link:hover { color: var(--orange); }
 .workflow-grid p { margin: 0; padding: 0 10px 12px; font-size: 14px; line-height: 1.6; }
@@ -427,10 +439,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 .about-contact, .svc-pricing { padding: 24px 26px; border: 1px solid #f3a02c; border-radius: 8px; background: #fffaf5; }
 .about-contact h2 { margin: 0 0 8px; color: var(--blue); font-size: 19px; line-height: 1.4; }
 .about-contact p { margin: 0; }
-.about-contact a { color: var(--blue); font-weight: 700; }
+/* Chỉ link trong đoạn chữ (số điện thoại) tô xanh; nút giữ màu chuẩn của .button-* (nút cam: chữ navy, đủ tương phản). */
+.about-contact p a { color: var(--blue); font-weight: 700; }
 .about-contact .button-row { justify-content: flex-start; margin-top: 16px; }
-.about-contact .button-orange { color: #fff; }
-.about-contact .button-blue { color: #fff; }
 
 /* ---------- Trang chi tiết dịch vụ (round 6, components/ServiceDetailPage.tsx) ---------- */
 .svc-banner h1 { max-width: 30ch; text-wrap: balance; }
@@ -565,7 +576,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .hero-tagline { margin-bottom: 20px; }
   .hero-actions { gap: 14px 18px; }
   .hero-cta { width: 100%; }
-  .hero-image { border-width: 4px; }
+  .hero-image { aspect-ratio: 3 / 2; border-width: 4px; }
   .services { padding-block: 44px; }
   /* 1 cột: không ép cao bằng nhau (tránh khoảng trắng thừa); thẻ vẫn cao bằng nhau khi đứng cạnh nhau ở 2–3 cột. */
   .service-grid { grid-template-columns: 1fr; grid-auto-rows: auto; gap: 12px; }
@@ -576,9 +587,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .service-icon img { width: 36px; height: 36px; }
   .service-card h3 { font-size: 15px; }
   .service-points li { font-size: 14px; }
-  .about-teaser-inner { grid-template-columns: 1fr; gap: 12px; padding: 20px 18px; }
-  .about-teaser-mark { width: 56px; height: 56px; }
-  .about-teaser h2 { font-size: 18px; }
+  .about-intro .staff-grid { margin-top: 28px; }
+  /* Điện thoại: thẻ dọc cỡ lớn xếp chồng (ảnh là điểm nhấn). */
+  .staff-grid { max-width: 420px; grid-template-columns: 1fr; gap: 22px; }
+  .staff-card { border-radius: 16px; }
+  .staff-body { padding: 22px 20px 24px; }
+  .staff-body .staff-name { font-size: 21px; }
+  .staff-body .staff-slogan { padding: 13px 14px 14px; font-size: 16.5px; }
   .page-banner { padding-block: 26px 30px; }
   .about-quote { padding-block: 36px 0; }
   .about-quote blockquote { padding: 26px 16px 18px; }
@@ -723,15 +738,13 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   [data-motion="title"].is-revealed::before,
   [data-motion="title"].is-revealed::after { transition: transform 1.05s var(--ease-out-expo) calc(var(--m-delay) + 300ms); }
 
-  /* Thẻ dịch vụ: icon "bật" nhẹ (lò xo nhỏ), các dòng mô tả hiện lần lượt. Khối giới thiệu: logo xoay vào. */
+  /* Thẻ dịch vụ: icon "bật" nhẹ (lò xo nhỏ), các dòng mô tả hiện lần lượt. */
   [data-motion="card"].reveal-pending:not(.is-revealed) .service-icon { opacity: 0; transform: scale(.5) rotate(-20deg); }
   [data-motion="card"].is-revealed .service-icon { transition: opacity .5s var(--ease-out-quint) calc(var(--m-delay) + 240ms), transform .95s var(--ease-spring) calc(var(--m-delay) + 240ms); }
   [data-motion="card"].reveal-pending:not(.is-revealed) :is(.service-points li, .service-more) { opacity: 0; transform: translate3d(-12px, 0, 0); }
   [data-motion="card"].is-revealed :is(.service-points li, .service-more) {
     transition: opacity .6s var(--ease-out-quint) calc(var(--m-delay) + 340ms + var(--n, 0) * 70ms), transform .85s var(--ease-out-expo) calc(var(--m-delay) + 340ms + var(--n, 0) * 70ms);
   }
-  [data-motion="card"].reveal-pending:not(.is-revealed) .about-teaser-mark { opacity: 0; transform: rotate(-70deg) scale(.6); }
-  [data-motion="card"].is-revealed .about-teaser-mark { transition: opacity .6s var(--ease-out-quint) calc(var(--m-delay) + 200ms), transform 1.2s var(--ease-out-expo) calc(var(--m-delay) + 200ms); }
 
   /* Quy trình 01→04: khối màu số quét từ trái sang, số hiện + đếm lên, icon bật nhẹ. */
   .workflow-image::before { clip-path: inset(0); }
@@ -772,6 +785,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
   .service-card:hover .service-icon { transform: translate3d(0, -3px, 0) scale(1.07); }
   .service-card:hover .service-icon img { transform: rotate(-8deg) scale(1.04); }
   .workflow-card:hover .workflow-image img, .workflow-card:focus-visible .workflow-image img { transform: translate3d(0, -5px, 0) scale(1.05); }
+  /* Thẻ nhân sự không phải link → không nâng thẻ, chỉ ảnh phóng nhẹ. */
+  /* Thẻ nhân sự: nâng nhẹ (thuộc tính translate riêng, không đè transform của chuyển động xuất hiện) + ảnh phóng chậm trong khung. */
+  .staff-card { transition: translate .6s var(--ease-out-quint), box-shadow .6s var(--ease-out-quint); }
+  .staff-card:hover { translate: 0 -6px; box-shadow: 0 1px 2px rgb(11 39 71 / 8%), 0 36px 60px -26px rgb(11 39 71 / 62%); }
+  .staff-photo img { transition: transform 1.6s var(--ease-out-quint); }
+  .staff-card:hover .staff-photo img { transform: scale(1.06); }
 }
 
 /* Keyframe blur kết thúc bằng blur(0), KHÔNG dùng `filter: none`: WebKit (Safari engine) crash khi nội suy blur() → none trong @keyframes.

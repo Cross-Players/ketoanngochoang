@@ -9,7 +9,7 @@ import { useEffect } from "react";
  *
  * Kiểu (data-motion):
  * - title: chữ tiêu đề section nổi lên sau mặt nạ (clip-path + blur → nét), sau đó hai vạch bên vẽ ra ngoài.
- * - card:  thẻ dịch vụ / form liên hệ / khối giới thiệu: mờ + thu nhỏ 0.96 + nhích lên → rõ nét; icon "bật" nhẹ, các dòng lần lượt.
+ * - card:  thẻ dịch vụ / form liên hệ / thẻ nhân sự: mờ + thu nhỏ 0.96 + nhích lên → rõ nét; icon "bật" nhẹ, các dòng lần lượt.
  * - step:  thẻ quy trình 01→04 lần lượt; khối màu số "quét" từ trái sang (clip-path), số đếm lên, icon bật nhẹ.
  * - news:  thẻ tin: nổi lên, ảnh mở dần từ trên xuống (clip-path).
  * - item:  dòng lợi ích: trượt từ trái + blur → nét, dấu tick bật nhẹ.
@@ -33,7 +33,7 @@ type Variant = "title" | "card" | "step" | "news" | "item" | "lines" | "rise";
 
 const GROUPS: ReadonlyArray<readonly [string, Variant]> = [
   [".section-title", "title"],
-  [".service-card, .contact-form, .about-teaser-inner", "card"],
+  [".service-card, .contact-form, .staff-card", "card"],
   [".workflow-card", "step"],
   [".news-grid > article", "news"],
   [".benefit-list > li, .about-benefits > li", "item"],

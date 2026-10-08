@@ -3,17 +3,19 @@
  * ("Wed công ty_v1.docx", mục 2. Giới thiệu công ty). Giữ đúng câu chữ; chỉ tách
  * đoạn, in đậm theo bản Word. Dòng Email trong tài liệu còn để trống ("…………..")
  * nên không hiển thị.
+ * Khẩu hiệu và phương châm (ABOUT_SLOGAN, ABOUT_MOTTO) đã được khách hàng cập nhật ngày
+ * 30/09/2026 – dùng chung cho Hero trang chủ, trang Giới thiệu và meta description.
  */
 
 /** Một đoạn văn: chuỗi thường hoặc `{ b }` cho phần in đậm như trong bản Word. */
 export type RichText = readonly (string | { readonly b: string })[];
 
-export const ABOUT_SLOGAN = "Điểm tựa cho khởi đầu – Hài hòa cùng thịnh vượng";
+export const ABOUT_SLOGAN = "Khởi đầu vững chắc – Vươn tới thịnh vượng";
 
-/** Đoạn ngay dưới khẩu hiệu (bản Word ngắt dòng sau dấu phẩy thứ hai). */
+/** Đoạn ngay dưới khẩu hiệu (ngắt dòng sau dấu phẩy thứ hai như bản Word). */
 export const ABOUT_MOTTO: readonly string[] = [
   "Phục vụ Khách hàng bằng cả trái tim, đem đến cho Khách hàng sự an tâm tuyệt đối,",
-  "luôn tuân thủ Pháp luật và không bao giờ có hành vi vụ lợi.",
+  "luôn tuân thủ pháp luật và không bao giờ có hành vi vụ lợi.",
 ];
 
 /** Tiêu đề gốc trong bản Word. */
