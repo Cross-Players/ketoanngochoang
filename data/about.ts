@@ -80,4 +80,4 @@ export const ABOUT_HOTLINE_PARAGRAPH = {
 } as const;
 
 export const ABOUT_CONTACT_HEADING = "Liên Hệ Công Ty TNHH Tư vấn & Dịch vụ Ngọc Hoàng";
-export const ABOUT_CONTACT_OFFICE = "Văn Phòng Thôn Phú Hòa, Xã Bà Nà, Thành phố Đà Nẵng";
+export const ABOUT_CONTACT_OFFICE = "Văn Phòng: Thửa đất số 588, Tờ bản đồ số 48, Thôn Phú Hoà, Xã Bà Nà, TP Đà Nẵng, Việt Nam";

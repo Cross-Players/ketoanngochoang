@@ -11,7 +11,7 @@ export function Footer() {
           <h2>{COMPANY.name}</h2>
           <p>{COMPANY.address}, {COMPANY.city}</p>
           <p className="footer-tax">Mã số thuế: {COMPANY.taxId}</p>
-          <p><a href={COMPANY.phoneHref}>{COMPANY.phone}</a><br /><a href={COMPANY.hotlineHref}>Hotline: {COMPANY.hotline}</a></p>
+          <p><a href={COMPANY.hotlineHref}>Hotline: {COMPANY.hotline}</a></p>
           {COMPANY.email && <p><a href={`mailto:${COMPANY.email}`}>{COMPANY.email}</a></p>}
         </div>
         {FOOTER_LINK_GROUPS.map((group) => (

@@ -60,11 +60,11 @@ export const COMPANY = {
   shortName: "Ngọc Hoàng",
   taxId: "0402357190",
   foundingDate: "2026-09-21",
-  street: "Thôn Phú Hòa",
+  street: "Thửa đất số 588, Tờ bản đồ số 48, Thôn Phú Hoà",
   ward: "Xã Bà Nà",
   region: "Đà Nẵng",
-  address: "Thôn Phú Hòa, xã Bà Nà",
-  city: "Thành phố Đà Nẵng",
+  address: "Thửa đất số 588, Tờ bản đồ số 48, Thôn Phú Hoà, Xã Bà Nà",
+  city: "TP Đà Nẵng, Việt Nam",
   phoneE164: "+84963548333",
   phone: "0963 548 333",
   phoneHref: "tel:+84963548333",
@@ -321,7 +321,7 @@ export const FAQ_ITEMS: readonly FaqItem[] = [
   {
     question: "Ngọc Hoàng hỗ trợ khách hàng ở khu vực nào?",
     answer:
-      "Ngọc Hoàng có địa chỉ tại Thôn Phú Hòa, xã Bà Nà, thành phố Đà Nẵng và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
+      "Ngọc Hoàng có địa chỉ tại Thửa đất số 588, Tờ bản đồ số 48, Thôn Phú Hoà, Xã Bà Nà, TP Đà Nẵng, Việt Nam và hỗ trợ khách hàng trên địa bàn Đà Nẵng. Bạn có thể trao đổi trước qua điện thoại hoặc Zalo 0963 548 333.",
   },
   {
     question: "Chi phí dịch vụ được tính như thế nào?",
