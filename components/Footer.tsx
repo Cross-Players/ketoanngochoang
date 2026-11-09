@@ -23,7 +23,9 @@ export function Footer() {
       </div>
       <div className="copyright">
         <div className="container copyright-inner">
-          <span>© 2026, Cross Technology and Education Ltd</span>
+          <a href="https://crosstechedu.com/" target="_blank" rel="noopener noreferrer">
+            © 2026, Cross Technology and Education Ltd.
+          </a>
           <a href="https://crosstechedu.com" target="_blank" rel="noopener noreferrer">
             Phát triển bởi Cross Tech &amp; Edu
           </a>
